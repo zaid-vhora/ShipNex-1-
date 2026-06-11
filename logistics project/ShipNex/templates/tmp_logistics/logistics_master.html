@@ -1,0 +1,156 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Logistics Management System</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="{% static 'sta_logistics/css/style.css' %}">
+
+<link rel="icon" type="image/png" href="{% static 'favicon.png' %}">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+
+<body>
+
+<!-- Sidebar -->
+
+<div class="sidebar">
+
+<div class="logo">
+
+<i class="fa-solid fa-truck-fast"></i>
+
+<h2>LogisticsPro</h2>
+
+</div>
+
+<ul>
+
+<li>
+<a href="{% url 'dashboard' %}">
+<i class="fa-solid fa-chart-line"></i>
+Dashboard
+</a>
+</li>
+
+<li>
+<a href="{% url 'shipment_management' %}">
+<i class="fa-solid fa-box"></i>
+Shipment Management
+</a>
+</li>
+
+<li>
+<a href="{% url 'shipment_tracking' %}">
+<i class="fa-solid fa-location-dot"></i>
+Shipment Tracking
+</a>
+</li>
+
+<li>
+<a href="{% url 'vehicle_assignment' %}">
+<i class="fa-solid fa-truck"></i>
+Vehicle Assignment
+</a>
+</li>
+
+<li>
+<a href="{% url 'driver_assignment' %}">
+<i class="fa-solid fa-id-card"></i>
+Driver Assignment
+</a>
+</li>
+
+<li>
+<a href="{% url 'delivery_status' %}">
+<i class="fa-solid fa-route"></i>
+Delivery Status
+</a>
+</li>
+
+<li>
+<a href="{% url 'payment_management' %}">
+<i class="fa-solid fa-money-bill"></i>
+Payment Management
+</a>
+</li>
+
+<li>
+<a href="{% url 'invoice_management' %}">
+<i class="fa-solid fa-file-invoice"></i>
+Invoice Management
+</a>
+</li>
+
+<li>
+<a href="{% url 'pod_management' %}">
+<i class="fa-solid fa-signature"></i>
+Delivery Confirmation
+</a>
+</li>
+
+</ul>
+
+</div>
+
+<!-- Main -->
+
+<div class="main-content">
+
+<!-- Navbar -->
+
+<div class="navbar">
+
+<div class="search-box">
+
+<input
+type="text"
+placeholder="Search...">
+
+</div>
+
+<div class="nav-right">
+
+<button class="theme-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle Light/Dark Theme">
+<i class="fa-solid fa-moon"></i>
+</button>
+
+<i class="fa-solid fa-bell"></i>
+
+<img
+src="https://i.pravatar.cc/40"
+class="profile">
+
+</div>
+
+</div>
+
+<!-- Dynamic Content -->
+
+{% block content %}
+{% endblock %}
+
+<!-- Footer -->
+
+<div class="footer">
+
+<p>&copy; 2024 LogisticsPro. All rights reserved.</p>
+
+</div>
+
+</div>
+
+<script src="{% static 'sta_logistics/js/main.js' %}"></script>
+
+</body>
+</html>

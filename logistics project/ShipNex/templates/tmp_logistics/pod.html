@@ -1,0 +1,171 @@
+{% extends 'tmp_logistics/logistics_master.html' %}
+
+{% block content %}
+
+<div class="page-header">
+  <h1>Proof of Delivery (POD)</h1>
+  <button class="btn-primary" onclick="submitPOD()">
+    <i class="fa-solid fa-file-shield"></i> Confirm Delivery
+  </button>
+</div>
+
+<!-- Statistics -->
+<div class="stats">
+  <div class="card">
+    <h4>Total Deliveries <i class="fa-solid fa-truck" style="color: var(--accent);"></i></h4>
+    <h2>1,250</h2>
+  </div>
+
+  <div class="card">
+    <h4>POD Completed <i class="fa-solid fa-circle-check" style="color: var(--success);"></i></h4>
+    <h2>1,180</h2>
+  </div>
+
+  <div class="card">
+    <h4>Pending POD <i class="fa-solid fa-circle-exclamation" style="color: var(--warning);"></i></h4>
+    <h2>55</h2>
+  </div>
+
+  <div class="card">
+    <h4>Today's Deliveries <i class="fa-solid fa-calendar-day" style="color: var(--info);"></i></h4>
+    <h2>78</h2>
+  </div>
+</div>
+
+<!-- Shipment Information -->
+<div class="card">
+  <h2>Shipment Information</h2>
+  <br>
+  <div class="shipment-grid">
+    <div class="info-box">
+      <label>Tracking ID</label>
+      <p>TRK1001</p>
+    </div>
+
+    <div class="info-box">
+      <label>Customer</label>
+      <p>Rahul Sharma</p>
+    </div>
+
+    <div class="info-box">
+      <label>Destination</label>
+      <p>Mumbai</p>
+    </div>
+
+    <div class="info-box">
+      <label>Driver</label>
+      <p>Rakesh Kumar</p>
+    </div>
+  </div>
+</div>
+
+<!-- POD Form -->
+<div class="card" style="margin-top: 24px;">
+  <h2>Delivery Confirmation Form</h2>
+  <br>
+  <div class="form-grid">
+    <div>
+      <label>Receiver Name</label>
+      <input type="text" placeholder="Enter Receiver Name">
+    </div>
+
+    <div>
+      <label>Receiver Mobile</label>
+      <input type="text" placeholder="Enter Mobile Number">
+    </div>
+
+    <div>
+      <label>Delivery Date</label>
+      <input type="date">
+    </div>
+
+    <div>
+      <label>Delivery Status</label>
+      <select>
+        <option>Delivered</option>
+        <option>Partially Delivered</option>
+        <option>Rejected</option>
+      </select>
+    </div>
+  </div>
+
+  <br>
+  <div>
+    <label>Delivery Remarks</label>
+    <textarea rows="4" placeholder="Enter Remarks..."></textarea>
+  </div>
+
+  <br>
+  
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+    <!-- Photo Upload -->
+    <div>
+      <h3>Receiver Photo</h3>
+      <div class="upload-box" onclick="showToast('Opening photo upload browser...')">
+        <i class="fa-solid fa-camera" style="font-size: 32px; color: var(--accent); margin-bottom: 12px; display: block;"></i>
+        <h3>📷 Upload Receiver Photo</h3>
+        <p>Drag & Drop or Click Here</p>
+      </div>
+    </div>
+
+    <!-- Signature -->
+    <div>
+      <h3>Receiver Signature</h3>
+      <div class="signature-area" style="position: relative; cursor: crosshair; display: flex; flex-direction: column;" onclick="showToast('Activating signature canvas...')">
+        <i class="fa-solid fa-signature" style="font-size: 32px; color: var(--accent); opacity: 0.15; position: absolute;"></i>
+        <span style="z-index: 1;">Digital Signature Area (Draw Signature)</span>
+        <span style="font-size: 11px; color: var(--text-muted); margin-top: 4px; z-index: 1;"><i class="fa-solid fa-pen-nib"></i> Click to sign</span>
+      </div>
+    </div>
+  </div>
+
+  <br><br>
+  <button class="btn-primary" style="width: 100%;" onclick="submitPOD()">
+    <i class="fa-solid fa-circle-check"></i> Submit Proof of Delivery
+  </button>
+</div>
+
+<!-- POD History -->
+<div class="table-box" style="margin-top: 24px;">
+  <h2>Recent POD Records</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Tracking ID</th>
+        <th>Receiver</th>
+        <th>Submission Date</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>TRK1001</strong></td>
+        <td>Rahul Sharma</td>
+        <td>12 May 2026</td>
+        <td><span class="status delivered">Completed</span></td>
+        <td class="actions">
+          <button class="btn view" onclick="viewDetails('TRK1001')">
+            <i class="fa-solid fa-eye"></i> View
+          </button>
+          <button class="btn edit" onclick="downloadPDF('TRK1001')">
+            <i class="fa-solid fa-download"></i> Download
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <td><strong>TRK1002</strong></td>
+        <td>Amit Patel</td>
+        <td>12 May 2026</td>
+        <td><span class="status pending">Pending</span></td>
+        <td class="actions">
+          <button class="btn view" onclick="viewDetails('TRK1002')">
+            <i class="fa-solid fa-eye"></i> View
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

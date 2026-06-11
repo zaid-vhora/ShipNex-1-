@@ -1,0 +1,119 @@
+{% extends 'tmp_logistics/logistics_master.html' %}
+
+{% block content %}
+
+<div class="page-header">
+  <h1>Delivery Status</h1>
+  <button class="btn-primary" onclick="showToast('Refreshing deliveries status...')">
+    <i class="fa-solid fa-arrows-rotate"></i> Refresh Status
+  </button>
+</div>
+
+<!-- Statistics -->
+<div class="stats">
+  <div class="card">
+    <h4>Total Deliveries <i class="fa-solid fa-truck-ramp-box" style="color: var(--accent);"></i></h4>
+    <h2>1,250</h2>
+  </div>
+
+  <div class="card">
+    <h4>Pending <i class="fa-solid fa-clock" style="color: var(--warning);"></i></h4>
+    <h2>180</h2>
+  </div>
+
+  <div class="card">
+    <h4>In Transit <i class="fa-solid fa-road" style="color: var(--info);"></i></h4>
+    <h2>320</h2>
+  </div>
+
+  <div class="card">
+    <h4>Delivered <i class="fa-solid fa-circle-check" style="color: var(--success);"></i></h4>
+    <h2>750</h2>
+  </div>
+</div>
+
+<!-- Delivery Status Table -->
+<div class="table-box">
+  <h2>Delivery Status Overview</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Tracking ID</th>
+        <th>Customer</th>
+        <th>Destination</th>
+        <th>Driver</th>
+        <th>Status</th>
+        <th>ETA</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>TRK1001</strong></td>
+        <td>Rahul Sharma</td>
+        <td>Mumbai</td>
+        <td>Rakesh Kumar</td>
+        <td><span class="status transit">In Transit</span></td>
+        <td>Today 05:00 PM</td>
+        <td>
+          <button class="btn view" onclick="viewDetails('TRK1001')">
+            <i class="fa-solid fa-location-dot"></i> Track
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <td><strong>TRK1002</strong></td>
+        <td>Amit Patel</td>
+        <td>Delhi</td>
+        <td>Amit Singh</td>
+        <td><span class="status processing">Out For Delivery</span></td>
+        <td>Today 02:00 PM</td>
+        <td>
+          <button class="btn view" onclick="viewDetails('TRK1002')">
+            <i class="fa-solid fa-location-dot"></i> Track
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <td><strong>TRK1003</strong></td>
+        <td>Neha Shah</td>
+        <td>Pune</td>
+        <td>Raj Patel</td>
+        <td><span class="status delivered">Delivered</span></td>
+        <td><span style="color: var(--success); font-weight: 600;"><i class="fa-solid fa-check"></i> Completed</span></td>
+        <td>
+          <button class="btn edit" onclick="location.href='{% url 'pod_management' %}'">
+            <i class="fa-solid fa-signature"></i> View POD
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Recent Updates -->
+<div class="card" style="margin-top: 24px;">
+  <h2>Recent Delivery Updates</h2>
+  <br>
+  <div class="timeline">
+    <div class="step">
+      <div class="circle" style="background: var(--success); border-color: var(--success);"></div>
+      <h4>TRK1001 Reached Mumbai Hub</h4>
+      <p><i class="fa-solid fa-clock"></i> 12 May 2026 - 09:45 AM</p>
+    </div>
+
+    <div class="step">
+      <div class="circle" style="background: var(--info); border-color: var(--info);"></div>
+      <h4>TRK1002 Out For Delivery</h4>
+      <p><i class="fa-solid fa-clock"></i> 12 May 2026 - 10:15 AM</p>
+    </div>
+
+    <div class="step">
+      <div class="circle" style="background: var(--success); border-color: var(--success);"></div>
+      <h4>TRK1003 Delivered Successfully</h4>
+      <p><i class="fa-solid fa-clock"></i> 12 May 2026 - 11:30 AM</p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

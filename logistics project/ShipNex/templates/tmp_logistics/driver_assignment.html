@@ -1,0 +1,154 @@
+{% extends 'tmp_logistics/logistics_master.html' %}
+
+{% block content %}
+
+<div class="page-header">
+  <h1>Driver Assignment</h1>
+  <button class="btn-primary" onclick="showToast('Loading drivers directory...')">
+    <i class="fa-solid fa-users-gear"></i> Manage Drivers
+  </button>
+</div>
+
+<!-- Statistics -->
+<div class="stats">
+  <div class="card">
+    <h4>Total Drivers <i class="fa-solid fa-users" style="color: var(--accent);"></i></h4>
+    <h2>120</h2>
+  </div>
+
+  <div class="card">
+    <h4>Available <i class="fa-solid fa-circle-check" style="color: var(--success);"></i></h4>
+    <h2>72</h2>
+  </div>
+
+  <div class="card">
+    <h4>Assigned <i class="fa-solid fa-user-check" style="color: var(--info);"></i></h4>
+    <h2>42</h2>
+  </div>
+
+  <div class="card">
+    <h4>On Leave <i class="fa-solid fa-user-minus" style="color: var(--danger);"></i></h4>
+    <h2>6</h2>
+  </div>
+</div>
+
+<!-- Shipment Details -->
+<div class="card">
+  <h2>Shipment Pending Driver Assignment</h2>
+  <br>
+  <div class="shipment-grid">
+    <div class="info-box">
+      <label>Tracking ID</label>
+      <p>TRK1001</p>
+    </div>
+
+    <div class="info-box">
+      <label>Vehicle Assigned</label>
+      <p><span style="font-family: monospace; font-weight: 700; background: var(--border-color); padding: 4px 8px; border-radius: 4px;">GJ 01 AB 1234</span></p>
+    </div>
+
+    <div class="info-box">
+      <label>Destination</label>
+      <p>Mumbai</p>
+    </div>
+
+    <div class="info-box">
+      <label>Status</label>
+      <p><span class="status pending">Awaiting Driver</span></p>
+    </div>
+  </div>
+</div>
+
+<!-- Driver Cards -->
+<div style="margin-top: 28px;">
+  <h2>Available Drivers</h2>
+  <br>
+  <div class="driver-grid">
+
+    <div class="driver-card" style="text-align: center; position: relative;">
+      <img src="https://i.pravatar.cc/80?img=33" style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover; margin: 0 auto 12px auto; border: 2px solid var(--accent); box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+      <h3>Rakesh Kumar</h3>
+      <p style="justify-content: center; gap: 8px; color: var(--text-muted); font-size: 13px; margin-bottom: 12px;">ID: DR001</p>
+      
+      <div style="background: var(--bg-primary); padding: 12px; border-radius: 10px; margin-bottom: 16px; font-size: 13px; text-align: left;">
+        <p style="margin-bottom: 6px;">Experience <span>8 Years</span></p>
+        <p style="margin-bottom: 6px;">Location <span>Ahmedabad</span></p>
+        <p style="margin-bottom: 0;">Deliveries <span>420 completed</span></p>
+      </div>
+
+      <span class="status delivered" style="margin-bottom: 16px;">Available</span>
+      <button class="btn edit" style="width: 100%; margin-top: 10px;" onclick="assignDriver('DR001')">
+        <i class="fa-solid fa-user-plus"></i> Assign Driver
+      </button>
+    </div>
+
+    <div class="driver-card" style="text-align: center; position: relative;">
+      <img src="https://i.pravatar.cc/80?img=12" style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover; margin: 0 auto 12px auto; border: 2px solid var(--accent); box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+      <h3>Amit Singh</h3>
+      <p style="justify-content: center; gap: 8px; color: var(--text-muted); font-size: 13px; margin-bottom: 12px;">ID: DR002</p>
+      
+      <div style="background: var(--bg-primary); padding: 12px; border-radius: 10px; margin-bottom: 16px; font-size: 13px; text-align: left;">
+        <p style="margin-bottom: 6px;">Experience <span>12 Years</span></p>
+        <p style="margin-bottom: 6px;">Location <span>Vadodara</span></p>
+        <p style="margin-bottom: 0;">Deliveries <span>685 completed</span></p>
+      </div>
+
+      <span class="status delivered" style="margin-bottom: 16px;">Available</span>
+      <button class="btn edit" style="width: 100%; margin-top: 10px;" onclick="assignDriver('DR002')">
+        <i class="fa-solid fa-user-plus"></i> Assign Driver
+      </button>
+    </div>
+
+    <div class="driver-card" style="text-align: center; position: relative; opacity: 0.85;">
+      <img src="https://i.pravatar.cc/80?img=60" style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover; margin: 0 auto 12px auto; border: 2px solid var(--border-color); box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+      <h3>Raj Patel</h3>
+      <p style="justify-content: center; gap: 8px; color: var(--text-muted); font-size: 13px; margin-bottom: 12px;">ID: DR003</p>
+      
+      <div style="background: var(--bg-primary); padding: 12px; border-radius: 10px; margin-bottom: 16px; font-size: 13px; text-align: left;">
+        <p style="margin-bottom: 6px;">Experience <span>6 Years</span></p>
+        <p style="margin-bottom: 6px;">Location <span>Surat</span></p>
+        <p style="margin-bottom: 0;">Deliveries <span>250 completed</span></p>
+      </div>
+
+      <span class="status transit" style="margin-bottom: 16px;">Assigned</span>
+      <button class="btn view" style="width: 100%; margin-top: 10px;" onclick="viewDetails('DR003')">
+        <i class="fa-solid fa-eye"></i> View Details
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- Assignment History -->
+<div class="table-box" style="margin-top: 28px;">
+  <h2>Recent Driver Assignments</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Tracking ID</th>
+        <th>Driver</th>
+        <th>Vehicle Plate</th>
+        <th>Assignment Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>TRK1001</strong></td>
+        <td>Rakesh Kumar</td>
+        <td><span style="font-family: monospace; font-weight: 700; background: var(--bg-primary); padding: 4px 8px; border-radius: 4px;">GJ 01 AB 1234</span></td>
+        <td>12 May 2026</td>
+        <td><span class="status transit">Assigned</span></td>
+      </tr>
+      <tr>
+        <td><strong>TRK1002</strong></td>
+        <td>Amit Singh</td>
+        <td><span style="font-family: monospace; font-weight: 700; background: var(--bg-primary); padding: 4px 8px; border-radius: 4px;">GJ 05 XY 7788</span></td>
+        <td>11 May 2026</td>
+        <td><span class="status delivered">Completed</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

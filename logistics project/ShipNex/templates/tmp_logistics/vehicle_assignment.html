@@ -1,0 +1,148 @@
+{% extends 'tmp_logistics/logistics_master.html' %}
+
+{% block content %}
+
+<div class="page-header">
+  <h1>Vehicle Assignment</h1>
+  <button class="btn-primary" onclick="showToast('Loading fleet management...')">
+    <i class="fa-solid fa-truck-moving"></i> Manage Fleet
+  </button>
+</div>
+
+<!-- Stats -->
+<div class="stats">
+  <div class="card">
+    <h4>Total Vehicles <i class="fa-solid fa-truck-flatbed" style="color: var(--accent);"></i></h4>
+    <h2>120</h2>
+  </div>
+
+  <div class="card">
+    <h4>Available <i class="fa-solid fa-circle-check" style="color: var(--success);"></i></h4>
+    <h2>72</h2>
+  </div>
+
+  <div class="card">
+    <h4>Assigned <i class="fa-solid fa-truck-ramp-box" style="color: var(--info);"></i></h4>
+    <h2>42</h2>
+  </div>
+
+  <div class="card">
+    <h4>Maintenance <i class="fa-solid fa-screwdriver-wrench" style="color: var(--danger);"></i></h4>
+    <h2>6</h2>
+  </div>
+</div>
+
+<!-- Shipment Details -->
+<div class="card">
+  <h2>Shipment Pending Assignment</h2>
+  <br>
+  <div class="shipment-grid">
+    <div class="info-box">
+      <label>Tracking ID</label>
+      <p>TRK1001</p>
+    </div>
+
+    <div class="info-box">
+      <label>Route</label>
+      <p>Ahmedabad → Mumbai</p>
+    </div>
+
+    <div class="info-box">
+      <label>Weight</label>
+      <p>250 KG</p>
+    </div>
+
+    <div class="info-box">
+      <label>Status</label>
+      <p><span class="status pending">Awaiting Vehicle</span></p>
+    </div>
+  </div>
+</div>
+
+<!-- Vehicles -->
+<div style="margin-top: 28px;">
+  <h2>Available Vehicles</h2>
+  <br>
+  <div class="vehicle-grid">
+    
+    <div class="vehicle-card">
+      <div style="background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 6px; padding: 6px 12px; display: inline-block; font-weight: 800; font-family: monospace; letter-spacing: 2px; color: #1e293b; margin-bottom: 16px; border-left: 6px solid #f59e0b;">
+        GJ 01 AB 1234
+      </div>
+      <p>Type <span>Truck</span></p>
+      <p>Capacity <span>5 Ton</span></p>
+      <p>Driver <span>Unassigned</span></p>
+      <br>
+      <span class="status delivered">Available</span>
+      <br><br>
+      <button class="btn edit" style="width: 100%;" onclick="assignVehicle('GJ01AB1234')">
+        <i class="fa-solid fa-truck-arrow-right"></i> Assign Vehicle
+      </button>
+    </div>
+
+    <div class="vehicle-card">
+      <div style="background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 6px; padding: 6px 12px; display: inline-block; font-weight: 800; font-family: monospace; letter-spacing: 2px; color: #1e293b; margin-bottom: 16px; border-left: 6px solid #f59e0b;">
+        GJ 05 XY 7788
+      </div>
+      <p>Type <span>Container</span></p>
+      <p>Capacity <span>10 Ton</span></p>
+      <p>Driver <span>Amit Singh</span></p>
+      <br>
+      <span class="status transit">Assigned</span>
+      <br><br>
+      <button class="btn view" style="width: 100%;" onclick="viewDetails('GJ05XY7788')">
+        <i class="fa-solid fa-eye"></i> View Details
+      </button>
+    </div>
+
+    <div class="vehicle-card">
+      <div style="background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 6px; padding: 6px 12px; display: inline-block; font-weight: 800; font-family: monospace; letter-spacing: 2px; color: #1e293b; margin-bottom: 16px; border-left: 6px solid #f59e0b;">
+        GJ 18 PQ 4500
+      </div>
+      <p>Type <span>Mini Truck</span></p>
+      <p>Capacity <span>2 Ton</span></p>
+      <p>Driver <span>Unassigned</span></p>
+      <br>
+      <span class="status delivered">Available</span>
+      <br><br>
+      <button class="btn edit" style="width: 100%;" onclick="assignVehicle('GJ18PQ4500')">
+        <i class="fa-solid fa-truck-arrow-right"></i> Assign Vehicle
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- Assignment History -->
+<div class="table-box" style="margin-top: 28px;">
+  <h2>Recent Vehicle Assignments</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Tracking ID</th>
+        <th>Vehicle Plate</th>
+        <th>Route</th>
+        <th>Assignment Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>TRK1001</strong></td>
+        <td><span style="font-family: monospace; font-weight: 700; background: var(--bg-primary); padding: 4px 8px; border-radius: 4px;">GJ 01 AB 1234</span></td>
+        <td>Ahmedabad-Mumbai</td>
+        <td>12 May 2026</td>
+        <td><span class="status transit">Assigned</span></td>
+      </tr>
+      <tr>
+        <td><strong>TRK1002</strong></td>
+        <td><span style="font-family: monospace; font-weight: 700; background: var(--bg-primary); padding: 4px 8px; border-radius: 4px;">GJ 05 XY 7788</span></td>
+        <td>Vadodara-Delhi</td>
+        <td>11 May 2026</td>
+        <td><span class="status delivered">Completed</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

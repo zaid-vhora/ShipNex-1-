@@ -1,0 +1,139 @@
+{% extends 'tmp_logistics/logistics_master.html' %}
+
+{% block content %}
+
+<div class="page-header">
+  <h1>Payment Management</h1>
+  <button class="btn-primary" onclick="showToast('Loading payment gateway config...')">
+    <i class="fa-solid fa-credit-card"></i> New Payment
+  </button>
+</div>
+
+<!-- Statistics -->
+<div class="stats">
+  <div class="card">
+    <h4>Total Revenue <i class="fa-solid fa-indian-rupee-sign" style="color: var(--success);"></i></h4>
+    <h2>₹12,45,000</h2>
+  </div>
+
+  <div class="card">
+    <h4>Successful Payments <i class="fa-solid fa-circle-check" style="color: var(--success);"></i></h4>
+    <h2>1,250</h2>
+  </div>
+
+  <div class="card">
+    <h4>Pending Payments <i class="fa-solid fa-wallet" style="color: var(--warning);"></i></h4>
+    <h2>86</h2>
+  </div>
+
+  <div class="card">
+    <h4>Failed Payments <i class="fa-solid fa-triangle-exclamation" style="color: var(--danger);"></i></h4>
+    <h2>12</h2>
+  </div>
+</div>
+
+<!-- Search Filter -->
+<div class="filters">
+  <input type="text" id="paymentSearch" onkeyup="searchTable('paymentSearch', 'paymentTable')" placeholder="Search Transaction ID, Customer, Tracking ID...">
+  
+  <select id="paymentStatusFilter" onchange="showToast('Filtering payments by status...')">
+    <option>All Status</option>
+    <option>Paid</option>
+    <option>Pending</option>
+    <option>Failed</option>
+  </select>
+
+  <button class="btn-primary" onclick="searchTable('paymentSearch', 'paymentTable')">
+    <i class="fa-solid fa-magnifying-glass"></i> Search
+  </button>
+</div>
+
+<!-- Payment Table -->
+<div class="table-box">
+  <h2>Payment Transactions</h2>
+  <table id="paymentTable">
+    <thead>
+      <tr>
+        <th>Transaction ID</th>
+        <th>Tracking ID</th>
+        <th>Customer</th>
+        <th>Amount</th>
+        <th>Method</th>
+        <th>Status</th>
+        <th>Date</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>TXN10001</strong></td>
+        <td>TRK1001</td>
+        <td>Rahul Sharma</td>
+        <td><strong>₹2,500</strong></td>
+        <td><span style="background: var(--bg-primary); padding: 4px 8px; border-radius: 6px; font-weight: 700; font-size: 11px;">UPI</span></td>
+        <td><span class="status delivered">Paid</span></td>
+        <td>12 May 2026</td>
+        <td>
+          <button class="btn view" onclick="viewDetails('TXN10001')">
+            <i class="fa-solid fa-eye"></i> View
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <td><strong>TXN10002</strong></td>
+        <td>TRK1002</td>
+        <td>Amit Patel</td>
+        <td><strong>₹4,800</strong></td>
+        <td><span style="background: var(--bg-primary); padding: 4px 8px; border-radius: 6px; font-weight: 700; font-size: 11px;">Card</span></td>
+        <td><span class="status pending">Pending</span></td>
+        <td>12 May 2026</td>
+        <td>
+          <button class="btn edit" onclick="sendReminder('TXN10002')">
+            <i class="fa-solid fa-envelope"></i> Reminder
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <td><strong>TXN10003</strong></td>
+        <td>TRK1003</td>
+        <td>Neha Shah</td>
+        <td><strong>₹3,200</strong></td>
+        <td><span style="background: var(--bg-primary); padding: 4px 8px; border-radius: 6px; font-weight: 700; font-size: 11px;">Net Banking</span></td>
+        <td><span class="status failed">Failed</span></td>
+        <td>11 May 2026</td>
+        <td>
+          <button class="btn delete" onclick="refundPayment('TXN10003')">
+            <i class="fa-solid fa-arrow-rotate-left"></i> Retry
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Recent Activity -->
+<div class="card" style="margin-top: 24px;">
+  <h2>Recent Payment Activity</h2>
+  <br>
+  <div class="timeline">
+    <div class="step">
+      <div class="circle" style="background: var(--success); border-color: var(--success);"></div>
+      <h4>Payment Received - TXN10001</h4>
+      <p><i class="fa-solid fa-clock"></i> 5 Minutes Ago</p>
+    </div>
+
+    <div class="step">
+      <div class="circle" style="border-color: var(--accent);"></div>
+      <h4>Invoice Generated - INV1005</h4>
+      <p><i class="fa-solid fa-clock"></i> 25 Minutes Ago</p>
+    </div>
+
+    <div class="step">
+      <div class="circle" style="background: var(--danger); border-color: var(--danger);"></div>
+      <h4>Refund Processed - TXN0998</h4>
+      <p><i class="fa-solid fa-clock"></i> 1 Hour Ago</p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

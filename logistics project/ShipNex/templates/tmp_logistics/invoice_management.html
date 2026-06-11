@@ -1,0 +1,150 @@
+{% extends 'tmp_logistics/logistics_master.html' %}
+
+{% block content %}
+
+<div class="page-header">
+  <h1>Invoice Management</h1>
+  <button class="btn-primary" onclick="showToast('Loading invoice configuration forms...')">
+    <i class="fa-solid fa-file-invoice-dollar"></i> Generate Invoice
+  </button>
+</div>
+
+<!-- Statistics -->
+<div class="stats">
+  <div class="card">
+    <h4>Total Invoices <i class="fa-solid fa-file-invoice" style="color: var(--accent);"></i></h4>
+    <h2>1,250</h2>
+  </div>
+
+  <div class="card">
+    <h4>Paid Invoices <i class="fa-solid fa-circle-check" style="color: var(--success);"></i></h4>
+    <h2>980</h2>
+  </div>
+
+  <div class="card">
+    <h4>Pending Invoices <i class="fa-solid fa-clock" style="color: var(--warning);"></i></h4>
+    <h2>210</h2>
+  </div>
+
+  <div class="card">
+    <h4>Overdue Invoices <i class="fa-solid fa-triangle-exclamation" style="color: var(--danger);"></i></h4>
+    <h2>60</h2>
+  </div>
+</div>
+
+<!-- Filters -->
+<div class="filters">
+  <input type="text" id="invoiceSearch" onkeyup="searchTable('invoiceSearch', 'invoiceTable')" placeholder="Search Invoice Number, Tracking ID, Customer...">
+  
+  <select id="invoiceStatusFilter" onchange="showToast('Filtering invoices by status...')">
+    <option>All Status</option>
+    <option>Paid</option>
+    <option>Pending</option>
+    <option>Overdue</option>
+  </select>
+
+  <button class="btn-primary" onclick="searchTable('invoiceSearch', 'invoiceTable')">
+    <i class="fa-solid fa-magnifying-glass"></i> Search
+  </button>
+</div>
+
+<!-- Invoice Table -->
+<div class="table-box">
+  <h2>Invoice Records</h2>
+  <table id="invoiceTable">
+    <thead>
+      <tr>
+        <th>Invoice No</th>
+        <th>Tracking ID</th>
+        <th>Customer</th>
+        <th>Amount</th>
+        <th>Status</th>
+        <th>Billing Date</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>INV10001</strong></td>
+        <td>TRK1001</td>
+        <td>Rahul Sharma</td>
+        <td><strong>₹2,500</strong></td>
+        <td><span class="status delivered">Paid</span></td>
+        <td>12 May 2026</td>
+        <td class="actions">
+          <button class="btn view" onclick="viewDetails('INV10001')">
+            <i class="fa-solid fa-eye"></i> View
+          </button>
+          <button class="btn edit" onclick="downloadPDF('INV10001')">
+            <i class="fa-solid fa-file-pdf"></i> PDF
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <td><strong>INV10002</strong></td>
+        <td>TRK1002</td>
+        <td>Amit Patel</td>
+        <td><strong>₹4,800</strong></td>
+        <td><span class="status pending">Pending</span></td>
+        <td>11 May 2026</td>
+        <td class="actions">
+          <button class="btn view" onclick="viewDetails('INV10002')">
+            <i class="fa-solid fa-eye"></i> View
+          </button>
+          <button class="btn edit" onclick="downloadPDF('INV10002')">
+            <i class="fa-solid fa-file-pdf"></i> PDF
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <td><strong>INV10003</strong></td>
+        <td>TRK1003</td>
+        <td>Neha Shah</td>
+        <td><strong>₹3,200</strong></td>
+        <td><span class="status failed">Overdue</span></td>
+        <td>10 May 2026</td>
+        <td class="actions">
+          <button class="btn view" onclick="viewDetails('INV10003')">
+            <i class="fa-solid fa-eye"></i> View
+          </button>
+          <button class="btn delete" onclick="deleteRecord('INV10003')">
+            <i class="fa-solid fa-trash-can"></i> Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Invoice Preview (Receipt Styling) -->
+<div class="card" style="margin-top: 24px; border: 1px dashed var(--accent);">
+  <h2>Latest Invoice Preview</h2>
+  <br>
+  <div style="background: var(--bg-primary); padding: 24px; border-radius: 12px; border: 1px solid var(--border-color); max-width: 480px; margin: 0 auto; box-shadow: 0 4px 12px rgba(0,0,0,0.02); font-family: monospace;">
+    <div style="text-align: center; border-bottom: 2px dashed var(--border-color); padding-bottom: 16px; margin-bottom: 16px;">
+      <h3 style="font-family: monospace; letter-spacing: 1px; color: var(--accent);">LOGISTICSPRO</h3>
+      <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Smart Delivery Solutions</p>
+    </div>
+    
+    <div style="font-size: 13px; color: var(--text-secondary); line-height: 2;">
+      <p style="display: flex; justify-content: space-between;"><span>Invoice No:</span> <strong style="color: var(--text-primary);">INV10001</strong></p>
+      <p style="display: flex; justify-content: space-between;"><span>Tracking ID:</span> <strong style="color: var(--text-primary);">TRK1001</strong></p>
+      <p style="display: flex; justify-content: space-between;"><span>Customer:</span> <strong style="color: var(--text-primary);">Rahul Sharma</strong></p>
+      <p style="display: flex; justify-content: space-between;"><span>Billing Date:</span> <strong style="color: var(--text-primary);">12 May 2026</strong></p>
+      <p style="display: flex; justify-content: space-between;"><span>Status:</span> <strong style="color: var(--success);">PAID</strong></p>
+    </div>
+
+    <div style="border-top: 2px dashed var(--border-color); margin-top: 16px; padding-top: 16px; font-size: 15px; font-weight: 700; color: var(--text-primary); display: flex; justify-content: space-between;">
+      <span>TOTAL AMOUNT:</span>
+      <span>₹2,500</span>
+    </div>
+
+    <div style="text-align: center; margin-top: 24px;">
+      <button class="btn-primary" style="width: 100%;" onclick="printInvoice()">
+        <i class="fa-solid fa-print"></i> Print Invoice Receipt
+      </button>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

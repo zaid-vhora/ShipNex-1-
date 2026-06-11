@@ -1,0 +1,226 @@
+{% extends 'tmp_logistics/logistics_master.html' %}
+
+{% block content %}
+
+<div class="page-header">
+  <h1>Dashboard</h1>
+  <div class="actions">
+    <button class="btn-primary" onclick="showToast('Generating operations report...')">
+      <i class="fa-solid fa-file-invoice"></i> Generate Report
+    </button>
+    <button class="btn" onclick="exportTableToCSV('dashboard_data.csv')">
+      <i class="fa-solid fa-file-export"></i> Export Data
+    </button>
+  </div>
+</div>
+
+<!-- Dashboard Statistics -->
+<div class="stats">
+  <div class="card">
+    <h4>Total Shipments <i class="fa-solid fa-box" style="color: var(--accent);"></i></h4>
+    <h2>1,250</h2>
+    <p style="color: var(--success);"><i class="fa-solid fa-trend-up"></i> ↑ 12% This Month</p>
+  </div>
+
+  <div class="card">
+    <h4>Delivered Orders <i class="fa-solid fa-circle-check" style="color: var(--success);"></i></h4>
+    <h2>950</h2>
+    <p style="color: var(--success);"><i class="fa-solid fa-trend-up"></i> ↑ 8% This Month</p>
+  </div>
+
+  <div class="card">
+    <h4>In Transit <i class="fa-solid fa-truck-ramp-box" style="color: var(--info);"></i></h4>
+    <h2>180</h2>
+    <p style="color: var(--warning);"><i class="fa-solid fa-truck"></i> Active Shipments</p>
+  </div>
+
+  <div class="card">
+    <h4>Pending Deliveries <i class="fa-solid fa-clock" style="color: var(--warning);"></i></h4>
+    <h2>120</h2>
+    <p style="color: var(--danger);"><i class="fa-solid fa-triangle-exclamation"></i> Needs Attention</p>
+  </div>
+</div>
+
+<!-- Revenue Statistics -->
+<div class="stats">
+  <div class="card">
+    <h4>Total Revenue <i class="fa-solid fa-indian-rupee-sign" style="color: var(--success);"></i></h4>
+    <h2>₹12.5L</h2>
+  </div>
+
+  <div class="card">
+    <h4>Monthly Revenue <i class="fa-solid fa-chart-line" style="color: var(--info);"></i></h4>
+    <h2>₹2.1L</h2>
+  </div>
+
+  <div class="card">
+    <h4>Pending Payments <i class="fa-solid fa-wallet" style="color: var(--warning);"></i></h4>
+    <h2>₹85K</h2>
+  </div>
+
+  <div class="card">
+    <h4>Invoices Generated <i class="fa-solid fa-receipt" style="color: var(--accent);"></i></h4>
+    <h2>1,145</h2>
+  </div>
+</div>
+
+<!-- Quick Summary -->
+<div class="card">
+  <h2>Today's Operations</h2>
+  <br>
+  <div class="shipment-grid">
+    <div class="info-box">
+      <label>New Shipments</label>
+      <p>48</p>
+    </div>
+
+    <div class="info-box">
+      <label>Vehicles Assigned</label>
+      <p>32</p>
+    </div>
+
+    <div class="info-box">
+      <label>Drivers Assigned</label>
+      <p>28</p>
+    </div>
+
+    <div class="info-box">
+      <label>Deliveries Completed</label>
+      <p>64</p>
+    </div>
+  </div>
+</div>
+
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-top: 24px;">
+  
+  <!-- Recent Shipments -->
+  <div class="table-box" style="margin-bottom: 0;">
+    <h2>Recent Shipments</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Tracking ID</th>
+          <th>Customer</th>
+          <th>Destination</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>TRK1001</strong></td>
+          <td>Rahul Sharma</td>
+          <td>Mumbai</td>
+          <td><span class="status transit">In Transit</span></td>
+          <td>
+            <button class="btn view" onclick="location.href='{% url 'shipment_tracking' %}'">
+              <i class="fa-solid fa-eye"></i> View
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>TRK1002</strong></td>
+          <td>Amit Patel</td>
+          <td>Delhi</td>
+          <td><span class="status delivered">Delivered</span></td>
+          <td>
+            <button class="btn view" onclick="location.href='{% url 'shipment_tracking' %}'">
+              <i class="fa-solid fa-eye"></i> View
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>TRK1003</strong></td>
+          <td>Neha Shah</td>
+          <td>Pune</td>
+          <td><span class="status pending">Pending</span></td>
+          <td>
+            <button class="btn view" onclick="location.href='{% url 'shipment_tracking' %}'">
+              <i class="fa-solid fa-eye"></i> View
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>TRK1004</strong></td>
+          <td>Vikas Kumar</td>
+          <td>Bangalore</td>
+          <td><span class="status processing">Out For Delivery</span></td>
+          <td>
+            <button class="btn view" onclick="location.href='{% url 'shipment_tracking' %}'">
+              <i class="fa-solid fa-eye"></i> View
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Recent Activities -->
+  <div class="card" style="margin-bottom: 0;">
+    <h2>Recent Activities</h2>
+    <br>
+    <div class="timeline">
+      <div class="step">
+        <div class="circle"></div>
+        <h4>Shipment TRK1004 Assigned To Driver</h4>
+        <p>10 Minutes Ago</p>
+      </div>
+
+      <div class="step">
+        <div class="circle"></div>
+        <h4>Payment Received - ₹4,800</h4>
+        <p>25 Minutes Ago</p>
+      </div>
+
+      <div class="step">
+        <div class="circle"></div>
+        <h4>Invoice INV1024 Generated</h4>
+        <p>1 Hour Ago</p>
+      </div>
+
+      <div class="step">
+        <div class="circle"></div>
+        <h4>Delivery Completed - TRK0998</h4>
+        <p>2 Hours Ago</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Top Drivers -->
+<div class="table-box" style="margin-top: 24px;">
+  <h2>Top Performing Drivers</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Driver Name</th>
+        <th>Driver ID</th>
+        <th>Deliveries Completed</th>
+        <th>Rating</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Rakesh Kumar</strong></td>
+        <td>DR001</td>
+        <td>420</td>
+        <td style="color: #eab308; font-weight: 700;"><i class="fa-solid fa-star"></i> 4.9</td>
+      </tr>
+      <tr>
+        <td><strong>Amit Singh</strong></td>
+        <td>DR002</td>
+        <td>385</td>
+        <td style="color: #eab308; font-weight: 700;"><i class="fa-solid fa-star"></i> 4.8</td>
+      </tr>
+      <tr>
+        <td><strong>Raj Patel</strong></td>
+        <td>DR003</td>
+        <td>310</td>
+        <td style="color: #eab308; font-weight: 700;"><i class="fa-solid fa-star"></i> 4.7</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

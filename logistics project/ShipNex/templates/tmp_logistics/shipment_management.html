@@ -1,0 +1,92 @@
+{% extends 'tmp_logistics/logistics_master.html' %}
+
+{% block content %}
+
+<div class="page-header">
+  <h1>Shipment Management</h1>
+  <button class="btn-primary" onclick="showToast('Initiating Shipment creation form...')">
+    <i class="fa-solid fa-circle-plus"></i> Create Shipment
+  </button>
+</div>
+
+<!-- Statistics -->
+<div class="stats">
+  <div class="card">
+    <h4>Total Shipments <i class="fa-solid fa-box" style="color: var(--accent);"></i></h4>
+    <h2>1,250</h2>
+  </div>
+
+  <div class="card">
+    <h4>Pending <i class="fa-solid fa-clock" style="color: var(--warning);"></i></h4>
+    <h2>180</h2>
+  </div>
+
+  <div class="card">
+    <h4>In Transit <i class="fa-solid fa-truck" style="color: var(--info);"></i></h4>
+    <h2>320</h2>
+  </div>
+
+  <div class="card">
+    <h4>Delivered <i class="fa-solid fa-circle-check" style="color: var(--success);"></i></h4>
+    <h2>750</h2>
+  </div>
+</div>
+
+<!-- Search -->
+<div class="filters">
+  <input type="text" id="shipmentSearch" onkeyup="searchTable('shipmentSearch', 'shipmentTable')" placeholder="Search by Tracking ID, Customer, Origin, Destination, Status...">
+  <button class="btn-primary" onclick="searchTable('shipmentSearch', 'shipmentTable')">
+    <i class="fa-solid fa-magnifying-glass"></i> Search
+  </button>
+</div>
+
+<!-- Table -->
+<div class="table-box">
+  <h2>Shipment List</h2>
+  <table id="shipmentTable">
+    <thead>
+      <tr>
+        <th>Tracking ID</th>
+        <th>Customer</th>
+        <th>Origin</th>
+        <th>Destination</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>TRK1001</strong></td>
+        <td>Rahul Sharma</td>
+        <td>Ahmedabad</td>
+        <td>Mumbai</td>
+        <td><span class="status transit">In Transit</span></td>
+        <td class="actions">
+          <button class="btn view" onclick="viewDetails('TRK1001')">
+            <i class="fa-solid fa-eye"></i> View
+          </button>
+          <button class="btn edit" onclick="showToast('Editing TRK1001...')">
+            <i class="fa-solid fa-pen-to-square"></i> Edit
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <td><strong>TRK1002</strong></td>
+        <td>Amit Patel</td>
+        <td>Vadodara</td>
+        <td>Delhi</td>
+        <td><span class="status delivered">Delivered</span></td>
+        <td class="actions">
+          <button class="btn view" onclick="viewDetails('TRK1002')">
+            <i class="fa-solid fa-eye"></i> View
+          </button>
+          <button class="btn edit" onclick="showToast('Editing TRK1002...')">
+            <i class="fa-solid fa-pen-to-square"></i> Edit
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}
