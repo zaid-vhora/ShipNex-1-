@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — LogiTrack Admin</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .quick-action {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 10px; padding: 20px 14px;
+      background: #fff; border-radius: 12px;
+      border: 1.5px solid #e2e8f0;
+      cursor: pointer; transition: all 0.2s;
+      text-align: center;
+    }
+    .quick-action:hover { border-color: #3b82f6; background: #eff6ff; transform: translateY(-2px); }
+    .quick-action .qa-icon {
+      width: 46px; height: 46px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+    }
+    .quick-action .qa-label { font-size: 12px; font-weight: 600; color: #475569; }
+    .shipment-status-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .shipment-status-row:last-child { margin-bottom: 0; }
+    .sstat-label { font-size: 13px; color: #475569; font-weight: 500; flex: 1; }
+    .sstat-count { font-size: 13px; font-weight: 700; color: #1e293b; }
+    .sstat-bar { flex: 2; }
+  </style>
+</head>
+<body>
+  <div class="admin-wrapper">
+    <div class="main-content" id="mainContent">
+      <div class="page-content">
+
+        <!-- STAT CARDS -->
+        <div class="row g-3 mb-4">
+          <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 animate-up-1">
+            <div class="stat-card blue">
+              <div class="stat-header">
+                <span class="stat-label">Total Users</span>
+                <div class="stat-icon"><i class="fas fa-users"></i></div>
+              </div>
+              <div class="stat-value" data-count="1284">0</div>
+              <div class="stat-change up"><i class="fas fa-arrow-trend-up"></i> 12.5% <span class="change-label">this month</span></div>
+            </div>
+          </div>
+          <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 animate-up-2">
+            <div class="stat-card green">
+              <div class="stat-header">
+                <span class="stat-label">Shipments</span>
+                <div class="stat-icon"><i class="fas fa-boxes-stacked"></i></div>
+              </div>
+              <div class="stat-value" data-count="3847">0</div>
+              <div class="stat-change up"><i class="fas fa-arrow-trend-up"></i> 8.3% <span class="change-label">this month</span></div>
+            </div>
+          </div>
+          <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 animate-up-3">
+            <div class="stat-card orange">
+              <div class="stat-header">
+                <span class="stat-label">In Transit</span>
+                <div class="stat-icon"><i class="fas fa-truck-fast"></i></div>
+              </div>
+              <div class="stat-value" data-count="247">0</div>
+              <div class="stat-change down"><i class="fas fa-arrow-trend-down"></i> 2.1% <span class="change-label">vs last week</span></div>
+            </div>
+          </div>
+          <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 animate-up-1">
+            <div class="stat-card teal">
+              <div class="stat-header">
+                <span class="stat-label">Active Vehicles</span>
+                <div class="stat-icon"><i class="fas fa-car-side"></i></div>
+              </div>
+              <div class="stat-value" data-count="68">0</div>
+              <div class="stat-change up"><i class="fas fa-arrow-trend-up"></i> 5.0% <span class="change-label">this month</span></div>
+            </div>
+          </div>
+          <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 animate-up-2">
+            <div class="stat-card red">
+              <div class="stat-header">
+                <span class="stat-label">Revenue</span>
+                <div class="stat-icon"><i class="fas fa-indian-rupee-sign"></i></div>
+              </div>
+              <div class="stat-value">&#8377;9.4L</div>
+              <div class="stat-change up"><i class="fas fa-arrow-trend-up"></i> 18.7% <span class="change-label">this month</span></div>
+            </div>
+          </div>
+          <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 animate-up-3">
+            <div class="stat-card purple">
+              <div class="stat-header">
+                <span class="stat-label">Warehouses</span>
+                <div class="stat-icon"><i class="fas fa-warehouse"></i></div>
+              </div>
+              <div class="stat-value" data-count="12">0</div>
+              <div class="stat-change up"><i class="fas fa-arrow-trend-up"></i> 1 new <span class="change-label">this month</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CHARTS ROW -->
+        <div class="row g-3 mb-4">
+          <div class="col-xl-8 animate-up-1">
+            <div class="data-card">
+              <div class="data-card-header">
+                <div>
+                  <div class="data-card-title">Shipment Overview</div>
+                  <div class="data-card-subtitle">Monthly shipment volume — last 6 months</div>
+                </div>
+                <div class="d-flex gap-2">
+                  <select class="filter-select" style="font-size:12px;padding:6px 28px 6px 10px">
+                    <option>Last 6 Months</option>
+                    <option>Last 12 Months</option>
+                    <option>This Year</option>
+                  </select>
+                </div>
+              </div>
+              <div class="data-card-body">
+                <canvas id="shipmentChart" height="90"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 animate-up-2">
+            <div class="data-card h-100">
+              <div class="data-card-header">
+                <div>
+                  <div class="data-card-title">Delivery Status</div>
+                  <div class="data-card-subtitle">Current breakdown</div>
+                </div>
+              </div>
+              <div class="data-card-body">
+                <canvas id="statusChart" height="180"></canvas>
+                <div class="mt-3">
+                  <div class="shipment-status-row">
+                    <div class="sstat-label"><span class="status-dot active"></span>Delivered</div>
+                    <div class="sstat-bar"><div class="progress-bar-custom"><div class="progress-fill" style="width:68%;background:linear-gradient(90deg,#10b981,#34d399)"></div></div></div>
+                    <div class="sstat-count">68%</div>
+                  </div>
+                  <div class="shipment-status-row">
+                    <div class="sstat-label"><span class="status-dot pending"></span>In Transit</div>
+                    <div class="sstat-bar"><div class="progress-bar-custom"><div class="progress-fill" style="width:18%;background:linear-gradient(90deg,#3b82f6,#06b6d4)"></div></div></div>
+                    <div class="sstat-count">18%</div>
+                  </div>
+                  <div class="shipment-status-row">
+                    <div class="sstat-label"><span class="status-dot pending" style="background:#f59e0b"></span>Pending</div>
+                    <div class="sstat-bar"><div class="progress-bar-custom"><div class="progress-fill" style="width:10%;background:linear-gradient(90deg,#f59e0b,#fbbf24)"></div></div></div>
+                    <div class="sstat-count">10%</div>
+                  </div>
+                  <div class="shipment-status-row">
+                    <div class="sstat-label"><span class="status-dot inactive"></span>Cancelled</div>
+                    <div class="sstat-bar"><div class="progress-bar-custom"><div class="progress-fill" style="width:4%;background:linear-gradient(90deg,#ef4444,#f87171)"></div></div></div>
+                    <div class="sstat-count">4%</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOTTOM ROW -->
+        <div class="row g-3">
+          <!-- Recent Shipments -->
+          <div class="col-xl-7 animate-up-1">
+            <div class="data-card">
+              <div class="data-card-header">
+                <div>
+                  <div class="data-card-title">Recent Shipments</div>
+                  <div class="data-card-subtitle">Latest 5 shipment entries</div>
+                </div>
+                <a href="shipments.html" class="btn-primary-custom" style="padding:7px 14px;font-size:12px">View All</a>
+              </div>
+              <div class="table-wrapper">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Tracking ID</th>
+                      <th>Sender</th>
+                      <th>Destination</th>
+                      <th>Status</th>
+                      <th>Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><span style="font-family:monospace;font-weight:600;color:#3b82f6">SHP-20240611</span></td>
+                      <td><div class="avatar-cell"><div class="avatar-sm av-blue">JD</div><div><div class="cell-name">John Doe</div><div class="cell-sub">Mumbai</div></div></div></td>
+                      <td>Delhi NCR</td>
+                      <td><span class="badge-status badge-transit">In Transit</span></td>
+                      <td><strong>₹2,400</strong></td>
+                    </tr>
+                    <tr>
+                      <td><span style="font-family:monospace;font-weight:600;color:#3b82f6">SHP-20240610</span></td>
+                      <td><div class="avatar-cell"><div class="avatar-sm av-green">SK</div><div><div class="cell-name">Sarah Khan</div><div class="cell-sub">Pune</div></div></div></td>
+                      <td>Bangalore</td>
+                      <td><span class="badge-status badge-delivered">Delivered</span></td>
+                      <td><strong>₹1,850</strong></td>
+                    </tr>
+                    <tr>
+                      <td><span style="font-family:monospace;font-weight:600;color:#3b82f6">SHP-20240609</span></td>
+                      <td><div class="avatar-cell"><div class="avatar-sm av-orange">RM</div><div><div class="cell-name">Ravi Menon</div><div class="cell-sub">Chennai</div></div></div></td>
+                      <td>Hyderabad</td>
+                      <td><span class="badge-status badge-pending">Pending</span></td>
+                      <td><strong>₹3,200</strong></td>
+                    </tr>
+                    <tr>
+                      <td><span style="font-family:monospace;font-weight:600;color:#3b82f6">SHP-20240608</span></td>
+                      <td><div class="avatar-cell"><div class="avatar-sm av-teal">AP</div><div><div class="cell-name">Anita Patel</div><div class="cell-sub">Ahmedabad</div></div></div></td>
+                      <td>Surat</td>
+                      <td><span class="badge-status badge-delivered">Delivered</span></td>
+                      <td><strong>₹980</strong></td>
+                    </tr>
+                    <tr>
+                      <td><span style="font-family:monospace;font-weight:600;color:#3b82f6">SHP-20240607</span></td>
+                      <td><div class="avatar-cell"><div class="avatar-sm av-red">VS</div><div><div class="cell-name">Vikram Singh</div><div class="cell-sub">Jaipur</div></div></div></td>
+                      <td>Kolkata</td>
+                      <td><span class="badge-status badge-inactive">Cancelled</span></td>
+                      <td><strong>₹4,100</strong></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions + Activity -->
+          <div class="col-xl-5">
+            <div class="row g-3">
+              <div class="col-12 animate-up-2">
+                <div class="data-card">
+                  <div class="data-card-header">
+                    <div class="data-card-title">Quick Actions</div>
+                  </div>
+                  <div class="data-card-body">
+                    <div class="row g-2">
+                      <div class="col-4">
+                        <div class="quick-action" onclick="window.location='users.html'">
+                          <div class="qa-icon" style="background:#eff6ff;color:#3b82f6"><i class="fas fa-user-plus"></i></div>
+                          <div class="qa-label">Add User</div>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="quick-action" onclick="window.location='shipments.html'">
+                          <div class="qa-icon" style="background:#ecfdf5;color:#10b981"><i class="fas fa-plus-circle"></i></div>
+                          <div class="qa-label">New Shipment</div>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="quick-action" onclick="window.location='vehicles.html'">
+                          <div class="qa-icon" style="background:#fffbeb;color:#f59e0b"><i class="fas fa-truck-medical"></i></div>
+                          <div class="qa-label">Add Vehicle</div>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="quick-action" onclick="window.location='drivers.html'">
+                          <div class="qa-icon" style="background:#ecfeff;color:#06b6d4"><i class="fas fa-id-card"></i></div>
+                          <div class="qa-label">Add Driver</div>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="quick-action" onclick="window.location='reports.html'">
+                          <div class="qa-icon" style="background:#f5f3ff;color:#8b5cf6"><i class="fas fa-chart-pie"></i></div>
+                          <div class="qa-label">View Report</div>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="quick-action" onclick="window.location='settings.html'">
+                          <div class="qa-icon" style="background:#fef2f2;color:#ef4444"><i class="fas fa-gear"></i></div>
+                          <div class="qa-label">Settings</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 animate-up-3">
+                <div class="data-card">
+                  <div class="data-card-header">
+                    <div class="data-card-title">Recent Activity</div>
+                  </div>
+                  <div class="data-card-body">
+                    <div class="timeline">
+                      <div class="timeline-item done">
+                        <div class="timeline-date">Today, 10:24 AM</div>
+                        <div class="timeline-title">Shipment SHP-20240611 booked</div>
+                        <div class="timeline-desc">John Doe &rarr; Delhi NCR</div>
+                      </div>
+                      <div class="timeline-item done">
+                        <div class="timeline-date">Today, 09:15 AM</div>
+                        <div class="timeline-title">Payment received ₹1,850</div>
+                        <div class="timeline-desc">SHP-20240610 marked as paid</div>
+                      </div>
+                      <div class="timeline-item done">
+                        <div class="timeline-date">Yesterday, 04:40 PM</div>
+                        <div class="timeline-title">Driver Arvind Kumar assigned</div>
+                        <div class="timeline-desc">Vehicle MH-01-AB-4567 dispatched</div>
+                      </div>
+                      <div class="timeline-item">
+                        <div class="timeline-date">Yesterday, 11:00 AM</div>
+                        <div class="timeline-title">New warehouse added</div>
+                        <div class="timeline-desc">WH-007 — Pune, Maharashtra</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /page-content -->
+    </div><!-- /main-content -->
+  </div><!-- /admin-wrapper -->
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="layout.js"></script>
+  <script>
+    initLayout('Dashboard', 'Dashboard');
+
+    // Count-up animation
+    document.querySelectorAll('[data-count]').forEach(el => {
+      const target = parseInt(el.dataset.count);
+      let current = 0;
+      const step = target / 60;
+      const timer = setInterval(() => {
+        current = Math.min(current + step, target);
+        el.textContent = Math.floor(current).toLocaleString();
+        if (current >= target) clearInterval(timer);
+      }, 16);
+    });
+
+    // Shipment Chart
+    new Chart(document.getElementById('shipmentChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [
+          {
+            label: 'Delivered',
+            data: [420, 510, 480, 620, 590, 680],
+            backgroundColor: 'rgba(16,185,129,0.85)',
+            borderRadius: 6,
+          },
+          {
+            label: 'In Transit',
+            data: [80, 95, 110, 90, 120, 95],
+            backgroundColor: 'rgba(59,130,246,0.85)',
+            borderRadius: 6,
+          },
+          {
+            label: 'Pending',
+            data: [45, 60, 38, 52, 48, 40],
+            backgroundColor: 'rgba(245,158,11,0.85)',
+            borderRadius: 6,
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { position: 'top', labels: { font: { family: 'Inter', size: 12 }, boxWidth: 12 } } },
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { family: 'Inter', size: 12 } } },
+          y: { grid: { color: '#f1f5f9' }, ticks: { font: { family: 'Inter', size: 12 } } }
+        }
+      }
+    });
+
+    // Status Donut
+    new Chart(document.getElementById('statusChart'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Delivered', 'In Transit', 'Pending', 'Cancelled'],
+        datasets: [{
+          data: [68, 18, 10, 4],
+          backgroundColor: ['#10b981','#3b82f6','#f59e0b','#ef4444'],
+          borderWidth: 3,
+          borderColor: '#fff',
+          hoverOffset: 6
+        }]
+      },
+      options: {
+        cutout: '72%',
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw}%` } }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
