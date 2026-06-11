@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment Management — LogiTrack Admin</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="admin-wrapper">
+  <div class="main-content" id="mainContent">
+    <div class="page-content">
+
+      <div class="d-flex align-items-center justify-content-between mb-4 animate-up">
+        <div>
+          <h4 class="fw-800 text-dark mb-1">Payment Management</h4>
+          <p class="text-muted mb-0" style="font-size:13px">Monitor all transactions, invoices and payment records</p>
+        </div>
+        <div class="d-flex gap-2">
+          <button class="btn-secondary-custom"><i class="fas fa-file-invoice"></i> Generate Report</button>
+          <button class="btn-primary-custom" onclick="openModal('addPayModal')"><i class="fas fa-plus"></i> Record Payment</button>
+        </div>
+      </div>
+
+      <!-- Revenue Cards -->
+      <div class="row g-3 mb-4">
+        <div class="col-lg-3 col-sm-6 animate-up-1">
+          <div class="stat-card green">
+            <div class="stat-header"><span class="stat-label">Total Revenue</span><div class="stat-icon"><i class="fas fa-indian-rupee-sign"></i></div></div>
+            <div class="stat-value">₹9.4L</div>
+            <div class="stat-change up"><i class="fas fa-arrow-trend-up"></i> 18.7% <span class="change-label">this month</span></div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 animate-up-2">
+          <div class="stat-card blue">
+            <div class="stat-header"><span class="stat-label">Paid</span><div class="stat-icon"><i class="fas fa-circle-check"></i></div></div>
+            <div class="stat-value">₹8.6L</div>
+            <div class="stat-change up"><i class="fas fa-arrow-trend-up"></i> 91.5% <span class="change-label">collected</span></div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 animate-up-3">
+          <div class="stat-card orange">
+            <div class="stat-header"><span class="stat-label">Pending</span><div class="stat-icon"><i class="fas fa-clock"></i></div></div>
+            <div class="stat-value">₹52K</div>
+            <div class="stat-change down"><i class="fas fa-arrow-trend-down"></i> 5.5% <span class="change-label">outstanding</span></div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 animate-up-1">
+          <div class="stat-card red">
+            <div class="stat-header"><span class="stat-label">Failed</span><div class="stat-icon"><i class="fas fa-circle-xmark"></i></div></div>
+            <div class="stat-value">₹27K</div>
+            <div class="stat-change down"><i class="fas fa-arrow-trend-down"></i> 2.9% <span class="change-label">failure rate</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts + Methods -->
+      <div class="row g-3 mb-4">
+        <div class="col-xl-8 animate-up-1">
+          <div class="data-card">
+            <div class="data-card-header">
+              <div><div class="data-card-title">Revenue Trend</div><div class="data-card-subtitle">Monthly collection — last 6 months</div></div>
+              <select class="filter-select" style="font-size:12px;padding:6px 28px 6px 10px"><option>Last 6 Months</option><option>Last Year</option></select>
+            </div>
+            <div class="data-card-body"><canvas id="revenueChart" height="90"></canvas></div>
+          </div>
+        </div>
+        <div class="col-xl-4 animate-up-2">
+          <div class="data-card h-100">
+            <div class="data-card-header"><div class="data-card-title">Payment Methods</div></div>
+            <div class="data-card-body">
+              <canvas id="methodChart" height="160"></canvas>
+              <div class="mt-3">
+                <div class="d-flex justify-content-between py-2 border-bottom" style="font-size:13px">
+                  <span><span class="status-dot active"></span>UPI</span><strong>45%</strong>
+                </div>
+                <div class="d-flex justify-content-between py-2 border-bottom" style="font-size:13px">
+                  <span><span class="status-dot" style="background:#3b82f6;display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px"></span>Net Banking</span><strong>28%</strong>
+                </div>
+                <div class="d-flex justify-content-between py-2 border-bottom" style="font-size:13px">
+                  <span><span class="status-dot" style="background:#f59e0b;display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px"></span>Credit/Debit Card</span><strong>18%</strong>
+                </div>
+                <div class="d-flex justify-content-between py-2" style="font-size:13px">
+                  <span><span class="status-dot" style="background:#8b5cf6;display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px"></span>Cash on Delivery</span><strong>9%</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Transaction Table -->
+      <div class="data-card animate-up-3">
+        <div class="data-card-header">
+          <div><div class="data-card-title">Recent Transactions</div><div class="data-card-subtitle">All payment records</div></div>
+          <button class="btn-secondary-custom" style="font-size:12px;padding:7px 14px"><i class="fas fa-download"></i> Export CSV</button>
+        </div>
+        <div class="filter-bar" style="border-top:1px solid #f1f5f9;border-bottom:1px solid #f1f5f9">
+          <div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="Search transaction ID, shipment..." /></div>
+          <select class="filter-select">
+            <option>All Status</option><option>Paid</option><option>Pending</option><option>Failed</option><option>Refunded</option>
+          </select>
+          <select class="filter-select">
+            <option>All Methods</option><option>UPI</option><option>Net Banking</option><option>Card</option><option>COD</option>
+          </select>
+          <input type="date" class="filter-select" style="padding:9px 12px" />
+        </div>
+        <div class="table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Transaction ID</th>
+                <th>Shipment</th>
+                <th>Customer</th>
+                <th>Method</th>
+                <th>Amount</th>
+                <th>Paid At</th>
+                <th>Status</th>
+                <th>Invoice</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="payBody"></tbody>
+          </table>
+        </div>
+        <div class="d-flex align-items-center justify-content-between p-3 border-top" style="font-size:13px;color:#64748b">
+          <span>Showing <strong>1–8</strong> of <strong>3,847</strong> transactions</span>
+          <div class="d-flex gap-1">
+            <button class="btn-secondary-custom" style="padding:5px 12px;font-size:12px">Prev</button>
+            <button class="btn-primary-custom" style="padding:5px 14px;font-size:12px">1</button>
+            <button class="btn-secondary-custom" style="padding:5px 12px;font-size:12px">Next</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Record Payment Modal -->
+<div class="modal-overlay" id="addPayModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title"><i class="fas fa-credit-card" style="color:#10b981;margin-right:8px"></i>Record Payment</div>
+      <button class="modal-close" onclick="closeModal('addPayModal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label class="form-label">Shipment ID</label>
+        <select class="form-control-custom"><option>-- Select Shipment --</option><option>SHP-20240611</option><option>SHP-20240609</option></select>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Amount (₹)</label><input class="form-control-custom" type="number" placeholder="0.00" /></div>
+        <div class="form-group"><label class="form-label">Payment Method</label>
+          <select class="form-control-custom"><option>UPI</option><option>Net Banking</option><option>Credit Card</option><option>Debit Card</option><option>COD</option></select>
+        </div>
+      </div>
+      <div class="form-group"><label class="form-label">Transaction ID</label><input class="form-control-custom" placeholder="Enter transaction reference" /></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Payment Date</label><input class="form-control-custom" type="datetime-local" /></div>
+        <div class="form-group"><label class="form-label">Status</label>
+          <select class="form-control-custom"><option>Paid</option><option>Pending</option><option>Failed</option></select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary-custom" onclick="closeModal('addPayModal')">Cancel</button>
+      <button class="btn-primary-custom"><i class="fas fa-check"></i> Record Payment</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="layout.js"></script>
+<script>
+  initLayout('Payment Management', 'Payments');
+
+  const payments = [
+    { txn:'TXN-20240611-001', ship:'SHP-20240611', customer:'John Doe', method:'UPI', amount:'₹2,400', paid:'Jun 11, 10:24', status:'Paid', inv:'INV-2024-091' },
+    { txn:'TXN-20240610-002', ship:'SHP-20240610', customer:'Sarah Khan', method:'Net Banking', amount:'₹1,850', paid:'Jun 10, 15:00', status:'Paid', inv:'INV-2024-090' },
+    { txn:'TXN-20240609-003', ship:'SHP-20240609', customer:'Ravi Menon', method:'Credit Card', amount:'₹3,200', paid:'—', status:'Pending', inv:'—' },
+    { txn:'TXN-20240608-004', ship:'SHP-20240608', customer:'Anita Patel', method:'UPI', amount:'₹980', paid:'Jun 8, 12:45', status:'Paid', inv:'INV-2024-088' },
+    { txn:'TXN-20240607-005', ship:'SHP-20240607', customer:'Vikram Singh', method:'COD', amount:'₹4,100', paid:'—', status:'Refunded', inv:'INV-2024-087' },
+    { txn:'TXN-20240606-006', ship:'SHP-20240606', customer:'Priya Sharma', method:'Debit Card', amount:'₹5,600', paid:'Jun 6, 09:15', status:'Paid', inv:'INV-2024-086' },
+    { txn:'TXN-20240605-007', ship:'SHP-20240605', customer:'Arjun Nair', method:'UPI', amount:'₹1,200', paid:'Jun 5, 16:30', status:'Paid', inv:'INV-2024-085' },
+    { txn:'TXN-20240604-008', ship:'SHP-20240604', customer:'Meena Reddy', method:'Net Banking', amount:'₹2,800', paid:'—', status:'Failed', inv:'—' },
+  ];
+
+  const sb = { Paid:'badge-paid', Pending:'badge-pending', Failed:'badge-inactive', Refunded:'badge-transit' };
+  const methodIcon = { UPI:'fa-mobile-screen', 'Net Banking':'fa-building-columns', 'Credit Card':'fa-credit-card', 'Debit Card':'fa-credit-card', COD:'fa-money-bill-wave' };
+
+  document.getElementById('payBody').innerHTML = payments.map(p => `
+    <tr>
+      <td><span style="font-family:monospace;font-size:11.5px;color:#64748b">${p.txn}</span></td>
+      <td><span style="font-family:monospace;font-weight:700;color:#3b82f6;font-size:13px">${p.ship}</span></td>
+      <td style="font-weight:600;font-size:13.5px">${p.customer}</td>
+      <td><span style="font-size:12.5px"><i class="fas ${methodIcon[p.method]||'fa-credit-card'}" style="margin-right:5px;color:#64748b"></i>${p.method}</span></td>
+      <td><strong style="font-size:14px">${p.amount}</strong></td>
+      <td style="color:#64748b;font-size:12.5px">${p.paid}</td>
+      <td><span class="badge-status ${sb[p.status]||''}">${p.status}</span></td>
+      <td style="font-size:12.5px;color:#3b82f6;font-weight:600">${p.inv}</td>
+      <td><div class="d-flex gap-1">
+        <button class="btn-action view" data-tooltip="View Invoice"><i class="fas fa-file-invoice"></i></button>
+        <button class="btn-action edit" data-tooltip="Edit"><i class="fas fa-pen"></i></button>
+      </div></td>
+    </tr>`).join('');
+
+  new Chart(document.getElementById('revenueChart'), {
+    type: 'line',
+    data: {
+      labels: ['Jan','Feb','Mar','Apr','May','Jun'],
+      datasets: [{
+        label: 'Revenue (₹)',
+        data: [420000,510000,480000,620000,590000,940000],
+        borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.08)',
+        fill: true, tension: 0.4, pointBackgroundColor: '#10b981', pointRadius: 5
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { display:false }, ticks: { font:{family:'Inter',size:12} } },
+        y: { grid: { color:'#f1f5f9' }, ticks: { font:{family:'Inter',size:12}, callback: v => '₹'+v/1000+'K' } }
+      }
+    }
+  });
+
+  new Chart(document.getElementById('methodChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['UPI','Net Banking','Card','COD'],
+      datasets: [{ data:[45,28,18,9], backgroundColor:['#10b981','#3b82f6','#f59e0b','#8b5cf6'], borderWidth:3, borderColor:'#fff', hoverOffset:6 }]
+    },
+    options: { cutout:'72%', plugins: { legend:{display:false} } }
+  });
+
+  function openModal(id) { document.getElementById(id).classList.add('show'); }
+  function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+  document.querySelectorAll('.modal-overlay').forEach(m => m.addEventListener('click', e => { if(e.target===m) m.classList.remove('show'); }));
+</script>
+</body>
+</html>

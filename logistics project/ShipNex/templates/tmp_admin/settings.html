@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>System Settings — LogiTrack Admin</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .settings-nav .s-nav-item {
+      display:flex;align-items:center;gap:10px;
+      padding:11px 16px;border-radius:10px;
+      cursor:pointer;transition:all 0.2s;font-size:13.5px;font-weight:500;color:#475569;
+    }
+    .settings-nav .s-nav-item:hover { background:#f1f5f9;color:#1e293b; }
+    .settings-nav .s-nav-item.active { background:#eff6ff;color:#1e40af;font-weight:600; }
+    .settings-nav .s-nav-item .s-icon { width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0; }
+    .settings-nav .s-nav-item.active .s-icon { background:#dbeafe;color:#1e40af; }
+    .settings-nav .s-nav-item:not(.active) .s-icon { background:#f1f5f9;color:#64748b; }
+    .settings-panel { display:none; }
+    .settings-panel.active { display:block; }
+    .toggle-switch { position:relative;width:46px;height:26px; }
+    .toggle-switch input { opacity:0;width:0;height:0; }
+    .toggle-slider {
+      position:absolute;inset:0;background:#e2e8f0;border-radius:999px;
+      cursor:pointer;transition:0.3s;
+    }
+    .toggle-slider::before {
+      content:'';position:absolute;width:20px;height:20px;border-radius:50%;
+      background:#fff;left:3px;bottom:3px;transition:0.3s;
+      box-shadow:0 1px 4px rgba(0,0,0,0.2);
+    }
+    .toggle-switch input:checked + .toggle-slider { background:#1e40af; }
+    .toggle-switch input:checked + .toggle-slider::before { transform:translateX(20px); }
+    .setting-row {
+      display:flex;align-items:center;justify-content:space-between;
+      padding:16px 0;border-bottom:1px solid #f1f5f9;
+    }
+    .setting-row:last-child { border-bottom:none; }
+    .setting-label { font-size:14px;font-weight:600;color:#1e293b;margin-bottom:3px; }
+    .setting-desc { font-size:12.5px;color:#94a3b8; }
+  </style>
+</head>
+<body>
+<div class="admin-wrapper">
+  <div class="main-content" id="mainContent">
+    <div class="page-content">
+
+      <div class="mb-4 animate-up">
+        <h4 class="fw-800 text-dark mb-1">System Settings</h4>
+        <p class="text-muted mb-0" style="font-size:13px">Manage site configuration, notifications, security and preferences</p>
+      </div>
+
+      <div class="row g-3 animate-up-1">
+        <!-- Left Nav -->
+        <div class="col-xl-3 col-lg-4">
+          <div class="data-card">
+            <div class="data-card-body p-2 settings-nav">
+              <div class="s-nav-item active" onclick="showPanel('general')"><div class="s-icon"><i class="fas fa-gear"></i></div>General Settings</div>
+              <div class="s-nav-item" onclick="showPanel('profile')"><div class="s-icon"><i class="fas fa-user-circle"></i></div>Admin Profile</div>
+              <div class="s-nav-item" onclick="showPanel('notifications')"><div class="s-icon"><i class="fas fa-bell"></i></div>Notifications</div>
+              <div class="s-nav-item" onclick="showPanel('security')"><div class="s-icon"><i class="fas fa-shield-halved"></i></div>Security</div>
+              <div class="s-nav-item" onclick="showPanel('payments')"><div class="s-icon"><i class="fas fa-credit-card"></i></div>Payment Config</div>
+              <div class="s-nav-item" onclick="showPanel('email')"><div class="s-icon"><i class="fas fa-envelope"></i></div>Email Settings</div>
+              <div class="s-nav-item" onclick="showPanel('appearance')"><div class="s-icon"><i class="fas fa-palette"></i></div>Appearance</div>
+              <div class="s-nav-item" onclick="window.location='login.html'" style="margin-top:12px;color:#ef4444"><div class="s-icon" style="background:#fef2f2;color:#ef4444"><i class="fas fa-sign-out-alt"></i></div>Logout</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Panels -->
+        <div class="col-xl-9 col-lg-8">
+
+          <!-- General Settings -->
+          <div class="settings-panel active" id="panelGeneral">
+            <div class="data-card">
+              <div class="data-card-header"><div class="data-card-title">General Settings</div></div>
+              <div class="data-card-body">
+                <div class="row g-3">
+                  <div class="col-md-6"><div class="form-group"><label class="form-label">Site Name</label><input class="form-control-custom" value="LogiTrack" /></div></div>
+                  <div class="col-md-6"><div class="form-group"><label class="form-label">Site Tagline</label><input class="form-control-custom" value="Smart Logistics Management" /></div></div>
+                </div>
+                <div class="row g-3">
+                  <div class="col-md-6"><div class="form-group"><label class="form-label">Contact Email</label><input class="form-control-custom" type="email" value="admin@logitrack.com" /></div></div>
+                  <div class="col-md-6"><div class="form-group"><label class="form-label">Contact Phone</label><input class="form-control-custom" value="+91 98765 43210" /></div></div>
+                </div>
+                <div class="form-group"><label class="form-label">Company Address</label><textarea class="form-control-custom" rows="3">123 Logistics Park, Andheri East, Mumbai — 400069, Maharashtra, India</textarea></div>
+                <div class="row g-3">
+                  <div class="col-md-4"><div class="form-group"><label class="form-label">Default Currency</label>
+                    <select class="form-control-custom"><option>INR (₹)</option><option>USD ($)</option><option>EUR (€)</option></select>
+                  </div></div>
+                  <div class="col-md-4"><div class="form-group"><label class="form-label">Timezone</label>
+                    <select class="form-control-custom"><option>IST (UTC+5:30)</option><option>UTC</option></select>
+                  </div></div>
+                  <div class="col-md-4"><div class="form-group"><label class="form-label">Date Format</label>
+                    <select class="form-control-custom"><option>DD/MM/YYYY</option><option>MM/DD/YYYY</option><option>YYYY-MM-DD</option></select>
+                  </div></div>
+                </div>
+                <div class="row g-3">
+                  <div class="col-md-6"><div class="form-group"><label class="form-label">Base Delivery Charge (₹)</label><input class="form-control-custom" type="number" value="150" /></div></div>
+                  <div class="col-md-6"><div class="form-group"><label class="form-label">Tax Rate (%)</label><input class="form-control-custom" type="number" value="18" /></div></div>
+                </div>
+                <div class="d-flex justify-content-end gap-2 mt-2">
+                  <button class="btn-secondary-custom">Reset</button>
+                  <button class="btn-primary-custom"><i class="fas fa-save"></i> Save Changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Admin Profile -->
+          <div class="settings-panel" id="panelProfile">
+            <div class="data-card">
+              <div class="data-card-header"><div class="data-card-title">Admin Profile</div></div>
+              <div class="data-card-body">
+                <div class="d-flex align-items-center gap-4 mb-4 pb-4 border-bottom">
+                  <div style="width:80px;height:80px;border-radius:20px;background:linear-gradient(135deg,#1e40af,#06b6d4);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:#fff">AD</div>
+                  <div>
+                    <div style="font-size:18px;font-weight:800;color:#1e293b">Super Admin</div>
+                    <div style="font-size:13px;color:#64748b">admin@logitrack.com</div>
+                    <button class="btn-secondary-custom mt-2" style="font-size:12px;padding:6px 14px"><i class="fas fa-camera"></i> Change Photo</button>
+                  </div>
+                </div>
+                <div class="row g-3">
+                  <div class="col-md-6"><div class="form-group"><label class="form-label">First Name</label><input class="form-control-custom" value="Super" /></div></div>
+                  <div class="col-md-6"><div class="form-group"><label class="form-label">Last Name</label><input class="form-control-custom" value="Admin" /></div></div>
+                </div>
+                <div class="row g-3">
+                  <div class="col-md-6"><div class="form-group"><label class="form-label">Email</label><input class="form-control-custom" type="email" value="admin@logitrack.com" /></div></div>
+                  <div class="col-md-6"><div class="form-group"><label class="form-label">Phone</label><input class="form-control-custom" value="+91 98765 43210" /></div></div>
+                </div>
+                <div class="row g-3">
+                  <div class="col-md-6"><div class="form-group"><label class="form-label">Current Password</label><input class="form-control-custom" type="password" placeholder="Enter current password" /></div></div>
+                  <div class="col-md-6"><div class="form-group"><label class="form-label">New Password</label><input class="form-control-custom" type="password" placeholder="Enter new password" /></div></div>
+                </div>
+                <div class="d-flex justify-content-end gap-2 mt-2">
+                  <button class="btn-primary-custom"><i class="fas fa-save"></i> Update Profile</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Notifications -->
+          <div class="settings-panel" id="panelNotifications">
+            <div class="data-card">
+              <div class="data-card-header"><div class="data-card-title">Notification Preferences</div></div>
+              <div class="data-card-body">
+                <div class="setting-row"><div><div class="setting-label">New Shipment Booking</div><div class="setting-desc">Alert when a new shipment is booked</div></div><label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label></div>
+                <div class="setting-row"><div><div class="setting-label">Payment Received</div><div class="setting-desc">Notify on successful payment collection</div></div><label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label></div>
+                <div class="setting-row"><div><div class="setting-label">Delivery Updates</div><div class="setting-desc">Status changes for active deliveries</div></div><label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label></div>
+                <div class="setting-row"><div><div class="setting-label">New User Registration</div><div class="setting-desc">Alert on new user sign-ups</div></div><label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label></div>
+                <div class="setting-row"><div><div class="setting-label">Failed Deliveries</div><div class="setting-desc">Immediate alert on delivery failures</div></div><label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label></div>
+                <div class="setting-row"><div><div class="setting-label">Weekly Summary Email</div><div class="setting-desc">Weekly performance report via email</div></div><label class="toggle-switch"><input type="checkbox" /><span class="toggle-slider"></span></label></div>
+                <div class="setting-row"><div><div class="setting-label">System Alerts</div><div class="setting-desc">Server and maintenance notifications</div></div><label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Security -->
+          <div class="settings-panel" id="panelSecurity">
+            <div class="data-card">
+              <div class="data-card-header"><div class="data-card-title">Security Settings</div></div>
+              <div class="data-card-body">
+                <div class="setting-row"><div><div class="setting-label">Two-Factor Authentication</div><div class="setting-desc">Add an extra layer via OTP</div></div><label class="toggle-switch"><input type="checkbox" /><span class="toggle-slider"></span></label></div>
+                <div class="setting-row"><div><div class="setting-label">Login Activity Logs</div><div class="setting-desc">Keep records of all admin logins</div></div><label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label></div>
+                <div class="setting-row"><div><div class="setting-label">Session Timeout</div><div class="setting-desc">Auto-logout after inactivity</div></div>
+                  <select class="filter-select"><option>30 Minutes</option><option>1 Hour</option><option>4 Hours</option><option>8 Hours</option></select>
+                </div>
+                <div class="setting-row"><div><div class="setting-label">IP Whitelist</div><div class="setting-desc">Restrict access to specific IPs</div></div><label class="toggle-switch"><input type="checkbox" /><span class="toggle-slider"></span></label></div>
+                <div class="form-group mt-3"><label class="form-label">Allowed IP Addresses</label><input class="form-control-custom" placeholder="e.g. 192.168.1.1, 10.0.0.1" /></div>
+                <div class="d-flex justify-content-end gap-2 mt-2">
+                  <button class="btn-primary-custom"><i class="fas fa-save"></i> Save Security Settings</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment Config -->
+          <div class="settings-panel" id="panelPayments">
+            <div class="data-card">
+              <div class="data-card-header"><div class="data-card-title">Payment Configuration</div></div>
+              <div class="data-card-body">
+                <div class="setting-row"><div><div class="setting-label">Enable Online Payments</div><div class="setting-desc">Allow customers to pay online</div></div><label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label></div>
+                <div class="setting-row"><div><div class="setting-label">Cash on Delivery</div><div class="setting-desc">Allow COD payment option</div></div><label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label></div>
+                <div class="form-group mt-3"><label class="form-label">Payment Gateway</label>
+                  <select class="form-control-custom"><option>Razorpay</option><option>Stripe</option><option>PayU</option></select>
+                </div>
+                <div class="form-row mt-0">
+                  <div class="form-group"><label class="form-label">API Key</label><input class="form-control-custom" type="password" value="rzp_live_xxxxxxxxxxxxx" /></div>
+                  <div class="form-group"><label class="form-label">Secret Key</label><input class="form-control-custom" type="password" value="••••••••••••••••" /></div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group"><label class="form-label">Base Delivery Fee (₹)</label><input class="form-control-custom" type="number" value="150" /></div>
+                  <div class="form-group"><label class="form-label">GST Rate (%)</label><input class="form-control-custom" type="number" value="18" /></div>
+                </div>
+                <div class="d-flex justify-content-end gap-2 mt-2">
+                  <button class="btn-primary-custom"><i class="fas fa-save"></i> Save Payment Config</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Email Settings -->
+          <div class="settings-panel" id="panelEmail">
+            <div class="data-card">
+              <div class="data-card-header"><div class="data-card-title">Email Configuration</div></div>
+              <div class="data-card-body">
+                <div class="form-row">
+                  <div class="form-group"><label class="form-label">SMTP Host</label><input class="form-control-custom" value="smtp.gmail.com" /></div>
+                  <div class="form-group"><label class="form-label">SMTP Port</label><input class="form-control-custom" value="587" /></div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group"><label class="form-label">Email Username</label><input class="form-control-custom" value="noreply@logitrack.com" /></div>
+                  <div class="form-group"><label class="form-label">Email Password</label><input class="form-control-custom" type="password" value="••••••••" /></div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group"><label class="form-label">From Name</label><input class="form-control-custom" value="LogiTrack" /></div>
+                  <div class="form-group"><label class="form-label">From Email</label><input class="form-control-custom" value="noreply@logitrack.com" /></div>
+                </div>
+                <div class="setting-row"><div><div class="setting-label">TLS Encryption</div><div class="setting-desc">Use TLS for secure email transmission</div></div><label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label></div>
+                <div class="d-flex gap-2 justify-content-end mt-3">
+                  <button class="btn-secondary-custom"><i class="fas fa-paper-plane"></i> Test Email</button>
+                  <button class="btn-primary-custom"><i class="fas fa-save"></i> Save Email Settings</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Appearance -->
+          <div class="settings-panel" id="panelAppearance">
+            <div class="data-card">
+              <div class="data-card-header"><div class="data-card-title">Appearance Settings</div></div>
+              <div class="data-card-body">
+                <div class="form-group"><label class="form-label">Primary Color</label>
+                  <div class="d-flex gap-2 flex-wrap">
+                    <div onclick="setColor(this,'#1e40af')" style="width:36px;height:36px;border-radius:8px;background:#1e40af;cursor:pointer;border:3px solid #1e40af;box-shadow:0 0 0 3px rgba(30,64,175,0.3)"></div>
+                    <div onclick="setColor(this,'#059669')" style="width:36px;height:36px;border-radius:8px;background:#059669;cursor:pointer;border:3px solid transparent"></div>
+                    <div onclick="setColor(this,'#dc2626')" style="width:36px;height:36px;border-radius:8px;background:#dc2626;cursor:pointer;border:3px solid transparent"></div>
+                    <div onclick="setColor(this,'#d97706')" style="width:36px;height:36px;border-radius:8px;background:#d97706;cursor:pointer;border:3px solid transparent"></div>
+                    <div onclick="setColor(this,'#0891b2')" style="width:36px;height:36px;border-radius:8px;background:#0891b2;cursor:pointer;border:3px solid transparent"></div>
+                    <div onclick="setColor(this,'#374151')" style="width:36px;height:36px;border-radius:8px;background:#374151;cursor:pointer;border:3px solid transparent"></div>
+                  </div>
+                </div>
+                <div class="setting-row"><div><div class="setting-label">Sidebar Style</div></div>
+                  <select class="filter-select"><option>Dark</option><option>Light</option></select>
+                </div>
+                <div class="setting-row"><div><div class="setting-label">Compact Mode</div><div class="setting-desc">Reduce padding for more content space</div></div><label class="toggle-switch"><input type="checkbox" /><span class="toggle-slider"></span></label></div>
+                <div class="d-flex justify-content-end mt-3"><button class="btn-primary-custom"><i class="fas fa-save"></i> Apply Theme</button></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="layout.js"></script>
+<script>
+  initLayout('System Settings', 'Settings');
+
+  const panelMap = { general:'panelGeneral', profile:'panelProfile', notifications:'panelNotifications', security:'panelSecurity', payments:'panelPayments', email:'panelEmail', appearance:'panelAppearance' };
+
+  function showPanel(key) {
+    document.querySelectorAll('.settings-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.s-nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById(panelMap[key]).classList.add('active');
+    event.currentTarget.classList.add('active');
+  }
+
+  function setColor(el, color) {
+    document.querySelectorAll('.color-swatch').forEach(s => s.style.boxShadow = 'none');
+    el.style.boxShadow = `0 0 0 3px ${color}44`;
+    el.style.border = `3px solid ${color}`;
+  }
+</script>
+</body>
+</html>

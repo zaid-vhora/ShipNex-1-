@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shipment Management — LogiTrack Admin</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="admin-wrapper">
+  <div class="main-content" id="mainContent">
+    <div class="page-content">
+
+      <div class="d-flex align-items-center justify-content-between mb-4 animate-up">
+        <div>
+          <h4 class="fw-800 text-dark mb-1">Shipment Management</h4>
+          <p class="text-muted mb-0" style="font-size:13px">Track, manage and update all shipment records</p>
+        </div>
+        <div class="d-flex gap-2">
+          <button class="btn-secondary-custom"><i class="fas fa-download"></i> Export CSV</button>
+          <button class="btn-primary-custom" onclick="openModal('addShipmentModal')"><i class="fas fa-plus"></i> New Shipment</button>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="row g-3 mb-4">
+        <div class="col-lg-3 col-sm-6 animate-up-1"><div class="stat-card blue"><div class="stat-header"><span class="stat-label">Total Shipments</span><div class="stat-icon"><i class="fas fa-boxes-stacked"></i></div></div><div class="stat-value">3,847</div><div class="stat-change up"><i class="fas fa-arrow-trend-up"></i> 8.3%</div></div></div>
+        <div class="col-lg-3 col-sm-6 animate-up-2"><div class="stat-card orange"><div class="stat-header"><span class="stat-label">In Transit</span><div class="stat-icon"><i class="fas fa-truck-fast"></i></div></div><div class="stat-value">247</div><div class="stat-change up"><i class="fas fa-arrow-trend-up"></i> Active</div></div></div>
+        <div class="col-lg-3 col-sm-6 animate-up-3"><div class="stat-card green"><div class="stat-header"><span class="stat-label">Delivered</span><div class="stat-icon"><i class="fas fa-circle-check"></i></div></div><div class="stat-value">3,456</div><div class="stat-change up"><i class="fas fa-arrow-trend-up"></i> 89.8%</div></div></div>
+        <div class="col-lg-3 col-sm-6 animate-up-1"><div class="stat-card red"><div class="stat-header"><span class="stat-label">Cancelled</span><div class="stat-icon"><i class="fas fa-circle-xmark"></i></div></div><div class="stat-value">144</div><div class="stat-change down"><i class="fas fa-arrow-trend-down"></i> 3.7%</div></div></div>
+      </div>
+
+      <!-- Table -->
+      <div class="data-card animate-up-2">
+        <div class="filter-bar">
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search tracking ID, sender, receiver..." />
+          </div>
+          <select class="filter-select">
+            <option>All Status</option>
+            <option>Pending</option>
+            <option>Processing</option>
+            <option>In Transit</option>
+            <option>Delivered</option>
+            <option>Cancelled</option>
+          </select>
+          <select class="filter-select">
+            <option>All Categories</option>
+            <option>Standard</option>
+            <option>Express</option>
+            <option>Fragile</option>
+            <option>Cold Chain</option>
+          </select>
+          <input type="date" class="filter-select" style="padding:9px 12px" />
+        </div>
+        <div class="table-wrapper">
+          <table class="admin-table" id="shipTable">
+            <thead>
+              <tr>
+                <th><input type="checkbox" class="custom-check" /></th>
+                <th>Tracking ID</th>
+                <th>Sender</th>
+                <th>Receiver</th>
+                <th>Type</th>
+                <th>Weight</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="shipTableBody"></tbody>
+          </table>
+        </div>
+        <div class="d-flex align-items-center justify-content-between p-3 border-top" style="font-size:13px;color:#64748b">
+          <span>Showing <strong>1–10</strong> of <strong>3,847</strong> shipments</span>
+          <div class="d-flex gap-1">
+            <button class="btn-secondary-custom" style="padding:5px 12px;font-size:12px">Prev</button>
+            <button class="btn-primary-custom" style="padding:5px 14px;font-size:12px">1</button>
+            <button class="btn-secondary-custom" style="padding:5px 12px;font-size:12px">2</button>
+            <button class="btn-secondary-custom" style="padding:5px 12px;font-size:12px">3</button>
+            <button class="btn-secondary-custom" style="padding:5px 12px;font-size:12px">Next</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Add Shipment Modal -->
+<div class="modal-overlay" id="addShipmentModal">
+  <div class="modal-box" style="max-width:600px">
+    <div class="modal-header">
+      <div class="modal-title"><i class="fas fa-box" style="color:#10b981;margin-right:8px"></i>Create New Shipment</div>
+      <button class="modal-close" onclick="closeModal('addShipmentModal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Sender Name</label><input class="form-control-custom" placeholder="Full name" /></div>
+        <div class="form-group"><label class="form-label">Sender Phone</label><input class="form-control-custom" placeholder="+91 XXXXX XXXXX" /></div>
+      </div>
+      <div class="form-group"><label class="form-label">Sender Address</label><textarea class="form-control-custom" rows="2" placeholder="Pickup address"></textarea></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Receiver Name</label><input class="form-control-custom" placeholder="Full name" /></div>
+        <div class="form-group"><label class="form-label">Receiver Phone</label><input class="form-control-custom" placeholder="+91 XXXXX XXXXX" /></div>
+      </div>
+      <div class="form-group"><label class="form-label">Receiver Address</label><textarea class="form-control-custom" rows="2" placeholder="Delivery address"></textarea></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Shipment Type</label>
+          <select class="form-control-custom"><option>Standard</option><option>Express</option><option>Fragile</option><option>Cold Chain</option></select>
+        </div>
+        <div class="form-group"><label class="form-label">Parcel Weight (kg)</label><input class="form-control-custom" type="number" placeholder="0.00" /></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Delivery Charge (₹)</label><input class="form-control-custom" type="number" placeholder="0.00" /></div>
+        <div class="form-group"><label class="form-label">Category</label>
+          <select class="form-control-custom"><option>Documents</option><option>Electronics</option><option>Clothing</option><option>Furniture</option><option>Other</option></select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary-custom" onclick="closeModal('addShipmentModal')">Cancel</button>
+      <button class="btn-primary-custom"><i class="fas fa-check"></i> Create Shipment</button>
+    </div>
+  </div>
+</div>
+
+<!-- Track Shipment Modal -->
+<div class="modal-overlay" id="trackModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title"><i class="fas fa-location-dot" style="color:#3b82f6;margin-right:8px"></i>Shipment Tracking</div>
+      <button class="modal-close" onclick="closeModal('trackModal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="mb-3 p-3 rounded-3" style="background:#f8fafc;border:1px solid #e2e8f0">
+        <div style="font-size:12px;color:#64748b">Tracking ID</div>
+        <div style="font-size:16px;font-weight:700;color:#3b82f6;font-family:monospace" id="trackId"></div>
+      </div>
+      <div class="timeline" id="trackTimeline"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary-custom" onclick="closeModal('trackModal')">Close</button>
+      <button class="btn-primary-custom"><i class="fas fa-pen"></i> Update Status</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="layout.js"></script>
+<script>
+  initLayout('Shipment Management', 'Shipments');
+
+  const shipments = [
+    { id:'SHP-20240611', sender:'John Doe', sCity:'Mumbai', receiver:'Raj Kumar', rCity:'Delhi', type:'Express', weight:'2.5 kg', amount:'₹2,400', date:'2024-06-11', status:'In Transit' },
+    { id:'SHP-20240610', sender:'Sarah Khan', sCity:'Pune', receiver:'Meena R.', rCity:'Bangalore', type:'Standard', weight:'1.2 kg', amount:'₹1,850', date:'2024-06-10', status:'Delivered' },
+    { id:'SHP-20240609', sender:'Ravi Menon', sCity:'Chennai', receiver:'Suresh P.', rCity:'Hyderabad', type:'Fragile', weight:'5.0 kg', amount:'₹3,200', date:'2024-06-09', status:'Pending' },
+    { id:'SHP-20240608', sender:'Anita Patel', sCity:'Ahmedabad', receiver:'Vijay S.', rCity:'Surat', type:'Standard', weight:'0.8 kg', amount:'₹980', date:'2024-06-08', status:'Delivered' },
+    { id:'SHP-20240607', sender:'Vikram Singh', sCity:'Jaipur', receiver:'Pooja T.', rCity:'Kolkata', type:'Express', weight:'3.4 kg', amount:'₹4,100', date:'2024-06-07', status:'Cancelled' },
+    { id:'SHP-20240606', sender:'Priya Sharma', sCity:'Bangalore', receiver:'Amit K.', rCity:'Mumbai', type:'Cold Chain', weight:'8.0 kg', amount:'₹5,600', date:'2024-06-06', status:'In Transit' },
+    { id:'SHP-20240605', sender:'Arjun Nair', sCity:'Kochi', receiver:'Nina M.', rCity:'Chennai', type:'Standard', weight:'1.8 kg', amount:'₹1,200', date:'2024-06-05', status:'Delivered' },
+    { id:'SHP-20240604', sender:'Meena Reddy', sCity:'Hyderabad', receiver:'Kiran B.', rCity:'Pune', type:'Express', weight:'2.0 kg', amount:'₹2,800', date:'2024-06-04', status:'Processing' },
+  ];
+
+  const statusMap = { 'In Transit':'badge-transit', Delivered:'badge-delivered', Pending:'badge-pending', Cancelled:'badge-inactive', Processing:'badge-processing' };
+
+  function renderShipments() {
+    const tbody = document.getElementById('shipTableBody');
+    tbody.innerHTML = shipments.map(s => `
+      <tr>
+        <td><input type="checkbox" class="custom-check" /></td>
+        <td><span style="font-family:monospace;font-weight:700;color:#3b82f6;font-size:13px">${s.id}</span></td>
+        <td><div><div style="font-weight:600">${s.sender}</div><div style="font-size:11.5px;color:#94a3b8">${s.sCity}</div></div></td>
+        <td><div><div style="font-weight:600">${s.receiver}</div><div style="font-size:11.5px;color:#94a3b8">${s.rCity}</div></div></td>
+        <td><span style="font-size:12px;padding:3px 8px;border-radius:20px;background:#f1f5f9;font-weight:600;color:#475569">${s.type}</span></td>
+        <td>${s.weight}</td>
+        <td><strong>${s.amount}</strong></td>
+        <td style="color:#64748b">${s.date}</td>
+        <td><span class="badge-status ${statusMap[s.status]||''}">${s.status}</span></td>
+        <td>
+          <div class="d-flex gap-1">
+            <button class="btn-action view" data-tooltip="Track" onclick="trackShipment('${s.id}')"><i class="fas fa-location-dot"></i></button>
+            <button class="btn-action edit" data-tooltip="Edit"><i class="fas fa-pen"></i></button>
+            <button class="btn-action delete" data-tooltip="Delete"><i class="fas fa-trash"></i></button>
+          </div>
+        </td>
+      </tr>`).join('');
+  }
+
+  function trackShipment(id) {
+    document.getElementById('trackId').textContent = id;
+    const steps = [
+      { done:true, title:'Shipment Booked', desc:'Order placed and confirmed', date:'Jun 11, 09:00' },
+      { done:true, title:'Picked Up', desc:'Collected from sender location', date:'Jun 11, 11:30' },
+      { done:true, title:'In Warehouse', desc:'Arrived at sorting facility — Mumbai', date:'Jun 11, 14:00' },
+      { done:false, title:'In Transit', desc:'Out for delivery via express route', date:'Expected Jun 12' },
+      { done:false, title:'Delivered', desc:'Pending delivery at destination', date:'Expected Jun 13' },
+    ];
+    document.getElementById('trackTimeline').innerHTML = steps.map(s => `
+      <div class="timeline-item ${s.done?'done':''}">
+        <div class="timeline-date">${s.date}</div>
+        <div class="timeline-title">${s.title}</div>
+        <div class="timeline-desc">${s.desc}</div>
+      </div>`).join('');
+    openModal('trackModal');
+  }
+
+  function openModal(id) { document.getElementById(id).classList.add('show'); }
+  function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+  document.querySelectorAll('.modal-overlay').forEach(m => m.addEventListener('click', e => { if (e.target===m) m.classList.remove('show'); }));
+
+  renderShipments();
+</script>
+</body>
+</html>

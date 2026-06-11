@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Management — LogiTrack Admin</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="admin-wrapper">
+  <div class="main-content" id="mainContent">
+    <div class="page-content">
+
+      <!-- Page Header -->
+      <div class="d-flex align-items-center justify-content-between mb-4 animate-up">
+        <div>
+          <h4 class="fw-800 text-dark mb-1">User Management</h4>
+          <p class="text-muted mb-0" style="font-size:13px">Manage all registered users — approve, block or view profiles</p>
+        </div>
+        <button class="btn-primary-custom" onclick="openModal('addUserModal')">
+          <i class="fas fa-user-plus"></i> Add User
+        </button>
+      </div>
+
+      <!-- Stats Row -->
+      <div class="row g-3 mb-4">
+        <div class="col-md-3 col-sm-6 animate-up-1">
+          <div class="stat-card blue">
+            <div class="stat-header"><span class="stat-label">Total Users</span><div class="stat-icon"><i class="fas fa-users"></i></div></div>
+            <div class="stat-value">1,284</div>
+            <div class="stat-change up"><i class="fas fa-arrow-trend-up"></i> 12.5% <span class="change-label">this month</span></div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6 animate-up-2">
+          <div class="stat-card green">
+            <div class="stat-header"><span class="stat-label">Active</span><div class="stat-icon"><i class="fas fa-circle-check"></i></div></div>
+            <div class="stat-value">1,108</div>
+            <div class="stat-change up"><i class="fas fa-arrow-trend-up"></i> 86.3% <span class="change-label">of total</span></div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6 animate-up-3">
+          <div class="stat-card orange">
+            <div class="stat-header"><span class="stat-label">Pending Approval</span><div class="stat-icon"><i class="fas fa-clock"></i></div></div>
+            <div class="stat-value">5</div>
+            <div class="stat-change up"><i class="fas fa-arrow-trend-up"></i> Action required</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6 animate-up-1">
+          <div class="stat-card red">
+            <div class="stat-header"><span class="stat-label">Blocked</span><div class="stat-icon"><i class="fas fa-ban"></i></div></div>
+            <div class="stat-value">171</div>
+            <div class="stat-change down"><i class="fas fa-arrow-trend-down"></i> 13.3% <span class="change-label">of total</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- User Table -->
+      <div class="data-card animate-up-2">
+        <div class="filter-bar">
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="userSearch" placeholder="Search by name, email or phone..." oninput="filterTable()" />
+          </div>
+          <select class="filter-select" id="statusFilter" onchange="filterTable()">
+            <option value="">All Status</option>
+            <option>Active</option>
+            <option>Inactive</option>
+            <option>Pending</option>
+          </select>
+          <select class="filter-select" id="roleFilter" onchange="filterTable()">
+            <option value="">All Roles</option>
+            <option>Customer</option>
+            <option>Logistics Staff</option>
+            <option>Transporter</option>
+          </select>
+          <button class="btn-secondary-custom"><i class="fas fa-download"></i> Export</button>
+        </div>
+        <div class="table-wrapper">
+          <table class="admin-table" id="userTable">
+            <thead>
+              <tr>
+                <th><input type="checkbox" class="custom-check" id="selectAll" onclick="toggleAll(this)" /></th>
+                <th>#</th>
+                <th>User</th>
+                <th>Phone</th>
+                <th>Role</th>
+                <th>Shipments</th>
+                <th>Joined</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="userTableBody"></tbody>
+          </table>
+        </div>
+        <div class="d-flex align-items-center justify-content-between p-3 border-top" style="font-size:13px;color:#64748b">
+          <span>Showing <strong>1–10</strong> of <strong>1,284</strong> users</span>
+          <div class="d-flex gap-1">
+            <button class="btn-secondary-custom" style="padding:5px 12px;font-size:12px">Prev</button>
+            <button class="btn-primary-custom" style="padding:5px 14px;font-size:12px">1</button>
+            <button class="btn-secondary-custom" style="padding:5px 12px;font-size:12px">2</button>
+            <button class="btn-secondary-custom" style="padding:5px 12px;font-size:12px">3</button>
+            <button class="btn-secondary-custom" style="padding:5px 12px;font-size:12px">Next</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Add User Modal -->
+<div class="modal-overlay" id="addUserModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title"><i class="fas fa-user-plus" style="color:#3b82f6;margin-right:8px"></i>Add New User</div>
+      <button class="modal-close" onclick="closeModal('addUserModal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">First Name</label><input class="form-control-custom" placeholder="John" /></div>
+        <div class="form-group"><label class="form-label">Last Name</label><input class="form-control-custom" placeholder="Doe" /></div>
+      </div>
+      <div class="form-group"><label class="form-label">Email Address</label><input class="form-control-custom" type="email" placeholder="john@example.com" /></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Phone</label><input class="form-control-custom" placeholder="+91 98765 43210" /></div>
+        <div class="form-group"><label class="form-label">Role</label>
+          <select class="form-control-custom">
+            <option>Customer</option>
+            <option>Logistics Staff</option>
+            <option>Transporter</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group"><label class="form-label">Address</label><textarea class="form-control-custom" rows="2" placeholder="Full address..."></textarea></div>
+      <div class="form-group"><label class="form-label">Password</label><input class="form-control-custom" type="password" placeholder="Set initial password" /></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary-custom" onclick="closeModal('addUserModal')">Cancel</button>
+      <button class="btn-primary-custom"><i class="fas fa-check"></i> Create User</button>
+    </div>
+  </div>
+</div>
+
+<!-- View User Modal -->
+<div class="modal-overlay" id="viewUserModal">
+  <div class="modal-box" style="max-width:480px">
+    <div class="modal-header">
+      <div class="modal-title">User Profile</div>
+      <button class="modal-close" onclick="closeModal('viewUserModal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body" id="viewUserContent"></div>
+    <div class="modal-footer">
+      <button class="btn-secondary-custom" onclick="closeModal('viewUserModal')">Close</button>
+      <button class="btn-primary-custom"><i class="fas fa-edit"></i> Edit User</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="layout.js"></script>
+<script>
+  initLayout('User Management', 'Users');
+
+  const users = [
+    { id: 1, name: 'John Doe', email: 'john@example.com', phone: '+91 98765 43210', role: 'Customer', shipments: 14, joined: '2024-01-15', status: 'Active', av: 'JD', col: 'av-blue' },
+    { id: 2, name: 'Sarah Khan', email: 'sarah@example.com', phone: '+91 87654 32109', role: 'Customer', shipments: 8, joined: '2024-02-20', status: 'Active', av: 'SK', col: 'av-green' },
+    { id: 3, name: 'Ravi Menon', email: 'ravi@example.com', phone: '+91 76543 21098', role: 'Logistics Staff', shipments: 42, joined: '2023-11-05', status: 'Active', av: 'RM', col: 'av-orange' },
+    { id: 4, name: 'Anita Patel', email: 'anita@example.com', phone: '+91 65432 10987', role: 'Customer', shipments: 3, joined: '2024-03-10', status: 'Pending', av: 'AP', col: 'av-teal' },
+    { id: 5, name: 'Vikram Singh', email: 'vikram@example.com', phone: '+91 54321 09876', role: 'Transporter', shipments: 0, joined: '2024-04-01', status: 'Active', av: 'VS', col: 'av-red' },
+    { id: 6, name: 'Priya Sharma', email: 'priya@example.com', phone: '+91 43210 98765', role: 'Customer', shipments: 21, joined: '2023-09-14', status: 'Active', av: 'PS', col: 'av-purple' },
+    { id: 7, name: 'Arjun Nair', email: 'arjun@example.com', phone: '+91 32109 87654', role: 'Customer', shipments: 7, joined: '2024-05-22', status: 'Inactive', av: 'AN', col: 'av-blue' },
+    { id: 8, name: 'Meena Reddy', email: 'meena@example.com', phone: '+91 21098 76543', role: 'Logistics Staff', shipments: 38, joined: '2023-07-30', status: 'Active', av: 'MR', col: 'av-green' },
+  ];
+
+  let filtered = [...users];
+
+  function renderTable(data) {
+    const tbody = document.getElementById('userTableBody');
+    tbody.innerHTML = data.map((u, i) => `
+      <tr>
+        <td><input type="checkbox" class="custom-check" /></td>
+        <td style="color:#94a3b8;font-size:12px">${String(u.id).padStart(3,'0')}</td>
+        <td><div class="avatar-cell">
+          <div class="avatar-sm ${u.col}">${u.av}</div>
+          <div><div class="cell-name">${u.name}</div><div class="cell-sub">${u.email}</div></div>
+        </div></td>
+        <td>${u.phone}</td>
+        <td><span style="font-size:12px;padding:3px 10px;border-radius:20px;background:#f1f5f9;color:#475569;font-weight:600">${u.role}</span></td>
+        <td><strong>${u.shipments}</strong></td>
+        <td style="color:#64748b">${u.joined}</td>
+        <td>${statusBadge(u.status)}</td>
+        <td>
+          <div class="d-flex gap-1">
+            <button class="btn-action view" data-tooltip="View" onclick="viewUser(${u.id})"><i class="fas fa-eye"></i></button>
+            <button class="btn-action edit" data-tooltip="Edit"><i class="fas fa-pen"></i></button>
+            <button class="btn-action approve" data-tooltip="Toggle Status"><i class="fas fa-toggle-on"></i></button>
+            <button class="btn-action delete" data-tooltip="Delete" onclick="confirmDelete(${u.id})"><i class="fas fa-trash"></i></button>
+          </div>
+        </td>
+      </tr>`).join('');
+  }
+
+  function statusBadge(s) {
+    const map = { Active:'badge-active', Inactive:'badge-inactive', Pending:'badge-pending' };
+    return `<span class="badge-status ${map[s]||''}">${s}</span>`;
+  }
+
+  function filterTable() {
+    const q = document.getElementById('userSearch').value.toLowerCase();
+    const st = document.getElementById('statusFilter').value;
+    const rl = document.getElementById('roleFilter').value;
+    filtered = users.filter(u =>
+      (!q || u.name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q) || u.phone.includes(q)) &&
+      (!st || u.status === st) &&
+      (!rl || u.role === rl)
+    );
+    renderTable(filtered);
+  }
+
+  function toggleAll(cb) {
+    document.querySelectorAll('#userTableBody input[type=checkbox]').forEach(c => c.checked = cb.checked);
+  }
+
+  function viewUser(id) {
+    const u = users.find(x => x.id === id);
+    document.getElementById('viewUserContent').innerHTML = `
+      <div class="text-center mb-4">
+        <div class="avatar-sm ${u.col}" style="width:64px;height:64px;font-size:22px;border-radius:16px;margin:0 auto 12px">${u.av}</div>
+        <h5 class="fw-700 mb-1">${u.name}</h5>
+        <span class="badge-status ${u.status==='Active'?'badge-active':u.status==='Inactive'?'badge-inactive':'badge-pending'}">${u.status}</span>
+      </div>
+      <table class="admin-table">
+        <tr><td style="color:#64748b;width:40%">Email</td><td><strong>${u.email}</strong></td></tr>
+        <tr><td style="color:#64748b">Phone</td><td><strong>${u.phone}</strong></td></tr>
+        <tr><td style="color:#64748b">Role</td><td><strong>${u.role}</strong></td></tr>
+        <tr><td style="color:#64748b">Shipments</td><td><strong>${u.shipments}</strong></td></tr>
+        <tr><td style="color:#64748b">Joined</td><td><strong>${u.joined}</strong></td></tr>
+      </table>`;
+    openModal('viewUserModal');
+  }
+
+  function confirmDelete(id) {
+    if (confirm('Are you sure you want to delete this user?')) {
+      alert('User deleted (demo).');
+    }
+  }
+
+  function openModal(id) { document.getElementById(id).classList.add('show'); }
+  function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+
+  document.querySelectorAll('.modal-overlay').forEach(m => {
+    m.addEventListener('click', e => { if (e.target === m) m.classList.remove('show'); });
+  });
+
+  renderTable(users);
+</script>
+</body>
+</html>

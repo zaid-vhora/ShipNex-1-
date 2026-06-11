@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Transporter Management — LogiTrack Admin</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .transporter-card {
+      background:#fff; border-radius:14px; border:1.5px solid #e2e8f0;
+      padding:22px; transition:all 0.2s;
+    }
+    .transporter-card:hover { border-color:#3b82f6; box-shadow:0 8px 24px rgba(59,130,246,0.12); transform:translateY(-2px); }
+    .t-logo { width:54px;height:54px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#fff;flex-shrink:0; }
+    .t-name { font-size:16px;font-weight:800;color:#1e293b; }
+    .t-sub { font-size:12.5px;color:#64748b;margin-top:3px; }
+    .t-stat-mini { text-align:center; }
+    .t-stat-mini .val { font-size:18px;font-weight:800;color:#1e293b; }
+    .t-stat-mini .lbl { font-size:11px;color:#94a3b8;font-weight:500; }
+  </style>
+</head>
+<body>
+<div class="admin-wrapper">
+  <div class="main-content" id="mainContent">
+    <div class="page-content">
+
+      <div class="d-flex align-items-center justify-content-between mb-4 animate-up">
+        <div>
+          <h4 class="fw-800 text-dark mb-1">Transporter Management</h4>
+          <p class="text-muted mb-0" style="font-size:13px">Manage transport companies, their fleets and delivery performance</p>
+        </div>
+        <button class="btn-primary-custom" onclick="openModal('addTransModal')"><i class="fas fa-plus"></i> Add Transporter</button>
+      </div>
+
+      <div class="row g-3 mb-4">
+        <div class="col-lg-3 col-sm-6 animate-up-1"><div class="stat-card teal"><div class="stat-header"><span class="stat-label">Total Transporters</span><div class="stat-icon"><i class="fas fa-building-columns"></i></div></div><div class="stat-value">24</div><div class="stat-change up"><i class="fas fa-arrow-trend-up"></i> Registered</div></div></div>
+        <div class="col-lg-3 col-sm-6 animate-up-2"><div class="stat-card green"><div class="stat-header"><span class="stat-label">Active</span><div class="stat-icon"><i class="fas fa-circle-check"></i></div></div><div class="stat-value">19</div><div class="stat-change up"><i class="fas fa-arrow-trend-up"></i> In operation</div></div></div>
+        <div class="col-lg-3 col-sm-6 animate-up-3"><div class="stat-card orange"><div class="stat-header"><span class="stat-label">Pending Approval</span><div class="stat-icon"><i class="fas fa-clock"></i></div></div><div class="stat-value">3</div><div class="stat-change up"><i class="fas fa-arrow-trend-up"></i> Awaiting review</div></div></div>
+        <div class="col-lg-3 col-sm-6 animate-up-1"><div class="stat-card blue"><div class="stat-header"><span class="stat-label">Total Settlements</span><div class="stat-icon"><i class="fas fa-handshake"></i></div></div><div class="stat-value">₹4.2L</div><div class="stat-change up"><i class="fas fa-arrow-trend-up"></i> This month</div></div></div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="data-card animate-up-2">
+        <div class="data-card-header" style="border-bottom:none;padding-bottom:0">
+          <div class="d-flex gap-1" id="transTabs">
+            <button class="btn-primary-custom" style="font-size:13px" onclick="switchTab('list',this)">All Transporters</button>
+            <button class="btn-secondary-custom" style="font-size:13px" onclick="switchTab('cards',this)">Card View</button>
+            <button class="btn-secondary-custom" style="font-size:13px" onclick="switchTab('settle',this)">Settlements</button>
+          </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar" style="border-top:1px solid #f8fafc">
+          <div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="Search company name, email..." /></div>
+          <select class="filter-select"><option>All Status</option><option>Active</option><option>Pending</option><option>Suspended</option></select>
+          <button class="btn-secondary-custom"><i class="fas fa-download"></i> Export</button>
+        </div>
+
+        <!-- List View -->
+        <div id="tabList">
+          <div class="table-wrapper">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th><input type="checkbox" class="custom-check" /></th>
+                  <th>#</th>
+                  <th>Company</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Vehicles</th>
+                  <th>Drivers</th>
+                  <th>Completed</th>
+                  <th>Rating</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="transBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Card View -->
+        <div id="tabCards" style="display:none" class="p-3">
+          <div class="row g-3" id="transCards"></div>
+        </div>
+
+        <!-- Settlements -->
+        <div id="tabSettle" style="display:none">
+          <div class="table-wrapper">
+            <table class="admin-table">
+              <thead>
+                <tr><th>Settlement ID</th><th>Transporter</th><th>Period</th><th>Deliveries</th><th>Amount</th><th>Status</th><th>Created</th><th>Actions</th></tr>
+              </thead>
+              <tbody id="settleBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="d-flex align-items-center justify-content-between p-3 border-top" style="font-size:13px;color:#64748b">
+          <span>Showing <strong>1–8</strong> of <strong>24</strong> transporters</span>
+          <div class="d-flex gap-1">
+            <button class="btn-secondary-custom" style="padding:5px 12px;font-size:12px">Prev</button>
+            <button class="btn-primary-custom" style="padding:5px 14px;font-size:12px">1</button>
+            <button class="btn-secondary-custom" style="padding:5px 12px;font-size:12px">Next</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Add Transporter Modal -->
+<div class="modal-overlay" id="addTransModal">
+  <div class="modal-box" style="max-width:580px">
+    <div class="modal-header">
+      <div class="modal-title"><i class="fas fa-building-columns" style="color:#06b6d4;margin-right:8px"></i>Add New Transporter</div>
+      <button class="modal-close" onclick="closeModal('addTransModal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label class="form-label">Company Name</label><input class="form-control-custom" placeholder="Transport company name" /></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Email</label><input class="form-control-custom" type="email" placeholder="company@example.com" /></div>
+        <div class="form-group"><label class="form-label">Phone</label><input class="form-control-custom" placeholder="+91 XXXXX XXXXX" /></div>
+      </div>
+      <div class="form-group"><label class="form-label">Address</label><textarea class="form-control-custom" rows="2" placeholder="Registered office address"></textarea></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">City</label><input class="form-control-custom" placeholder="City" /></div>
+        <div class="form-group"><label class="form-label">License / GST Number</label><input class="form-control-custom" placeholder="Business registration" style="text-transform:uppercase" /></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Fleet Size</label><input class="form-control-custom" type="number" placeholder="No. of vehicles" /></div>
+        <div class="form-group"><label class="form-label">Initial Status</label>
+          <select class="form-control-custom"><option>Pending</option><option>Active</option></select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary-custom" onclick="closeModal('addTransModal')">Cancel</button>
+      <button class="btn-primary-custom"><i class="fas fa-check"></i> Add Transporter</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="layout.js"></script>
+<script>
+  initLayout('Transporter Management', 'Transporters');
+
+  const transporters = [
+    { id:1, name:'SpeedLine Logistics', email:'info@speedline.in', phone:'+91 98001 11111', vehicles:12, drivers:18, completed:284, rating:4.8, status:'Active', initials:'SL', col:'av-blue' },
+    { id:2, name:'RapidMove Transport', email:'ops@rapidmove.in', phone:'+91 97002 22222', vehicles:8, drivers:10, completed:196, rating:4.5, status:'Active', initials:'RM', col:'av-green' },
+    { id:3, name:'CargoSwift Pvt Ltd', email:'hello@cargoswift.in', phone:'+91 96003 33333', vehicles:15, drivers:22, completed:312, rating:4.7, status:'Active', initials:'CS', col:'av-orange' },
+    { id:4, name:'EasyFreight Co.', email:'contact@easyfreight.in', phone:'+91 95004 44444', vehicles:5, drivers:7, completed:88, rating:3.9, status:'Pending', initials:'EF', col:'av-teal' },
+    { id:5, name:'TruckMasters India', email:'admin@truckmasters.in', phone:'+91 94005 55555', vehicles:20, drivers:28, completed:447, rating:4.9, status:'Active', initials:'TM', col:'av-blue' },
+    { id:6, name:'QuickHaul Services', email:'ops@quickhaul.in', phone:'+91 93006 66666', vehicles:6, drivers:9, completed:121, rating:4.2, status:'Active', initials:'QH', col:'av-purple' },
+    { id:7, name:'NationWide Couriers', email:'info@nationwide.in', phone:'+91 92007 77777', vehicles:3, drivers:4, completed:34, rating:3.7, status:'Pending', initials:'NW', col:'av-red' },
+    { id:8, name:'FleetPro Logistics', email:'contact@fleetpro.in', phone:'+91 91008 88888', vehicles:11, drivers:16, completed:198, rating:4.4, status:'Active', initials:'FP', col:'av-green' },
+  ];
+
+  const settlements = [
+    { id:'STL-001', trans:'SpeedLine Logistics', period:'May 2024', deliveries:48, amount:'₹72,000', status:'Paid', created:'2024-06-01' },
+    { id:'STL-002', trans:'RapidMove Transport', period:'May 2024', deliveries:32, amount:'₹48,000', status:'Paid', created:'2024-06-01' },
+    { id:'STL-003', trans:'CargoSwift Pvt Ltd', period:'May 2024', deliveries:61, amount:'₹91,500', status:'Pending', created:'2024-06-02' },
+    { id:'STL-004', trans:'TruckMasters India', period:'May 2024', deliveries:74, amount:'₹1,11,000', status:'Paid', created:'2024-06-01' },
+    { id:'STL-005', trans:'QuickHaul Services', period:'May 2024', deliveries:22, amount:'₹33,000', status:'Pending', created:'2024-06-03' },
+  ];
+
+  const sb = { Active:'badge-active', Pending:'badge-pending', Suspended:'badge-inactive' };
+  const ss = { Paid:'badge-paid', Pending:'badge-pending' };
+
+  function stars(r) {
+    return Array.from({length:5}, (_,i) =>
+      `<i class="fas fa-star" style="color:${i<Math.floor(r)?'#f59e0b':'#e2e8f0'};font-size:11px"></i>`
+    ).join('') + `<span style="font-size:12px;font-weight:700;margin-left:4px">${r}</span>`;
+  }
+
+  function renderList() {
+    document.getElementById('transBody').innerHTML = transporters.map(t => `
+      <tr>
+        <td><input type="checkbox" class="custom-check" /></td>
+        <td style="color:#94a3b8;font-size:12px">${String(t.id).padStart(3,'0')}</td>
+        <td><div class="avatar-cell"><div class="avatar-sm ${t.col}">${t.initials}</div><div><div class="cell-name">${t.name}</div><div class="cell-sub">${t.email}</div></div></div></td>
+        <td style="font-size:12.5px">${t.email}</td>
+        <td style="font-size:12.5px">${t.phone}</td>
+        <td><strong>${t.vehicles}</strong></td>
+        <td><strong>${t.drivers}</strong></td>
+        <td><strong>${t.completed}</strong></td>
+        <td>${stars(t.rating)}</td>
+        <td><span class="badge-status ${sb[t.status]}">${t.status}</span></td>
+        <td><div class="d-flex gap-1">
+          <button class="btn-action view" data-tooltip="View" onclick="viewTrans(${t.id})"><i class="fas fa-eye"></i></button>
+          <button class="btn-action edit" data-tooltip="Edit"><i class="fas fa-pen"></i></button>
+          <button class="btn-action approve" data-tooltip="Approve"><i class="fas fa-circle-check"></i></button>
+          <button class="btn-action delete" data-tooltip="Suspend"><i class="fas fa-ban"></i></button>
+        </div></td>
+      </tr>`).join('');
+  }
+
+  function renderCards() {
+    document.getElementById('transCards').innerHTML = transporters.map(t => `
+      <div class="col-xl-6 col-md-6">
+        <div class="transporter-card">
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <div class="t-logo ${t.col}">${t.initials}</div>
+            <div class="flex-1">
+              <div class="t-name">${t.name}</div>
+              <div class="t-sub"><i class="fas fa-envelope" style="margin-right:4px"></i>${t.email}</div>
+              <div class="t-sub"><i class="fas fa-phone" style="margin-right:4px"></i>${t.phone}</div>
+            </div>
+            <span class="badge-status ${sb[t.status]}">${t.status}</span>
+          </div>
+          <div class="d-flex justify-content-around pt-3 pb-3 border-top border-bottom mb-3">
+            <div class="t-stat-mini"><div class="val">${t.vehicles}</div><div class="lbl">Vehicles</div></div>
+            <div class="t-stat-mini"><div class="val">${t.drivers}</div><div class="lbl">Drivers</div></div>
+            <div class="t-stat-mini"><div class="val">${t.completed}</div><div class="lbl">Delivered</div></div>
+            <div class="t-stat-mini"><div class="val">${t.rating}★</div><div class="lbl">Rating</div></div>
+          </div>
+          <div class="d-flex gap-2 justify-content-end">
+            <button class="btn-action view" data-tooltip="View"><i class="fas fa-eye"></i></button>
+            <button class="btn-action edit" data-tooltip="Edit"><i class="fas fa-pen"></i></button>
+            <button class="btn-action delete" data-tooltip="Suspend"><i class="fas fa-ban"></i></button>
+          </div>
+        </div>
+      </div>`).join('');
+  }
+
+  function renderSettlements() {
+    document.getElementById('settleBody').innerHTML = settlements.map(s => `
+      <tr>
+        <td style="font-family:monospace;font-size:12px;color:#3b82f6;font-weight:700">${s.id}</td>
+        <td style="font-weight:600">${s.trans}</td>
+        <td style="color:#64748b">${s.period}</td>
+        <td><strong>${s.deliveries}</strong></td>
+        <td><strong style="font-size:14px">${s.amount}</strong></td>
+        <td><span class="badge-status ${ss[s.status]}">${s.status}</span></td>
+        <td style="color:#64748b">${s.created}</td>
+        <td><div class="d-flex gap-1">
+          <button class="btn-action view" data-tooltip="View"><i class="fas fa-eye"></i></button>
+          <button class="btn-action approve" data-tooltip="Mark Paid"><i class="fas fa-circle-check"></i></button>
+        </div></td>
+      </tr>`).join('');
+  }
+
+  function switchTab(tab, btn) {
+    document.getElementById('tabList').style.display = tab==='list' ? '' : 'none';
+    document.getElementById('tabCards').style.display = tab==='cards' ? '' : 'none';
+    document.getElementById('tabSettle').style.display = tab==='settle' ? '' : 'none';
+    document.querySelectorAll('#transTabs button').forEach(b => b.className = 'btn-secondary-custom');
+    document.querySelectorAll('#transTabs button').forEach(b => b.style.fontSize='13px');
+    btn.className = 'btn-primary-custom'; btn.style.fontSize='13px';
+  }
+
+  function openModal(id) { document.getElementById(id).classList.add('show'); }
+  function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+  document.querySelectorAll('.modal-overlay').forEach(m => m.addEventListener('click', e => { if(e.target===m) m.classList.remove('show'); }));
+
+  renderList(); renderCards(); renderSettlements();
+</script>
+</body>
+</html>
