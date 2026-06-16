@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -331,7 +332,7 @@
       setTimeout(() => {
         btn.classList.remove('loading');
         if (u && p) {
-          window.location.href = 'index.html';
+          window.location.href = "{% url 'index_view' %}";
         } else {
           alert.classList.add('show');
         }
