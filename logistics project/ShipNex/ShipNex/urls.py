@@ -29,6 +29,7 @@ urlpatterns = [
     path('userapp/', include('app_modules.userapp.urls')),
     path('logisticsapp/', include('app_modules.logisticsapp.urls')),
     path('transportapp/', include('app_modules.transporterapp.urls')),
+    path('transporterapp/', RedirectView.as_view(url='/transportapp/', permanent=False)),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

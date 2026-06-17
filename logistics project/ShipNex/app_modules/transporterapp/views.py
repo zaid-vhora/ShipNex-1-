@@ -7,7 +7,7 @@ def assigned_view(request):
 def drivers_view(request):
     return render(request, 'tmp_transporter/drivers.html')
 
-def earrnings_view(request):
+def earnings_view(request):
     return render(request, 'tmp_transporter/earnings.html')
 
 def index_view(request):
@@ -16,7 +16,7 @@ def index_view(request):
 def pod_view(request):
     return render(request, 'tmp_transporter/pod.html')
 
-def routrs_view(request):
+def routes_view(request):
     return render(request, 'tmp_transporter/routes.html')
 
 def settings_view(request):
