@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LogiTrack - Driver Management</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-wrapper">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon"><i class="bi bi-geo-alt-fill"></i></div>
+        <div class="sidebar-header-text">
+          <h1>LogiTrack</h1>
+          <p>Transporter Portal</p>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="index.html" class="sidebar-link"><i class="bi bi-speedometer2"></i><span class="nav-text">Dashboard</span></a>
+        <a href="assigned_shipments.html" class="sidebar-link"><i class="bi bi-box-seam"></i><span class="nav-text">Assigned Shipments</span><span class="sidebar-badge">5</span></a>
+        <a href="shipment_details.html" class="sidebar-link"><i class="bi bi-file-earmark-text"></i><span class="nav-text">Shipment Details</span></a>
+        <a href="vehicles.html" class="sidebar-link"><i class="bi bi-truck"></i><span class="nav-text">Vehicle Management</span></a>
+        <a href="drivers.html" class="sidebar-link active"><i class="bi bi-person-badge"></i><span class="nav-text">Driver Management</span></a>
+        <a href="routes.html" class="sidebar-link"><i class="bi bi-signpost-2"></i><span class="nav-text">Route Management</span></a>
+        <a href="pod.html" class="sidebar-link"><i class="bi bi-clipboard-check"></i><span class="nav-text">Proof of Delivery</span></a>
+        <a href="earnings.html" class="sidebar-link"><i class="bi bi-currency-rupee"></i><span class="nav-text">Earnings & Settlements</span></a>
+        <a href="settings.html" class="sidebar-link"><i class="bi bi-gear"></i><span class="nav-text">Profile Settings</span></a>
+      </nav>
+      <div class="sidebar-logout">
+        <a href="#" class="sidebar-link"><i class="bi bi-box-arrow-left"></i><span class="nav-text">Logout</span></a>
+      </div>
+    </aside>
+
+    <!-- MOBILE OVERLAY -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+      <!-- TOPNAV -->
+      <header class="topnav">
+        <div class="topnav-left">
+          <button class="topnav-btn" id="mobileToggle"><i class="bi bi-list"></i></button>
+          <button class="topnav-btn" id="collapseBtn"><i class="bi bi-arrows-collapse"></i></button>
+          <div class="breadcrumb">
+            <span class="breadcrumb-home">Home</span>
+            <i class="bi bi-chevron-right breadcrumb-sep"></i>
+            <span class="breadcrumb-current">Driver Management</span>
+          </div>
+        </div>
+        <div class="topnav-right">
+          <button class="topnav-btn" id="darkToggle" title="Toggle dark mode"><i class="bi bi-moon-stars text-lg"></i></button>
+          <div class="notif-btn">
+            <button class="topnav-btn" id="notifBtn"><i class="bi bi-bell text-lg"></i><span class="notif-dot"></span></button>
+            <div class="notification-dropdown" id="notifDropdown">
+              <div class="notif-header"><h6>Notifications</h6><span class="notif-mark-read">Mark all read</span></div>
+              <div class="notif-item"><div class="notif-icon" style="background:rgba(79,70,229,0.1);color:#4f46e5"><i class="bi bi-box-seam"></i></div><div class="notif-content"><p>New shipment #SHP-4521 assigned</p><p class="notif-time">2 min ago</p></div></div>
+              <div class="notif-item"><div class="notif-icon" style="background:rgba(34,197,94,0.1);color:#22c55e"><i class="bi bi-check-circle"></i></div><div class="notif-content"><p>Delivery #SHP-4498 completed</p><p class="notif-time">15 min ago</p></div></div>
+              <div class="notif-item"><div class="notif-icon" style="background:rgba(245,158,11,0.1);color:#f59e0b"><i class="bi bi-exclamation-triangle"></i></div><div class="notif-content"><p>Vehicle KA-05-1234 maintenance due</p><p class="notif-time">1 hr ago</p></div></div>
+              <div class="notif-item"><div class="notif-icon" style="background:rgba(249,115,22,0.1);color:#f97316"><i class="bi bi-currency-rupee"></i></div><div class="notif-content"><p>Payment of ₹12,500 processed</p><p class="notif-time">3 hrs ago</p></div></div>
+              <div class="notif-footer"><span>View all notifications</span></div>
+            </div>
+          </div>
+          <div class="profile-btn">
+            <button class="profile-btn-content" id="profileBtn">
+              <div class="profile-avatar">SK</div>
+              <span class="profile-name">SpeedKargo</span>
+              <i class="bi bi-chevron-down profile-chevron"></i>
+            </button>
+            <div class="profile-dropdown" id="profileDropdown">
+              <div class="profile-dropdown-info"><p>SpeedKargo Logistics</p><span>admin@speedkargo.com</span></div>
+              <div class="profile-dropdown-item"><i class="bi bi-person"></i> My Profile</div>
+              <div class="profile-dropdown-item"><i class="bi bi-gear"></i> Settings</div>
+              <div class="profile-dropdown-item danger"><i class="bi bi-box-arrow-left"></i> Logout</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT -->
+      <main class="page-content">
+        <!-- Page Header -->
+        <div class="page-header animate-fade-in" style="margin-bottom:24px">
+          <div>
+            <h2 style="font-size:28px;font-weight:700">Driver Management</h2>
+            <p style="color:var(--text-muted);margin-top:4px">Manage your team of drivers</p>
+          </div>
+          <button class="btn-primary" onclick="openAddModal()"><i class="bi bi-plus"></i>Add Driver</button>
+        </div>
+
+        <!-- Search Box -->
+        <div class="glass-card animate-fade-in delay-1" style="margin-bottom:24px;padding:16px">
+          <div style="display:flex;align-items:center;gap:12px;width:100%">
+            <i class="bi bi-search" style="color:var(--text-muted)"></i>
+            <input type="text" id="searchInput" placeholder="Search drivers by name, phone, or license number..." style="flex:1;background:none;border:none;color:var(--text-primary);font-size:14px;outline:none" />
+          </div>
+        </div>
+
+        <!-- Drivers Grid -->
+        <div class="card-grid-4 animate-fade-in delay-2">
+          <!-- Driver 1: Rajesh Kumar -->
+          <div class="driver-card">
+            <div class="driver-header">
+              <div class="driver-avatar indigo-gradient">RK</div>
+              <div class="driver-status badge-on-trip">On Trip</div>
+            </div>
+            <div class="driver-name">Rajesh Kumar</div>
+            <div class="driver-meta">8 years experience</div>
+            <div class="driver-info-row">
+              <span><i class="bi bi-telephone"></i>+91-9876543210</span>
+            </div>
+            <div class="driver-info-row">
+              <span><i class="bi bi-card-text"></i>MH-0120180012345</span>
+            </div>
+            <div class="driver-stats">
+              <div class="stat-item">
+                <span class="stat-label">Trips</span>
+                <span class="stat-value">452</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Rating</span>
+                <span class="stat-value">4.8⭐</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Route</span>
+                <span class="stat-value">NYC-BOS</span>
+              </div>
+            </div>
+            <div class="driver-actions">
+              <button class="btn-action" onclick="openEditModal('Rajesh Kumar')"><i class="bi bi-pencil"></i></button>
+              <button class="btn-action danger" onclick="openDeleteModal('Rajesh Kumar')"><i class="bi bi-trash"></i></button>
+            </div>
+          </div>
+
+          <!-- Driver 2: Suresh Menon -->
+          <div class="driver-card">
+            <div class="driver-header">
+              <div class="driver-avatar green-gradient">SM</div>
+              <div class="driver-status badge-available">Available</div>
+            </div>
+            <div class="driver-name">Suresh Menon</div>
+            <div class="driver-meta">5 years experience</div>
+            <div class="driver-info-row">
+              <span><i class="bi bi-telephone"></i>+91-8765432109</span>
+            </div>
+            <div class="driver-info-row">
+              <span><i class="bi bi-card-text"></i>KL-0219950045678</span>
+            </div>
+            <div class="driver-stats">
+              <div class="stat-item">
+                <span class="stat-label">Trips</span>
+                <span class="stat-value">287</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Rating</span>
+                <span class="stat-value">4.5⭐</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Route</span>
+                <span class="stat-value">BOS-PHI</span>
+              </div>
+            </div>
+            <div class="driver-actions">
+              <button class="btn-action" onclick="openRouteModal('Suresh Menon')"><i class="bi bi-geo-alt"></i></button>
+              <button class="btn-action" onclick="openEditModal('Suresh Menon')"><i class="bi bi-pencil"></i></button>
+              <button class="btn-action danger" onclick="openDeleteModal('Suresh Menon')"><i class="bi bi-trash"></i></button>
+            </div>
+          </div>
+
+          <!-- Driver 3: Amit Sharma -->
+          <div class="driver-card">
+            <div class="driver-header">
+              <div class="driver-avatar green-gradient">AS</div>
+              <div class="driver-status badge-available">Available</div>
+            </div>
+            <div class="driver-name">Amit Sharma</div>
+            <div class="driver-meta">10 years experience</div>
+            <div class="driver-info-row">
+              <span><i class="bi bi-telephone"></i>+91-7654321098</span>
+            </div>
+            <div class="driver-info-row">
+              <span><i class="bi bi-card-text"></i>DL-0119880056789</span>
+            </div>
+            <div class="driver-stats">
+              <div class="stat-item">
+                <span class="stat-label">Trips</span>
+                <span class="stat-value">612</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Rating</span>
+                <span class="stat-value">4.9⭐</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Route</span>
+                <span class="stat-value">PHI-DC</span>
+              </div>
+            </div>
+            <div class="driver-actions">
+              <button class="btn-action" onclick="openRouteModal('Amit Sharma')"><i class="bi bi-geo-alt"></i></button>
+              <button class="btn-action" onclick="openEditModal('Amit Sharma')"><i class="bi bi-pencil"></i></button>
+              <button class="btn-action danger" onclick="openDeleteModal('Amit Sharma')"><i class="bi bi-trash"></i></button>
+            </div>
+          </div>
+
+          <!-- Driver 4: Vikram Singh -->
+          <div class="driver-card">
+            <div class="driver-header">
+              <div class="driver-avatar indigo-gradient">VS</div>
+              <div class="driver-status badge-on-trip">On Trip</div>
+            </div>
+            <div class="driver-name">Vikram Singh</div>
+            <div class="driver-meta">3 years experience</div>
+            <div class="driver-info-row">
+              <span><i class="bi bi-telephone"></i>+91-6543210987</span>
+            </div>
+            <div class="driver-info-row">
+              <span><i class="bi bi-card-text"></i>PB-0120010067890</span>
+            </div>
+            <div class="driver-stats">
+              <div class="stat-item">
+                <span class="stat-label">Trips</span>
+                <span class="stat-value">145</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Rating</span>
+                <span class="stat-value">4.2⭐</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Route</span>
+                <span class="stat-value">DC-ATL</span>
+              </div>
+            </div>
+            <div class="driver-actions">
+              <button class="btn-action" onclick="openEditModal('Vikram Singh')"><i class="bi bi-pencil"></i></button>
+              <button class="btn-action danger" onclick="openDeleteModal('Vikram Singh')"><i class="bi bi-trash"></i></button>
+            </div>
+          </div>
+
+          <!-- Driver 5: Sanjay Patel -->
+          <div class="driver-card">
+            <div class="driver-header">
+              <div class="driver-avatar gray-gradient">SP</div>
+              <div class="driver-status badge-off-duty">Off Duty</div>
+            </div>
+            <div class="driver-name">Sanjay Patel</div>
+            <div class="driver-meta">7 years experience</div>
+            <div class="driver-info-row">
+              <span><i class="bi bi-telephone"></i>+91-5432109876</span>
+            </div>
+            <div class="driver-info-row">
+              <span><i class="bi bi-card-text"></i>GJ-0118950078901</span>
+            </div>
+            <div class="driver-stats">
+              <div class="stat-item">
+                <span class="stat-label">Trips</span>
+                <span class="stat-value">389</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Rating</span>
+                <span class="stat-value">4.6⭐</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Route</span>
+                <span class="stat-value">ATL-MIA</span>
+              </div>
+            </div>
+            <div class="driver-actions">
+              <button class="btn-action" onclick="openEditModal('Sanjay Patel')"><i class="bi bi-pencil"></i></button>
+              <button class="btn-action danger" onclick="openDeleteModal('Sanjay Patel')"><i class="bi bi-trash"></i></button>
+            </div>
+          </div>
+
+          <!-- Driver 6: Pradeep Yadav -->
+          <div class="driver-card">
+            <div class="driver-header">
+              <div class="driver-avatar green-gradient">PY</div>
+              <div class="driver-status badge-available">Available</div>
+            </div>
+            <div class="driver-name">Pradeep Yadav</div>
+            <div class="driver-meta">2 years experience</div>
+            <div class="driver-info-row">
+              <span><i class="bi bi-telephone"></i>+91-4321098765</span>
+            </div>
+            <div class="driver-info-row">
+              <span><i class="bi bi-card-text"></i>MP-0122010089012</span>
+            </div>
+            <div class="driver-stats">
+              <div class="stat-item">
+                <span class="stat-label">Trips</span>
+                <span class="stat-value">89</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Rating</span>
+                <span class="stat-value">4.0⭐</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Route</span>
+                <span class="stat-value">MIA-TPA</span>
+              </div>
+            </div>
+            <div class="driver-actions">
+              <button class="btn-action" onclick="openRouteModal('Pradeep Yadav')"><i class="bi bi-geo-alt"></i></button>
+              <button class="btn-action" onclick="openEditModal('Pradeep Yadav')"><i class="bi bi-pencil"></i></button>
+              <button class="btn-action danger" onclick="openDeleteModal('Pradeep Yadav')"><i class="bi bi-trash"></i></button>
+            </div>
+          </div>
+
+          <!-- Driver 7: Ramesh Babu -->
+          <div class="driver-card">
+            <div class="driver-header">
+              <div class="driver-avatar indigo-gradient">RB</div>
+              <div class="driver-status badge-on-trip">On Trip</div>
+            </div>
+            <div class="driver-name">Ramesh Babu</div>
+            <div class="driver-meta">6 years experience</div>
+            <div class="driver-info-row">
+              <span><i class="bi bi-telephone"></i>+91-3210987654</span>
+            </div>
+            <div class="driver-info-row">
+              <span><i class="bi bi-card-text"></i>TS-0119870090123</span>
+            </div>
+            <div class="driver-stats">
+              <div class="stat-item">
+                <span class="stat-label">Trips</span>
+                <span class="stat-value">345</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Rating</span>
+                <span class="stat-value">4.7⭐</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Route</span>
+                <span class="stat-value">TPA-ORL</span>
+              </div>
+            </div>
+            <div class="driver-actions">
+              <button class="btn-action" onclick="openEditModal('Ramesh Babu')"><i class="bi bi-pencil"></i></button>
+              <button class="btn-action danger" onclick="openDeleteModal('Ramesh Babu')"><i class="bi bi-trash"></i></button>
+            </div>
+          </div>
+
+          <!-- Driver 8: Karthik Rajan -->
+          <div class="driver-card">
+            <div class="driver-header">
+              <div class="driver-avatar green-gradient">KR</div>
+              <div class="driver-status badge-available">Available</div>
+            </div>
+            <div class="driver-name">Karthik Rajan</div>
+            <div class="driver-meta">4 years experience</div>
+            <div class="driver-info-row">
+              <span><i class="bi bi-telephone"></i>+91-2109876543</span>
+            </div>
+            <div class="driver-info-row">
+              <span><i class="bi bi-card-text"></i>KA-0120050001234</span>
+            </div>
+            <div class="driver-stats">
+              <div class="stat-item">
+                <span class="stat-label">Trips</span>
+                <span class="stat-value">201</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Rating</span>
+                <span class="stat-value">4.3⭐</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Route</span>
+                <span class="stat-value">ORL-JAX</span>
+              </div>
+            </div>
+            <div class="driver-actions">
+              <button class="btn-action" onclick="openRouteModal('Karthik Rajan')"><i class="bi bi-geo-alt"></i></button>
+              <button class="btn-action" onclick="openEditModal('Karthik Rajan')"><i class="bi bi-pencil"></i></button>
+              <button class="btn-action danger" onclick="openDeleteModal('Karthik Rajan')"><i class="bi bi-trash"></i></button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- ASSIGN ROUTE MODAL -->
+  <div class="modal" id="routeModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Assign Route</h3>
+        <button class="modal-close" onclick="closeModal('routeModal')"><i class="bi bi-x"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Source Location</label>
+          <input type="text" placeholder="Enter source location" class="form-input">
+        </div>
+        <div class="form-group">
+          <label>Destination Location</label>
+          <input type="text" placeholder="Enter destination location" class="form-input">
+        </div>
+        <div class="form-group">
+          <label>Select Vehicle</label>
+          <select class="form-input">
+            <option>Select a vehicle</option>
+            <option>MH-05-1234 (Truck)</option>
+            <option>MH-05-5678 (Van)</option>
+            <option>MH-05-9012 (Tempo)</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-outline" onclick="closeModal('routeModal')">Cancel</button>
+        <button class="btn-primary">Assign Route</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD DRIVER MODAL -->
+  <div class="modal" id="addModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Add New Driver</h3>
+        <button class="modal-close" onclick="closeModal('addModal')"><i class="bi bi-x"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" placeholder="Enter driver name" class="form-input">
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" placeholder="Enter phone number" class="form-input">
+        </div>
+        <div class="form-group">
+          <label>License Number</label>
+          <input type="text" placeholder="Enter license number" class="form-input">
+        </div>
+        <div class="form-group">
+          <label>Years of Experience</label>
+          <input type="number" placeholder="Enter years of experience" class="form-input">
+        </div>
+        <div class="form-group">
+          <label>Photo Upload</label>
+          <div class="file-input-wrapper">
+            <input type="file" id="photoUpload" class="file-input" accept="image/*">
+            <label for="photoUpload" class="file-input-label">
+              <i class="bi bi-cloud-upload"></i>
+              <span>Click to upload or drag and drop</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-outline" onclick="closeModal('addModal')">Cancel</button>
+        <button class="btn-primary">Add Driver</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- EDIT DRIVER MODAL -->
+  <div class="modal" id="editModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Edit Driver</h3>
+        <button class="modal-close" onclick="closeModal('editModal')"><i class="bi bi-x"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" placeholder="Enter driver name" class="form-input">
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" placeholder="Enter phone number" class="form-input">
+        </div>
+        <div class="form-group">
+          <label>License Number</label>
+          <input type="text" placeholder="Enter license number" class="form-input">
+        </div>
+        <div class="form-group">
+          <label>Years of Experience</label>
+          <input type="number" placeholder="Enter years of experience" class="form-input">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-outline" onclick="closeModal('editModal')">Cancel</button>
+        <button class="btn-primary">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DELETE DRIVER MODAL -->
+  <div class="modal" id="deleteModal">
+    <div class="modal-content modal-confirm">
+      <div class="modal-header">
+        <h3>Delete Driver</h3>
+        <button class="modal-close" onclick="closeModal('deleteModal')"><i class="bi bi-x"></i></button>
+      </div>
+      <div class="modal-body">
+        <div style="text-align:center;padding:20px 0">
+          <div style="width:48px;height:48px;background:rgba(239,68,68,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
+            <i class="bi bi-exclamation-circle" style="color:#ef4444;font-size:24px"></i>
+          </div>
+          <p style="font-weight:600;margin-bottom:8px">Are you sure?</p>
+          <p style="color:var(--text-muted);font-size:14px">This action cannot be undone. The driver will be permanently deleted from the system.</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-outline" onclick="closeModal('deleteModal')">Cancel</button>
+        <button class="btn-danger">Delete Driver</button>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    /* Page Header Styles */
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 768px) {
+      .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+    }
+
+    /* Card Grid */
+    .card-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 1400px) {
+      .card-grid-4 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .card-grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .card-grid-4 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Driver Card */
+    .driver-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: var(--card-shadow);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .driver-card:hover {
+      box-shadow: var(--card-hover-shadow);
+      transform: translateY(-4px);
+    }
+
+    .driver-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .driver-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .driver-avatar.indigo-gradient {
+      background: linear-gradient(135deg, #4f46e5, #818cf8);
+    }
+
+    .driver-avatar.green-gradient {
+      background: linear-gradient(135deg, #22c55e, #86efac);
+    }
+
+    .driver-avatar.gray-gradient {
+      background: linear-gradient(135deg, #6b7280, #9ca3af);
+    }
+
+    .driver-status {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .badge-on-trip {
+      background: rgba(79, 70, 229, 0.1);
+      color: #4f46e5;
+    }
+
+    .badge-available {
+      background: rgba(34, 197, 94, 0.1);
+      color: #22c55e;
+    }
+
+    .badge-off-duty {
+      background: rgba(107, 114, 128, 0.1);
+      color: #6b7280;
+    }
+
+    .driver-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin: 4px 0;
+    }
+
+    .driver-meta {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .driver-info-row {
+      font-size: 12px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 4px 0;
+    }
+
+    .driver-info-row i {
+      font-size: 12px;
+      color: var(--text-muted);
+      width: 14px;
+      text-align: center;
+    }
+
+    .driver-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      padding: 12px 0;
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+      margin: 8px 0;
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 4px 0;
+    }
+
+    .stat-label {
+      display: block;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .stat-value {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .driver-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .btn-action {
+      flex: 1;
+      padding: 8px 12px;
+      background: var(--table-hover);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      color: var(--text-primary);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-action:hover {
+      background: var(--primary-50);
+      border-color: var(--primary-500);
+      color: var(--primary-500);
+    }
+
+    .btn-action.danger {
+      color: #ef4444;
+    }
+
+    .btn-action.danger:hover {
+      background: rgba(239, 68, 68, 0.08);
+      border-color: #ef4444;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1001;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--glass-shadow);
+      width: 90%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal-header {
+      padding: 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 20px;
+      padding: 0;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-md);
+      transition: all 0.2s ease;
+    }
+
+    .modal-close:hover {
+      background: var(--table-hover);
+      color: var(--text-primary);
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    .modal-footer {
+      padding: 20px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    .modal-confirm .modal-body {
+      padding: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text-primary);
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 10px 12px;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: var(--radius-md);
+      color: var(--text-primary);
+      font-size: 13px;
+      font-family: inherit;
+      transition: all 0.2s ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary-500);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+
+    .form-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .file-input-wrapper {
+      position: relative;
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .file-input-label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      border: 2px dashed var(--border-color);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .file-input-label:hover {
+      border-color: var(--primary-500);
+      background: var(--table-hover);
+    }
+
+    .file-input-label i {
+      font-size: 24px;
+      color: var(--primary-500);
+      margin-bottom: 8px;
+    }
+
+    .file-input-label span {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* Button Styles */
+    .btn-primary {
+      padding: 10px 20px;
+      background: var(--primary-500);
+      color: white;
+      border: none;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-600);
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+    }
+
+    .btn-outline {
+      padding: 10px 20px;
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-outline:hover {
+      background: var(--table-hover);
+      border-color: var(--primary-500);
+    }
+
+    .btn-danger {
+      padding: 10px 20px;
+      background: #ef4444;
+      color: white;
+      border: none;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    }
+
+    /* Animation */
+    .animate-fade-in {
+      animation: fadeIn 0.5s ease forwards;
+      opacity: 0;
+    }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+
+  <script src="js/main.js"></script>
+  <script>
+    // Modal Functions
+    function openAddModal() {
+      document.getElementById('addModal').classList.add('active');
+    }
+
+    function openEditModal(driverName) {
+      document.getElementById('editModal').classList.add('active');
+    }
+
+    function openDeleteModal(driverName) {
+      document.getElementById('deleteModal').classList.add('active');
+    }
+
+    function openRouteModal(driverName) {
+      document.getElementById('routeModal').classList.add('active');
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.remove('active');
+    }
+
+    // Close modal when clicking outside
+    window.addEventListener('click', function(event) {
+      if (event.target.classList.contains('modal')) {
+        event.target.classList.remove('active');
+      }
+    });
+
+    // Search functionality
+    document.getElementById('searchInput').addEventListener('keyup', function(e) {
+      const searchTerm = e.target.value.toLowerCase();
+      const cards = document.querySelectorAll('.driver-card');
+
+      cards.forEach(card => {
+        const name = card.querySelector('.driver-name').textContent.toLowerCase();
+        const phone = card.querySelector('.driver-info-row:nth-child(1)').textContent.toLowerCase();
+        const license = card.querySelector('.driver-info-row:nth-child(2)').textContent.toLowerCase();
+
+        if (name.includes(searchTerm) || phone.includes(searchTerm) || license.includes(searchTerm)) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

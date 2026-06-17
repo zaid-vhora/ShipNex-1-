@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LogiTrack - Dashboard</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-wrapper">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon"><i class="bi bi-geo-alt-fill"></i></div>
+        <div class="sidebar-header-text">
+          <h1>LogiTrack</h1>
+          <p>Transporter Portal</p>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="index.html" class="sidebar-link active"><i class="bi bi-speedometer2"></i><span class="nav-text">Dashboard</span></a>
+        <a href="assigned_shipments.html" class="sidebar-link"><i class="bi bi-box-seam"></i><span class="nav-text">Assigned Shipments</span><span class="sidebar-badge">5</span></a>
+        <a href="shipment_details.html" class="sidebar-link"><i class="bi bi-file-earmark-text"></i><span class="nav-text">Shipment Details</span></a>
+        <a href="vehicles.html" class="sidebar-link"><i class="bi bi-truck"></i><span class="nav-text">Vehicle Management</span></a>
+        <a href="drivers.html" class="sidebar-link"><i class="bi bi-person-badge"></i><span class="nav-text">Driver Management</span></a>
+        <a href="routes.html" class="sidebar-link"><i class="bi bi-signpost-2"></i><span class="nav-text">Route Management</span></a>
+        <a href="pod.html" class="sidebar-link"><i class="bi bi-clipboard-check"></i><span class="nav-text">Proof of Delivery</span></a>
+        <a href="earnings.html" class="sidebar-link"><i class="bi bi-currency-rupee"></i><span class="nav-text">Earnings & Settlements</span></a>
+        <a href="settings.html" class="sidebar-link"><i class="bi bi-gear"></i><span class="nav-text">Profile Settings</span></a>
+      </nav>
+      <div class="sidebar-logout">
+        <a href="#" class="sidebar-link"><i class="bi bi-box-arrow-left"></i><span class="nav-text">Logout</span></a>
+      </div>
+    </aside>
+
+    <!-- MOBILE OVERLAY -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+      <!-- TOPNAV -->
+      <header class="topnav">
+        <div class="topnav-left">
+          <button class="topnav-btn" id="mobileToggle"><i class="bi bi-list"></i></button>
+          <button class="topnav-btn" id="collapseBtn"><i class="bi bi-arrows-collapse"></i></button>
+          <div class="breadcrumb">
+            <span class="breadcrumb-home">Home</span>
+            <i class="bi bi-chevron-right breadcrumb-sep"></i>
+            <span class="breadcrumb-current">Dashboard</span>
+          </div>
+        </div>
+        <div class="topnav-right">
+          <button class="topnav-btn" id="darkToggle" title="Toggle dark mode"><i class="bi bi-moon-stars text-lg"></i></button>
+          <div class="notif-btn">
+            <button class="topnav-btn" id="notifBtn"><i class="bi bi-bell text-lg"></i><span class="notif-dot"></span></button>
+            <div class="notification-dropdown" id="notifDropdown">
+              <div class="notif-header"><h6>Notifications</h6><span class="notif-mark-read">Mark all read</span></div>
+              <div class="notif-item"><div class="notif-icon" style="background:rgba(79,70,229,0.1);color:#4f46e5"><i class="bi bi-box-seam"></i></div><div class="notif-content"><p>New shipment #SHP-4521 assigned</p><p class="notif-time">2 min ago</p></div></div>
+              <div class="notif-item"><div class="notif-icon" style="background:rgba(34,197,94,0.1);color:#22c55e"><i class="bi bi-check-circle"></i></div><div class="notif-content"><p>Delivery #SHP-4498 completed</p><p class="notif-time">15 min ago</p></div></div>
+              <div class="notif-item"><div class="notif-icon" style="background:rgba(245,158,11,0.1);color:#f59e0b"><i class="bi bi-exclamation-triangle"></i></div><div class="notif-content"><p>Vehicle KA-05-1234 maintenance due</p><p class="notif-time">1 hr ago</p></div></div>
+              <div class="notif-item"><div class="notif-icon" style="background:rgba(249,115,22,0.1);color:#f97316"><i class="bi bi-currency-rupee"></i></div><div class="notif-content"><p>Payment of ₹12,500 processed</p><p class="notif-time">3 hrs ago</p></div></div>
+              <div class="notif-footer"><span>View all notifications</span></div>
+            </div>
+          </div>
+          <div class="profile-btn">
+            <button class="profile-btn-content" id="profileBtn">
+              <div class="profile-avatar">SK</div>
+              <span class="profile-name">SpeedKargo</span>
+              <i class="bi bi-chevron-down profile-chevron"></i>
+            </button>
+            <div class="profile-dropdown" id="profileDropdown">
+              <div class="profile-dropdown-info"><p>SpeedKargo Logistics</p><span>admin@speedkargo.com</span></div>
+              <div class="profile-dropdown-item"><i class="bi bi-person"></i> My Profile</div>
+              <div class="profile-dropdown-item"><i class="bi bi-gear"></i> Settings</div>
+              <div class="profile-dropdown-item danger"><i class="bi bi-box-arrow-left"></i> Logout</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT -->
+      <main class="page-content">
+        <!-- Welcome Card -->
+        <div class="glass-card animate-fade-in" style="margin-bottom:24px;position:relative;overflow:hidden">
+          <div style="position:absolute;top:0;right:0;width:256px;height:256px;background:linear-gradient(to bottom left,rgba(79,70,229,0.08),transparent);border-radius:50%;transform:translateY(-50%) translateX(30%)"></div>
+          <div style="position:relative">
+            <h2 style="font-size:24px;font-weight:700">Welcome back, <span class="text-gradient">SpeedKargo</span></h2>
+            <p style="color:var(--text-muted);margin-top:4px">Here's what's happening with your logistics today.</p>
+          </div>
+        </div>
+
+        <!-- Stat Cards -->
+        <div class="stat-grid-6" style="margin-bottom:24px">
+          <div class="stat-card blue animate-fade-in delay-1">
+            <div class="stat-header"><div class="stat-icon blue"><i class="bi bi-box-seam"></i></div><span class="stat-trend up">+12%</span></div>
+            <div class="stat-value" data-counter="248">0</div>
+            <div class="stat-label">Total Assigned Shipments</div>
+          </div>
+          <div class="stat-card orange animate-fade-in delay-2">
+            <div class="stat-header"><div class="stat-icon orange"><i class="bi bi-clock-history"></i></div><span class="stat-trend down">-5%</span></div>
+            <div class="stat-value" data-counter="37">0</div>
+            <div class="stat-label">Pending Deliveries</div>
+          </div>
+          <div class="stat-card green animate-fade-in delay-3">
+            <div class="stat-header"><div class="stat-icon green"><i class="bi bi-check-circle"></i></div><span class="stat-trend up">+18%</span></div>
+            <div class="stat-value" data-counter="186">0</div>
+            <div class="stat-label">Completed Deliveries</div>
+          </div>
+          <div class="stat-card indigo animate-fade-in delay-4">
+            <div class="stat-header"><div class="stat-icon indigo"><i class="bi bi-person-badge"></i></div><span class="stat-trend up">+3</span></div>
+            <div class="stat-value" data-counter="24">0</div>
+            <div class="stat-label">Active Drivers</div>
+          </div>
+          <div class="stat-card yellow animate-fade-in delay-5">
+            <div class="stat-header"><div class="stat-icon yellow"><i class="bi bi-truck"></i></div><span class="stat-trend down">2 in service</span></div>
+            <div class="stat-value" data-counter="18">0</div>
+            <div class="stat-label">Available Vehicles</div>
+          </div>
+          <div class="stat-card red animate-fade-in delay-6">
+            <div class="stat-header"><div class="stat-icon red"><i class="bi bi-currency-rupee"></i></div><span class="stat-trend up">+22%</span></div>
+            <div class="stat-value" data-counter="485600" data-prefix="₹">₹0</div>
+            <div class="stat-label">Earnings Summary</div>
+          </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="chart-grid-3" style="margin-bottom:24px">
+          <div class="glass-card"><h3 class="card-section-header"><i class="bi bi-pie-chart"></i>Shipment Status</h3><div class="chart-container" style="height:260px"><canvas id="statusChart"></canvas></div></div>
+          <div class="glass-card"><h3 class="card-section-header"><i class="bi bi-graph-up"></i>Delivery Performance</h3><div class="chart-container"><canvas id="performanceChart"></canvas></div></div>
+          <div class="glass-card"><h3 class="card-section-header"><i class="bi bi-bar-chart"></i>Monthly Earnings</h3><div class="chart-container"><canvas id="earningsBarChart"></canvas></div></div>
+        </div>
+
+        <!-- Bottom Row -->
+        <div class="grid-2-1">
+          <!-- Recent Activity -->
+          <div class="glass-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+              <h3 class="card-section-header" style="margin-bottom:0"><i class="bi bi-clock-history"></i>Recent Delivery Activity</h3>
+              <button class="btn-outline-custom" style="font-size:12px;padding:6px 14px">View All</button>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;align-items:center;gap:16px;padding:12px;border-radius:12px;transition:background 0.15s" onmouseover="this.style.background='var(--table-hover)'" onmouseout="this.style.background=''">
+                <div class="stat-icon orange" style="width:40px;height:40px;flex-shrink:0"><i class="bi bi-box-seam"></i></div>
+                <div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:8px"><span style="font-size:14px;font-weight:600">SHP-4521</span><span class="badge-status badge-pending">pending</span></div><p style="font-size:12px;color:var(--text-muted);margin-top:2px">Shipment assigned</p></div>
+                <span style="font-size:12px;color:var(--text-muted)">2 min ago</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:16px;padding:12px;border-radius:12px;transition:background 0.15s" onmouseover="this.style.background='var(--table-hover)'" onmouseout="this.style.background=''">
+                <div class="stat-icon indigo" style="width:40px;height:40px;flex-shrink:0"><i class="bi bi-truck"></i></div>
+                <div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:8px"><span style="font-size:14px;font-weight:600">SHP-4518</span><span class="badge-status badge-in-transit">in transit</span></div><p style="font-size:12px;color:var(--text-muted);margin-top:2px">Out for delivery</p></div>
+                <span style="font-size:12px;color:var(--text-muted)">18 min ago</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:16px;padding:12px;border-radius:12px;transition:background 0.15s" onmouseover="this.style.background='var(--table-hover)'" onmouseout="this.style.background=''">
+                <div class="stat-icon green" style="width:40px;height:40px;flex-shrink:0"><i class="bi bi-check-circle"></i></div>
+                <div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:8px"><span style="font-size:14px;font-weight:600">SHP-4510</span><span class="badge-status badge-delivered">delivered</span></div><p style="font-size:12px;color:var(--text-muted);margin-top:2px">Delivered successfully</p></div>
+                <span style="font-size:12px;color:var(--text-muted)">45 min ago</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:16px;padding:12px;border-radius:12px;transition:background 0.15s" onmouseover="this.style.background='var(--table-hover)'" onmouseout="this.style.background=''">
+                <div class="stat-icon indigo" style="width:40px;height:40px;flex-shrink:0"><i class="bi bi-geo-alt"></i></div>
+                <div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:8px"><span style="font-size:14px;font-weight:600">SHP-4505</span><span class="badge-status badge-in-transit">in transit</span></div><p style="font-size:12px;color:var(--text-muted);margin-top:2px">Pickup confirmed</p></div>
+                <span style="font-size:12px;color:var(--text-muted)">1 hr ago</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:16px;padding:12px;border-radius:12px;transition:background 0.15s" onmouseover="this.style.background='var(--table-hover)'" onmouseout="this.style.background=''">
+                <div class="stat-icon green" style="width:40px;height:40px;flex-shrink:0"><i class="bi bi-check-circle"></i></div>
+                <div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:8px"><span style="font-size:14px;font-weight:600">SHP-4498</span><span class="badge-status badge-delivered">delivered</span></div><p style="font-size:12px;color:var(--text-muted);margin-top:2px">Delivery completed</p></div>
+                <span style="font-size:12px;color:var(--text-muted)">2 hrs ago</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:16px;padding:12px;border-radius:12px;transition:background 0.15s" onmouseover="this.style.background='var(--table-hover)'" onmouseout="this.style.background=''">
+                <div class="stat-icon red" style="width:40px;height:40px;flex-shrink:0"><i class="bi bi-x-circle"></i></div>
+                <div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:8px"><span style="font-size:14px;font-weight:600">SHP-4490</span><span class="badge-status badge-cancelled">cancelled</span></div><p style="font-size:12px;color:var(--text-muted);margin-top:2px">Shipment cancelled</p></div>
+                <span style="font-size:12px;color:var(--text-muted)">3 hrs ago</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="glass-card">
+            <h3 class="card-section-header"><i class="bi bi-lightning"></i>Quick Actions</h3>
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px">
+              <button class="quick-action-btn"><i class="bi bi-plus-circle" style="color:#4f46e5"></i><span>New Shipment</span></button>
+              <button class="quick-action-btn"><i class="bi bi-truck" style="color:#f97316"></i><span>Track Vehicle</span></button>
+              <button class="quick-action-btn"><i class="bi bi-person-plus" style="color:#22c55e"></i><span>Add Driver</span></button>
+              <button class="quick-action-btn"><i class="bi bi-clipboard-check" style="color:#8b5cf6"></i><span>Upload POD</span></button>
+              <button class="quick-action-btn"><i class="bi bi-file-earmark-arrow-down" style="color:#0891b2"></i><span>Download Report</span></button>
+              <button class="quick-action-btn"><i class="bi bi-chat-dots" style="color:#ec4899"></i><span>Support</span></button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/charts.js"></script>
+</body>
+</html>

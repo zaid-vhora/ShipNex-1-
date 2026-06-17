@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LogiTrack - Proof of Delivery</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-wrapper">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon"><i class="bi bi-geo-alt-fill"></i></div>
+        <div class="sidebar-header-text">
+          <h1>LogiTrack</h1>
+          <p>Transporter Portal</p>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="index.html" class="sidebar-link"><i class="bi bi-speedometer2"></i><span class="nav-text">Dashboard</span></a>
+        <a href="assigned_shipments.html" class="sidebar-link"><i class="bi bi-box-seam"></i><span class="nav-text">Assigned Shipments</span><span class="sidebar-badge">5</span></a>
+        <a href="shipment_details.html" class="sidebar-link"><i class="bi bi-file-earmark-text"></i><span class="nav-text">Shipment Details</span></a>
+        <a href="vehicles.html" class="sidebar-link"><i class="bi bi-truck"></i><span class="nav-text">Vehicle Management</span></a>
+        <a href="drivers.html" class="sidebar-link"><i class="bi bi-person-badge"></i><span class="nav-text">Driver Management</span></a>
+        <a href="routes.html" class="sidebar-link"><i class="bi bi-signpost-2"></i><span class="nav-text">Route Management</span></a>
+        <a href="pod.html" class="sidebar-link active"><i class="bi bi-clipboard-check"></i><span class="nav-text">Proof of Delivery</span></a>
+        <a href="earnings.html" class="sidebar-link"><i class="bi bi-currency-rupee"></i><span class="nav-text">Earnings & Settlements</span></a>
+        <a href="settings.html" class="sidebar-link"><i class="bi bi-gear"></i><span class="nav-text">Profile Settings</span></a>
+      </nav>
+      <div class="sidebar-logout">
+        <a href="#" class="sidebar-link"><i class="bi bi-box-arrow-left"></i><span class="nav-text">Logout</span></a>
+      </div>
+    </aside>
+
+    <!-- MOBILE OVERLAY -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+      <!-- TOPNAV -->
+      <header class="topnav">
+        <div class="topnav-left">
+          <button class="topnav-btn" id="mobileToggle"><i class="bi bi-list"></i></button>
+          <button class="topnav-btn" id="collapseBtn"><i class="bi bi-arrows-collapse"></i></button>
+          <div class="breadcrumb">
+            <span class="breadcrumb-home">Home</span>
+            <i class="bi bi-chevron-right breadcrumb-sep"></i>
+            <span class="breadcrumb-current">Proof of Delivery</span>
+          </div>
+        </div>
+        <div class="topnav-right">
+          <button class="topnav-btn" id="darkToggle" title="Toggle dark mode"><i class="bi bi-moon-stars text-lg"></i></button>
+          <div class="notif-btn">
+            <button class="topnav-btn" id="notifBtn"><i class="bi bi-bell text-lg"></i><span class="notif-dot"></span></button>
+            <div class="notification-dropdown" id="notifDropdown">
+              <div class="notif-header"><h6>Notifications</h6><span class="notif-mark-read">Mark all read</span></div>
+              <div class="notif-item"><div class="notif-icon" style="background:rgba(79,70,229,0.1);color:#4f46e5"><i class="bi bi-box-seam"></i></div><div class="notif-content"><p>New shipment #SHP-4521 assigned</p><p class="notif-time">2 min ago</p></div></div>
+              <div class="notif-item"><div class="notif-icon" style="background:rgba(34,197,94,0.1);color:#22c55e"><i class="bi bi-check-circle"></i></div><div class="notif-content"><p>Delivery #SHP-4498 completed</p><p class="notif-time">15 min ago</p></div></div>
+              <div class="notif-item"><div class="notif-icon" style="background:rgba(245,158,11,0.1);color:#f59e0b"><i class="bi bi-exclamation-triangle"></i></div><div class="notif-content"><p>Vehicle KA-05-1234 maintenance due</p><p class="notif-time">1 hr ago</p></div></div>
+              <div class="notif-item"><div class="notif-icon" style="background:rgba(249,115,22,0.1);color:#f97316"><i class="bi bi-currency-rupee"></i></div><div class="notif-content"><p>Payment of ₹12,500 processed</p><p class="notif-time">3 hrs ago</p></div></div>
+              <div class="notif-footer"><span>View all notifications</span></div>
+            </div>
+          </div>
+          <div class="profile-btn">
+            <button class="profile-btn-content" id="profileBtn">
+              <div class="profile-avatar">SK</div>
+              <span class="profile-name">SpeedKargo</span>
+              <i class="bi bi-chevron-down profile-chevron"></i>
+            </button>
+            <div class="profile-dropdown" id="profileDropdown">
+              <div class="profile-dropdown-info"><p>SpeedKargo Logistics</p><span>admin@speedkargo.com</span></div>
+              <div class="profile-dropdown-item"><i class="bi bi-person"></i> My Profile</div>
+              <div class="profile-dropdown-item"><i class="bi bi-gear"></i> Settings</div>
+              <div class="profile-dropdown-item danger"><i class="bi bi-box-arrow-left"></i> Logout</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT -->
+      <main class="page-content">
+        <!-- Page Header -->
+        <div class="glass-card animate-fade-in" style="margin-bottom:24px;position:relative;overflow:hidden">
+          <div style="position:absolute;top:0;right:0;width:256px;height:256px;background:linear-gradient(to bottom left,rgba(79,70,229,0.08),transparent);border-radius:50%;transform:translateY(-50%) translateX(30%)"></div>
+          <div style="position:relative">
+            <h2 style="font-size:24px;font-weight:700">Proof of Delivery</h2>
+            <p style="color:var(--text-muted);margin-top:4px">Upload delivery proof and confirm shipment completion</p>
+          </div>
+        </div>
+
+        <!-- Two Column Layout -->
+        <div class="grid-2-1" style="margin-bottom:24px">
+          <!-- LEFT COLUMN -->
+          <div>
+            <!-- Select Shipment Card -->
+            <div class="glass-card animate-fade-in delay-1" style="margin-bottom:20px">
+              <h3 class="card-section-header"><i class="bi bi-box-seam"></i>Select Shipment</h3>
+              <div style="margin-top:16px">
+                <label style="display:block;font-size:14px;font-weight:500;margin-bottom:8px;color:var(--text-primary)">Choose a shipment to upload proof</label>
+                <select id="shipmentSelect" onchange="updatePodProgress()" style="width:100%;padding:12px 16px;border:1px solid var(--input-border);border-radius:var(--radius-md);background:var(--input-bg);color:var(--text-primary);font-size:14px;transition:all 0.2s ease;cursor:pointer">
+                  <option value="">-- Select a shipment --</option>
+                  <option value="SHP-4521">SHP-4521 - Mumbai to Delhi (In Transit)</option>
+                  <option value="SHP-4518">SHP-4518 - Bangalore to Chennai (In Transit)</option>
+                  <option value="SHP-4505">SHP-4505 - Ahmedabad to Jaipur (In Transit)</option>
+                  <option value="SHP-4485">SHP-4485 - Hyderabad to Vijayawada (In Transit)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Delivery Photo Upload Card -->
+            <div class="glass-card animate-fade-in delay-2" style="margin-bottom:20px">
+              <h3 class="card-section-header"><i class="bi bi-image"></i>Delivery Photo</h3>
+              <div style="margin-top:16px">
+                <div id="uploadZone" style="border:2px dashed var(--input-border);border-radius:var(--radius-md);padding:32px;text-align:center;cursor:pointer;transition:all 0.2s ease;background:rgba(79,70,229,0.02)" onmouseover="this.style.borderColor='#4f46e5';this.style.background='rgba(79,70,229,0.06)'" onmouseout="this.style.borderColor='var(--input-border)';this.style.background='rgba(79,70,229,0.02)'">
+                  <input type="file" id="photoInput" accept="image/*" style="display:none" onchange="handlePhotoUpload(event)">
+                  <div style="font-size:32px;color:#4f46e5;margin-bottom:12px"><i class="bi bi-cloud-arrow-up"></i></div>
+                  <p style="font-size:14px;font-weight:600;margin-bottom:4px">Click to upload or drag and drop</p>
+                  <p style="font-size:12px;color:var(--text-muted)">PNG, JPG, GIF up to 10MB</p>
+                </div>
+                <div id="photoPreview" style="margin-top:16px;display:none">
+                  <img id="previewImg" src="" alt="Photo preview" style="width:100%;height:auto;border-radius:var(--radius-md);object-fit:cover;max-height:300px">
+                  <button type="button" onclick="clearPhotoUpload()" style="margin-top:12px;width:100%;padding:10px;border:none;background:#ef4444;color:white;border-radius:var(--radius-md);font-size:14px;font-weight:600;cursor:pointer;transition:background 0.2s" onmouseover="this.style.background='#dc2626'" onmouseout="this.style.background='#ef4444'">Remove Photo</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Signature Pad Card -->
+            <div class="glass-card animate-fade-in delay-3">
+              <h3 class="card-section-header"><i class="bi bi-pen"></i>Signature Pad</h3>
+              <div style="margin-top:16px">
+                <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Draw receiver's signature</p>
+                <canvas id="signaturePad" width="100%" height="200" style="border:1px solid var(--input-border);border-radius:var(--radius-md);background:var(--input-bg);cursor:crosshair;display:block;width:100%;height:auto"></canvas>
+                <button id="clearSignature" type="button" style="margin-top:12px;width:100%;padding:10px;border:1px solid var(--input-border);background:transparent;color:var(--text-primary);border-radius:var(--radius-md);font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s" onmouseover="this.style.background='rgba(79,70,229,0.08)'" onmouseout="this.style.background='transparent'">Clear Signature</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT COLUMN -->
+          <div>
+            <!-- Delivery Confirmation Card -->
+            <div class="glass-card animate-fade-in delay-2" style="margin-bottom:20px">
+              <h3 class="card-section-header"><i class="bi bi-check-circle"></i>Delivery Confirmation</h3>
+              <div style="margin-top:16px;display:flex;flex-direction:column;gap:16px">
+                <div>
+                  <label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:var(--text-primary);text-transform:uppercase;letter-spacing:0.5px">Receiver Name</label>
+                  <input type="text" id="receiverName" placeholder="Full name of receiver" style="width:100%;padding:10px 12px;border:1px solid var(--input-border);border-radius:var(--radius-md);background:var(--input-bg);color:var(--text-primary);font-size:14px;transition:border 0.2s" onfocus="this.style.borderColor='#4f46e5'" onblur="this.style.borderColor='var(--input-border)'">
+                </div>
+                <div>
+                  <label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:var(--text-primary);text-transform:uppercase;letter-spacing:0.5px">Receiver Contact</label>
+                  <input type="tel" id="receiverContact" placeholder="Phone number" style="width:100%;padding:10px 12px;border:1px solid var(--input-border);border-radius:var(--radius-md);background:var(--input-bg);color:var(--text-primary);font-size:14px;transition:border 0.2s" onfocus="this.style.borderColor='#4f46e5'" onblur="this.style.borderColor='var(--input-border)'">
+                </div>
+                <div>
+                  <label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:var(--text-primary);text-transform:uppercase;letter-spacing:0.5px">Delivery Date & Time</label>
+                  <input type="datetime-local" id="deliveryDateTime" style="width:100%;padding:10px 12px;border:1px solid var(--input-border);border-radius:var(--radius-md);background:var(--input-bg);color:var(--text-primary);font-size:14px;transition:border 0.2s" onfocus="this.style.borderColor='#4f46e5'" onblur="this.style.borderColor='var(--input-border)'">
+                </div>
+                <div>
+                  <label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:var(--text-primary);text-transform:uppercase;letter-spacing:0.5px">Delivery Condition</label>
+                  <select id="deliveryCondition" onchange="updatePodProgress()" style="width:100%;padding:10px 12px;border:1px solid var(--input-border);border-radius:var(--radius-md);background:var(--input-bg);color:var(--text-primary);font-size:14px;transition:border 0.2s;cursor:pointer" onfocus="this.style.borderColor='#4f46e5'" onblur="this.style.borderColor='var(--input-border)'">
+                    <option value="">-- Select condition --</option>
+                    <option value="good">Good - No damage</option>
+                    <option value="minor">Minor damage</option>
+                    <option value="significant">Significant damage</option>
+                    <option value="refused">Refused</option>
+                  </select>
+                </div>
+                <div>
+                  <label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:var(--text-primary);text-transform:uppercase;letter-spacing:0.5px">Notes</label>
+                  <textarea id="deliveryNotes" placeholder="Add any additional notes..." style="width:100%;padding:10px 12px;border:1px solid var(--input-border);border-radius:var(--radius-md);background:var(--input-bg);color:var(--text-primary);font-size:14px;min-height:100px;font-family:inherit;resize:vertical;transition:border 0.2s" onfocus="this.style.borderColor='#4f46e5'" onblur="this.style.borderColor='var(--input-border)'"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Submission Status Card -->
+            <div class="glass-card animate-fade-in delay-3">
+              <h3 class="card-section-header"><i class="bi bi-clipboard-check"></i>Submission Status</h3>
+              <div style="margin-top:16px">
+                <!-- Progress Bar -->
+                <div style="margin-bottom:20px">
+                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                    <span style="font-size:12px;font-weight:600;color:var(--text-primary)">Progress</span>
+                    <span class="pod-progress-label" style="font-size:12px;color:var(--text-muted)">0 of 3 steps completed</span>
+                  </div>
+                  <div class="progress-bar-custom" style="width:100%;height:8px;background:rgba(79,70,229,0.1);border-radius:100px;overflow:hidden">
+                    <div class="fill" style="width:0%;height:100%;background:linear-gradient(to right,#4f46e5,#818cf8);border-radius:100px;transition:width 0.3s ease"></div>
+                  </div>
+                </div>
+
+                <!-- Checklist -->
+                <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px">
+                  <div style="display:flex;align-items:center;gap:12px;padding:12px;border-radius:var(--radius-md);background:rgba(79,70,229,0.02);transition:all 0.2s">
+                    <input type="checkbox" class="pod-check" id="check1" onchange="updatePodProgress()" style="width:18px;height:18px;cursor:pointer;accent-color:#4f46e5">
+                    <label for="check1" style="flex:1;font-size:14px;cursor:pointer;color:var(--text-primary)">Shipment Selected</label>
+                    <i class="bi bi-check-circle" style="color:#22c55e;font-size:18px;display:none" id="icon1"></i>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:12px;padding:12px;border-radius:var(--radius-md);background:rgba(79,70,229,0.02);transition:all 0.2s">
+                    <input type="checkbox" class="pod-check" id="check2" onchange="updatePodProgress()" style="width:18px;height:18px;cursor:pointer;accent-color:#4f46e5">
+                    <label for="check2" style="flex:1;font-size:14px;cursor:pointer;color:var(--text-primary)">Delivery Photo</label>
+                    <i class="bi bi-check-circle" style="color:#22c55e;font-size:18px;display:none" id="icon2"></i>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:12px;padding:12px;border-radius:var(--radius-md);background:rgba(79,70,229,0.02);transition:all 0.2s">
+                    <input type="checkbox" class="pod-check" id="check3" onchange="updatePodProgress()" style="width:18px;height:18px;cursor:pointer;accent-color:#4f46e5">
+                    <label for="check3" style="flex:1;font-size:14px;cursor:pointer;color:var(--text-primary)">Signature Captured</label>
+                    <i class="bi bi-check-circle" style="color:#22c55e;font-size:18px;display:none" id="icon3"></i>
+                  </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button onclick="confirmDelivery()" style="width:100%;padding:12px;border:none;background:linear-gradient(to right,#4f46e5,#818cf8);color:white;border-radius:var(--radius-md);font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 12px rgba(79,70,229,0.3)" onmouseover="this.style.boxShadow='0 8px 20px rgba(79,70,229,0.4)'" onmouseout="this.style.boxShadow='0 4px 12px rgba(79,70,229,0.3)'">
+                  <i class="bi bi-check-circle" style="margin-right:6px"></i>Confirm Delivery
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- SUCCESS MODAL -->
+  <div id="podSuccessModal" class="modal-backdrop" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:2000;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.3s ease">
+    <div class="modal-content" style="background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:var(--radius-xl);padding:40px;max-width:420px;box-shadow:var(--glass-shadow);text-align:center;transform:scale(0.95);transition:transform 0.3s ease">
+      <div style="font-size:64px;color:#22c55e;margin-bottom:16px"><i class="bi bi-check-circle-fill"></i></div>
+      <h2 style="font-size:24px;font-weight:700;margin-bottom:12px;color:var(--text-primary)">Delivery Confirmed!</h2>
+      <p style="font-size:14px;color:var(--text-muted);margin-bottom:24px">Your proof of delivery has been successfully submitted and recorded in the system.</p>
+      <button onclick="closeModal('podSuccessModal')" style="width:100%;padding:12px;border:none;background:#22c55e;color:white;border-radius:var(--radius-md);font-size:14px;font-weight:700;cursor:pointer;transition:background 0.2s" onmouseover="this.style.background='#16a34a'" onmouseout="this.style.background='#22c55e'">Close</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+    // ---- Photo Upload Handler ----
+    function handlePhotoUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = document.getElementById('previewImg');
+          img.src = e.target.result;
+          document.getElementById('photoPreview').style.display = 'block';
+          document.getElementById('uploadZone').style.display = 'none';
+          document.getElementById('check2').checked = true;
+          updatePodProgress();
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function clearPhotoUpload() {
+      document.getElementById('photoInput').value = '';
+      document.getElementById('photoPreview').style.display = 'none';
+      document.getElementById('uploadZone').style.display = 'block';
+      document.getElementById('check2').checked = false;
+      updatePodProgress();
+    }
+
+    // Allow drag and drop
+    const uploadZone = document.getElementById('uploadZone');
+    uploadZone.addEventListener('click', function() {
+      document.getElementById('photoInput').click();
+    });
+
+    uploadZone.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      this.style.borderColor = '#4f46e5';
+      this.style.background = 'rgba(79,70,229,0.06)';
+    });
+
+    uploadZone.addEventListener('dragleave', function(e) {
+      e.preventDefault();
+      this.style.borderColor = 'var(--input-border)';
+      this.style.background = 'rgba(79,70,229,0.02)';
+    });
+
+    uploadZone.addEventListener('drop', function(e) {
+      e.preventDefault();
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        document.getElementById('photoInput').files = files;
+        handlePhotoUpload({ target: { files: files } });
+      }
+      this.style.borderColor = 'var(--input-border)';
+      this.style.background = 'rgba(79,70,229,0.02)';
+    });
+
+    // ---- POD Progress Updates ----
+    function updatePodProgress() {
+      // Update checkbox 1: Shipment selected
+      const shipmentSelect = document.getElementById('shipmentSelect').value;
+      document.getElementById('check1').checked = shipmentSelect !== '';
+
+      // Update checkbox 3: Signature captured
+      const sigCanvas = document.getElementById('signaturePad');
+      const imageData = sigCanvas.getContext('2d').getImageData(0, 0, sigCanvas.width, sigCanvas.height);
+      const hasSignature = imageData.data.some(pixel => pixel !== 0);
+      document.getElementById('check3').checked = hasSignature;
+
+      // Calculate progress
+      const checks = document.querySelectorAll('.pod-check');
+      const total = checks.length;
+      let done = 0;
+      checks.forEach(function(c) {
+        if (c.checked) done++;
+      });
+
+      const pct = Math.round((done / total) * 100);
+      const fill = document.querySelector('.progress-bar-custom .fill');
+      const label = document.querySelector('.pod-progress-label');
+      if (fill) fill.style.width = pct + '%';
+      if (label) label.textContent = done + ' of ' + total + ' steps completed';
+
+      // Update check icons
+      checks.forEach(function(c, idx) {
+        const icon = document.getElementById('icon' + (idx + 1));
+        if (icon) {
+          icon.style.display = c.checked ? 'inline' : 'none';
+        }
+      });
+    }
+
+    // ---- Confirm Delivery ----
+    function confirmDelivery() {
+      const checks = document.querySelectorAll('.pod-check');
+      let allChecked = true;
+      checks.forEach(function(c) {
+        if (!c.checked) allChecked = false;
+      });
+
+      if (!allChecked) {
+        alert('Please complete all required steps before confirming delivery.');
+        return;
+      }
+
+      const receiverName = document.getElementById('receiverName').value.trim();
+      const receiverContact = document.getElementById('receiverContact').value.trim();
+      const deliveryDateTime = document.getElementById('deliveryDateTime').value;
+      const deliveryCondition = document.getElementById('deliveryCondition').value;
+
+      if (!receiverName || !receiverContact || !deliveryDateTime || !deliveryCondition) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+
+      // Show success modal
+      const modal = document.getElementById('podSuccessModal');
+      if (modal) {
+        modal.style.display = 'flex';
+        setTimeout(function() {
+          modal.style.opacity = '1';
+        }, 10);
+        modal.querySelector('.modal-content').style.transform = 'scale(1)';
+
+        setTimeout(function() {
+          modal.style.opacity = '0';
+          setTimeout(function() {
+            modal.style.display = 'none';
+            // Reset form
+            document.getElementById('shipmentSelect').value = '';
+            document.getElementById('receiverName').value = '';
+            document.getElementById('receiverContact').value = '';
+            document.getElementById('deliveryDateTime').value = '';
+            document.getElementById('deliveryCondition').value = '';
+            document.getElementById('deliveryNotes').value = '';
+            clearPhotoUpload();
+            document.getElementById('clearSignature').click();
+            document.querySelectorAll('.pod-check').forEach(function(c) { c.checked = false; });
+            updatePodProgress();
+          }, 300);
+        }, 2000);
+      }
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      // Set canvas size properly
+      const sigCanvas = document.getElementById('signaturePad');
+      if (sigCanvas) {
+        const rect = sigCanvas.parentElement.getBoundingClientRect();
+        sigCanvas.width = rect.width;
+        sigCanvas.height = 200;
+      }
+
+      // Update progress on any change
+      document.getElementById('shipmentSelect').addEventListener('change', updatePodProgress);
+      document.getElementById('deliveryCondition').addEventListener('change', updatePodProgress);
+      updatePodProgress();
+    });
+  </script>
+</body>
+</html>

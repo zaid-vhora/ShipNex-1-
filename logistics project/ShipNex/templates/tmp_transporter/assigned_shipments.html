@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LogiTrack - Assigned Shipments</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-wrapper">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon"><i class="bi bi-geo-alt-fill"></i></div>
+        <div class="sidebar-header-text">
+          <h1>LogiTrack</h1>
+          <p>Transporter Portal</p>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="index.html" class="sidebar-link"><i class="bi bi-speedometer2"></i><span class="nav-text">Dashboard</span></a>
+        <a href="assigned_shipments.html" class="sidebar-link active"><i class="bi bi-box-seam"></i><span class="nav-text">Assigned Shipments</span><span class="sidebar-badge">5</span></a>
+        <a href="shipment_details.html" class="sidebar-link"><i class="bi bi-file-earmark-text"></i><span class="nav-text">Shipment Details</span></a>
+        <a href="vehicles.html" class="sidebar-link"><i class="bi bi-truck"></i><span class="nav-text">Vehicle Management</span></a>
+        <a href="drivers.html" class="sidebar-link"><i class="bi bi-person-badge"></i><span class="nav-text">Driver Management</span></a>
+        <a href="routes.html" class="sidebar-link"><i class="bi bi-signpost-2"></i><span class="nav-text">Route Management</span></a>
+        <a href="pod.html" class="sidebar-link"><i class="bi bi-clipboard-check"></i><span class="nav-text">Proof of Delivery</span></a>
+        <a href="earnings.html" class="sidebar-link"><i class="bi bi-currency-rupee"></i><span class="nav-text">Earnings & Settlements</span></a>
+        <a href="settings.html" class="sidebar-link"><i class="bi bi-gear"></i><span class="nav-text">Profile Settings</span></a>
+      </nav>
+      <div class="sidebar-logout">
+        <a href="#" class="sidebar-link"><i class="bi bi-box-arrow-left"></i><span class="nav-text">Logout</span></a>
+      </div>
+    </aside>
+
+    <!-- MOBILE OVERLAY -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+      <!-- TOPNAV -->
+      <header class="topnav">
+        <div class="topnav-left">
+          <button class="topnav-btn" id="mobileToggle"><i class="bi bi-list"></i></button>
+          <button class="topnav-btn" id="collapseBtn"><i class="bi bi-arrows-collapse"></i></button>
+          <div class="breadcrumb">
+            <span class="breadcrumb-home">Home</span>
+            <i class="bi bi-chevron-right breadcrumb-sep"></i>
+            <span class="breadcrumb-current">Assigned Shipments</span>
+          </div>
+        </div>
+        <div class="topnav-right">
+          <button class="topnav-btn" id="darkToggle" title="Toggle dark mode"><i class="bi bi-moon-stars text-lg"></i></button>
+          <div class="notif-btn">
+            <button class="topnav-btn" id="notifBtn"><i class="bi bi-bell text-lg"></i><span class="notif-dot"></span></button>
+            <div class="notification-dropdown" id="notifDropdown">
+              <div class="notif-header"><h6>Notifications</h6><span class="notif-mark-read">Mark all read</span></div>
+              <div class="notif-item"><div class="notif-icon" style="background:rgba(79,70,229,0.1);color:#4f46e5"><i class="bi bi-box-seam"></i></div><div class="notif-content"><p>New shipment #SHP-4521 assigned</p><p class="notif-time">2 min ago</p></div></div>
+              <div class="notif-item"><div class="notif-icon" style="background:rgba(34,197,94,0.1);color:#22c55e"><i class="bi bi-check-circle"></i></div><div class="notif-content"><p>Delivery #SHP-4498 completed</p><p class="notif-time">15 min ago</p></div></div>
+              <div class="notif-item"><div class="notif-icon" style="background:rgba(245,158,11,0.1);color:#f59e0b"><i class="bi bi-exclamation-triangle"></i></div><div class="notif-content"><p>Vehicle KA-05-1234 maintenance due</p><p class="notif-time">1 hr ago</p></div></div>
+              <div class="notif-item"><div class="notif-icon" style="background:rgba(249,115,22,0.1);color:#f97316"><i class="bi bi-currency-rupee"></i></div><div class="notif-content"><p>Payment of ₹12,500 processed</p><p class="notif-time">3 hrs ago</p></div></div>
+              <div class="notif-footer"><span>View all notifications</span></div>
+            </div>
+          </div>
+          <div class="profile-btn">
+            <button class="profile-btn-content" id="profileBtn">
+              <div class="profile-avatar">SK</div>
+              <span class="profile-name">SpeedKargo</span>
+              <i class="bi bi-chevron-down profile-chevron"></i>
+            </button>
+            <div class="profile-dropdown" id="profileDropdown">
+              <div class="profile-dropdown-info"><p>SpeedKargo Logistics</p><span>admin@speedkargo.com</span></div>
+              <div class="profile-dropdown-item"><i class="bi bi-person"></i> My Profile</div>
+              <div class="profile-dropdown-item"><i class="bi bi-gear"></i> Settings</div>
+              <div class="profile-dropdown-item danger"><i class="bi bi-box-arrow-left"></i> Logout</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT -->
+      <main class="page-content">
+        <!-- Page Header -->
+        <div class="glass-card page-header animate-fade-in" style="margin-bottom:24px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px">
+            <div>
+              <h2 style="font-size:28px;font-weight:700;margin-bottom:4px">Assigned Shipments</h2>
+              <p style="color:var(--text-muted)">Manage and track all your assigned shipments</p>
+            </div>
+            <button class="btn-primary-custom" style="display:flex;align-items:center;gap:8px">
+              <i class="bi bi-plus-lg"></i>New Shipment
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="glass-card animate-fade-in" style="margin-bottom:24px;padding:16px">
+          <div style="display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center">
+            <!-- Search -->
+            <div style="display:flex;gap:8px;align-items:center">
+              <i class="bi bi-search" style="color:var(--text-muted)"></i>
+              <input type="text" id="tableSearch" class="form-input search-box" placeholder="Search by Shipment ID, Location, Driver...">
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="filter-group">
+              <button class="filter-btn active" data-filter="all">All</button>
+              <button class="filter-btn" data-filter="pending">Pending</button>
+              <button class="filter-btn" data-filter="in-transit">In Transit</button>
+              <button class="filter-btn" data-filter="delivered">Delivered</button>
+              <button class="filter-btn" data-filter="cancelled">Cancelled</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Data Table -->
+        <div class="glass-card animate-fade-in">
+          <div style="overflow-x:auto">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Shipment ID</th>
+                  <th>Pickup Location</th>
+                  <th>Delivery Location</th>
+                  <th>Assigned Driver</th>
+                  <th>Vehicle</th>
+                  <th>Type</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Row 1 - Pending -->
+                <tr data-status="pending">
+                  <td><span style="font-weight:600">SHP-4521</span></td>
+                  <td>Mumbai, MH</td>
+                  <td>Pune, MH</td>
+                  <td>Rajesh Kumar</td>
+                  <td>KA-05-1234</td>
+                  <td>Express</td>
+                  <td><span class="badge-status badge-pending">pending</span></td>
+                  <td>
+                    <div style="display:flex;gap:6px;justify-content:center">
+                      <a href="shipment_details.html" class="btn-action" title="View" style="color:#4f46e5"><i class="bi bi-eye"></i></a>
+                      <button class="btn-action" title="Accept" style="color:#22c55e;background:rgba(34,197,94,0.1)"><i class="bi bi-check-circle"></i></button>
+                      <button class="btn-action" title="Reject" style="color:#ef4444;background:rgba(239,68,68,0.1)"><i class="bi bi-x-circle"></i></button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Row 2 - Pending -->
+                <tr data-status="pending">
+                  <td><span style="font-weight:600">SHP-4520</span></td>
+                  <td>Bangalore, KA</td>
+                  <td>Hyderabad, TG</td>
+                  <td>Amit Patel</td>
+                  <td>KA-08-5678</td>
+                  <td>Standard</td>
+                  <td><span class="badge-status badge-pending">pending</span></td>
+                  <td>
+                    <div style="display:flex;gap:6px;justify-content:center">
+                      <a href="shipment_details.html" class="btn-action" title="View" style="color:#4f46e5"><i class="bi bi-eye"></i></a>
+                      <button class="btn-action" title="Accept" style="color:#22c55e;background:rgba(34,197,94,0.1)"><i class="bi bi-check-circle"></i></button>
+                      <button class="btn-action" title="Reject" style="color:#ef4444;background:rgba(239,68,68,0.1)"><i class="bi bi-x-circle"></i></button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Row 3 - In Transit -->
+                <tr data-status="in-transit">
+                  <td><span style="font-weight:600">SHP-4518</span></td>
+                  <td>Delhi, DL</td>
+                  <td>Jaipur, RJ</td>
+                  <td>Priya Singh</td>
+                  <td>KA-03-9012</td>
+                  <td>Express</td>
+                  <td><span class="badge-status badge-in-transit">in transit</span></td>
+                  <td>
+                    <div style="display:flex;gap:6px;justify-content:center">
+                      <a href="shipment_details.html" class="btn-action" title="View" style="color:#4f46e5"><i class="bi bi-eye"></i></a>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Row 4 - In Transit -->
+                <tr data-status="in-transit">
+                  <td><span style="font-weight:600">SHP-4515</span></td>
+                  <td>Kolkata, WB</td>
+                  <td>Darjeeling, WB</td>
+                  <td>Suresh Das</td>
+                  <td>KA-07-3456</td>
+                  <td>Standard</td>
+                  <td><span class="badge-status badge-in-transit">in transit</span></td>
+                  <td>
+                    <div style="display:flex;gap:6px;justify-content:center">
+                      <a href="shipment_details.html" class="btn-action" title="View" style="color:#4f46e5"><i class="bi bi-eye"></i></a>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Row 5 - Delivered -->
+                <tr data-status="delivered">
+                  <td><span style="font-weight:600">SHP-4510</span></td>
+                  <td>Chennai, TN</td>
+                  <td>Coimbatore, TN</td>
+                  <td>Venkatesh Reddy</td>
+                  <td>KA-02-7890</td>
+                  <td>Express</td>
+                  <td><span class="badge-status badge-delivered">delivered</span></td>
+                  <td>
+                    <div style="display:flex;gap:6px;justify-content:center">
+                      <a href="shipment_details.html" class="btn-action" title="View" style="color:#4f46e5"><i class="bi bi-eye"></i></a>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Row 6 - Delivered -->
+                <tr data-status="delivered">
+                  <td><span style="font-weight:600">SHP-4505</span></td>
+                  <td>Lucknow, UP</td>
+                  <td>Kanpur, UP</td>
+                  <td>Rajkumar Singh</td>
+                  <td>KA-04-2345</td>
+                  <td>Standard</td>
+                  <td><span class="badge-status badge-delivered">delivered</span></td>
+                  <td>
+                    <div style="display:flex;gap:6px;justify-content:center">
+                      <a href="shipment_details.html" class="btn-action" title="View" style="color:#4f46e5"><i class="bi bi-eye"></i></a>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Row 7 - In Transit -->
+                <tr data-status="in-transit">
+                  <td><span style="font-weight:600">SHP-4502</span></td>
+                  <td>Ahmedabad, GJ</td>
+                  <td>Surat, GJ</td>
+                  <td>Karan Patel</td>
+                  <td>KA-06-5678</td>
+                  <td>Express</td>
+                  <td><span class="badge-status badge-in-transit">in transit</span></td>
+                  <td>
+                    <div style="display:flex;gap:6px;justify-content:center">
+                      <a href="shipment_details.html" class="btn-action" title="View" style="color:#4f46e5"><i class="bi bi-eye"></i></a>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Row 8 - Cancelled -->
+                <tr data-status="cancelled">
+                  <td><span style="font-weight:600">SHP-4500</span></td>
+                  <td>Srinagar, JK</td>
+                  <td>Jammu, JK</td>
+                  <td>Mohammad Ahmed</td>
+                  <td>KA-01-1111</td>
+                  <td>Standard</td>
+                  <td><span class="badge-status badge-cancelled">cancelled</span></td>
+                  <td>
+                    <div style="display:flex;gap:6px;justify-content:center">
+                      <a href="shipment_details.html" class="btn-action" title="View" style="color:#4f46e5"><i class="bi bi-eye"></i></a>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Row 9 - Pending -->
+                <tr data-status="pending">
+                  <td><span style="font-weight:600">SHP-4499</span></td>
+                  <td>Indore, MP</td>
+                  <td>Bhopal, MP</td>
+                  <td>Manish Verma</td>
+                  <td>KA-09-8901</td>
+                  <td>Express</td>
+                  <td><span class="badge-status badge-pending">pending</span></td>
+                  <td>
+                    <div style="display:flex;gap:6px;justify-content:center">
+                      <a href="shipment_details.html" class="btn-action" title="View" style="color:#4f46e5"><i class="bi bi-eye"></i></a>
+                      <button class="btn-action" title="Accept" style="color:#22c55e;background:rgba(34,197,94,0.1)"><i class="bi bi-check-circle"></i></button>
+                      <button class="btn-action" title="Reject" style="color:#ef4444;background:rgba(239,68,68,0.1)"><i class="bi bi-x-circle"></i></button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Row 10 - Delivered -->
+                <tr data-status="delivered">
+                  <td><span style="font-weight:600">SHP-4498</span></td>
+                  <td>Vadodara, GJ</td>
+                  <td>Rajkot, GJ</td>
+                  <td>Vikram Singh</td>
+                  <td>KA-10-3456</td>
+                  <td>Standard</td>
+                  <td><span class="badge-status badge-delivered">delivered</span></td>
+                  <td>
+                    <div style="display:flex;gap:6px;justify-content:center">
+                      <a href="shipment_details.html" class="btn-action" title="View" style="color:#4f46e5"><i class="bi bi-eye"></i></a>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/charts.js"></script>
+  <script>
+    // Table filtering functionality
+    const tableSearch = document.getElementById('tableSearch');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const tableRows = document.querySelectorAll('.data-table tbody tr');
+    let currentFilter = 'all';
+
+    // Filter button click handlers
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.dataset.filter;
+        applyFilters();
+      });
+    });
+
+    // Search input handler
+    tableSearch.addEventListener('keyup', applyFilters);
+
+    function applyFilters() {
+      const searchTerm = tableSearch.value.toLowerCase();
+
+      tableRows.forEach(row => {
+        const status = row.dataset.status;
+        const shipmentId = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+        const pickupLocation = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+        const deliveryLocation = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+        const driver = row.querySelector('td:nth-child(4)').textContent.toLowerCase();
+
+        // Check status filter
+        const statusMatch = currentFilter === 'all' || currentFilter === status;
+
+        // Check search filter
+        const searchMatch = !searchTerm ||
+          shipmentId.includes(searchTerm) ||
+          pickupLocation.includes(searchTerm) ||
+          deliveryLocation.includes(searchTerm) ||
+          driver.includes(searchTerm);
+
+        row.style.display = statusMatch && searchMatch ? '' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>

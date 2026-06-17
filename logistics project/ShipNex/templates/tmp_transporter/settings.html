@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LogiTrack - Profile Settings</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-wrapper">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon"><i class="bi bi-geo-alt-fill"></i></div>
+        <div class="sidebar-header-text">
+          <h1>LogiTrack</h1>
+          <p>Transporter Portal</p>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="index.html" class="sidebar-link"><i class="bi bi-speedometer2"></i><span class="nav-text">Dashboard</span></a>
+        <a href="assigned_shipments.html" class="sidebar-link"><i class="bi bi-box-seam"></i><span class="nav-text">Assigned Shipments</span><span class="sidebar-badge">5</span></a>
+        <a href="shipment_details.html" class="sidebar-link"><i class="bi bi-file-earmark-text"></i><span class="nav-text">Shipment Details</span></a>
+        <a href="vehicles.html" class="sidebar-link"><i class="bi bi-truck"></i><span class="nav-text">Vehicle Management</span></a>
+        <a href="drivers.html" class="sidebar-link"><i class="bi bi-person-badge"></i><span class="nav-text">Driver Management</span></a>
+        <a href="routes.html" class="sidebar-link"><i class="bi bi-signpost-2"></i><span class="nav-text">Route Management</span></a>
+        <a href="pod.html" class="sidebar-link"><i class="bi bi-clipboard-check"></i><span class="nav-text">Proof of Delivery</span></a>
+        <a href="earnings.html" class="sidebar-link"><i class="bi bi-currency-rupee"></i><span class="nav-text">Earnings & Settlements</span></a>
+        <a href="settings.html" class="sidebar-link active"><i class="bi bi-gear"></i><span class="nav-text">Profile Settings</span></a>
+      </nav>
+      <div class="sidebar-logout">
+        <a href="#" class="sidebar-link"><i class="bi bi-box-arrow-left"></i><span class="nav-text">Logout</span></a>
+      </div>
+    </aside>
+
+    <!-- MOBILE OVERLAY -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+      <!-- TOPNAV -->
+      <header class="topnav">
+        <div class="topnav-left">
+          <button class="topnav-btn" id="mobileToggle"><i class="bi bi-list"></i></button>
+          <button class="topnav-btn" id="collapseBtn"><i class="bi bi-arrows-collapse"></i></button>
+          <div class="breadcrumb">
+            <span class="breadcrumb-home">Home</span>
+            <i class="bi bi-chevron-right breadcrumb-sep"></i>
+            <span class="breadcrumb-current">Profile Settings</span>
+          </div>
+        </div>
+        <div class="topnav-right">
+          <button class="topnav-btn" id="darkToggle" title="Toggle dark mode"><i class="bi bi-moon-stars text-lg"></i></button>
+          <div class="notif-btn">
+            <button class="topnav-btn" id="notifBtn"><i class="bi bi-bell text-lg"></i><span class="notif-dot"></span></button>
+            <div class="notification-dropdown" id="notifDropdown">
+              <div class="notif-header"><h6>Notifications</h6><span class="notif-mark-read">Mark all read</span></div>
+              <div class="notif-item"><div class="notif-icon" style="background:rgba(79,70,229,0.1);color:#4f46e5"><i class="bi bi-box-seam"></i></div><div class="notif-content"><p>New shipment #SHP-4521 assigned</p><p class="notif-time">2 min ago</p></div></div>
+              <div class="notif-item"><div class="notif-icon" style="background:rgba(34,197,94,0.1);color:#22c55e"><i class="bi bi-check-circle"></i></div><div class="notif-content"><p>Delivery #SHP-4498 completed</p><p class="notif-time">15 min ago</p></div></div>
+              <div class="notif-item"><div class="notif-icon" style="background:rgba(245,158,11,0.1);color:#f59e0b"><i class="bi bi-exclamation-triangle"></i></div><div class="notif-content"><p>Vehicle KA-05-1234 maintenance due</p><p class="notif-time">1 hr ago</p></div></div>
+              <div class="notif-item"><div class="notif-icon" style="background:rgba(249,115,22,0.1);color:#f97316"><i class="bi bi-currency-rupee"></i></div><div class="notif-content"><p>Payment of ₹12,500 processed</p><p class="notif-time">3 hrs ago</p></div></div>
+              <div class="notif-footer"><span>View all notifications</span></div>
+            </div>
+          </div>
+          <div class="profile-btn">
+            <button class="profile-btn-content" id="profileBtn">
+              <div class="profile-avatar">SK</div>
+              <span class="profile-name">SpeedKargo</span>
+              <i class="bi bi-chevron-down profile-chevron"></i>
+            </button>
+            <div class="profile-dropdown" id="profileDropdown">
+              <div class="profile-dropdown-info"><p>SpeedKargo Logistics</p><span>admin@speedkargo.com</span></div>
+              <div class="profile-dropdown-item"><i class="bi bi-person"></i> My Profile</div>
+              <div class="profile-dropdown-item"><i class="bi bi-gear"></i> Settings</div>
+              <div class="profile-dropdown-item danger"><i class="bi bi-box-arrow-left"></i> Logout</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT -->
+      <main class="page-content">
+        <!-- Page Header -->
+        <div class="glass-card animate-fade-in" style="margin-bottom:24px;position:relative;overflow:hidden">
+          <div style="position:absolute;top:0;right:0;width:256px;height:256px;background:linear-gradient(to bottom left,rgba(79,70,229,0.08),transparent);border-radius:50%;transform:translateY(-50%) translateX(30%)"></div>
+          <div style="position:relative">
+            <h2 style="font-size:24px;font-weight:700">Profile Settings</h2>
+            <p style="color:var(--text-muted);margin-top:4px">Manage your account settings and preferences</p>
+          </div>
+        </div>
+
+        <!-- Settings Container - Two Column Layout -->
+        <div class="grid-2col">
+          <!-- LEFT COLUMN - Settings Tabs -->
+          <div class="glass-card">
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <button class="settings-tab active" data-tab="profilePanel" style="display:flex;align-items:center;gap:12px;padding:12px 16px;border:none;background:transparent;cursor:pointer;border-radius:8px;transition:all 0.2s;color:var(--text-primary);font-weight:500;justify-content:flex-start">
+                <i class="bi bi-building"></i>
+                <span>Company Profile</span>
+              </button>
+              <button class="settings-tab" data-tab="passwordPanel" style="display:flex;align-items:center;gap:12px;padding:12px 16px;border:none;background:transparent;cursor:pointer;border-radius:8px;transition:all 0.2s;color:var(--text-primary);font-weight:500;justify-content:flex-start">
+                <i class="bi bi-shield-lock"></i>
+                <span>Change Password</span>
+              </button>
+              <button class="settings-tab" data-tab="notificationsPanel" style="display:flex;align-items:center;gap:12px;padding:12px 16px;border:none;background:transparent;cursor:pointer;border-radius:8px;transition:all 0.2s;color:var(--text-primary);font-weight:500;justify-content:flex-start">
+                <i class="bi bi-bell"></i>
+                <span>Notifications</span>
+              </button>
+            </div>
+            <style>
+              .settings-tab {
+                background:transparent !important;
+              }
+              .settings-tab:hover {
+                background:rgba(79,70,229,0.08) !important;
+              }
+              .settings-tab.active {
+                background:rgba(79,70,229,0.15) !important;
+                color:#4f46e5;
+              }
+            </style>
+          </div>
+
+          <!-- RIGHT COLUMN - Settings Panels -->
+          <div>
+            <!-- PROFILE PANEL -->
+            <div id="profilePanel" class="settings-panel glass-card" style="display:block">
+              <!-- Company Logo -->
+              <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px">
+                <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#4f46e5,#f97316);display:flex;align-items:center;justify-content:center;color:white;font-size:32px;font-weight:700;flex-shrink:0">SK</div>
+                <button style="padding:8px 16px;border:1px solid var(--border-color);background:var(--input-bg);border-radius:8px;cursor:pointer;font-size:14px;font-weight:500;transition:all 0.2s">Change Logo</button>
+              </div>
+
+              <!-- Form Fields -->
+              <form style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px">
+                <div style="grid-column:1/-1">
+                  <label style="display:block;font-size:14px;font-weight:600;margin-bottom:8px;color:var(--text-primary)">Company Name</label>
+                  <input type="text" value="SpeedKargo Logistics Pvt Ltd" style="width:100%;padding:10px 12px;border:1px solid var(--input-border);background:var(--input-bg);border-radius:8px;font-size:14px;color:var(--text-primary)">
+                </div>
+                <div>
+                  <label style="display:block;font-size:14px;font-weight:600;margin-bottom:8px;color:var(--text-primary)">GST Number</label>
+                  <input type="text" value="27AABCS1234F1ZH" style="width:100%;padding:10px 12px;border:1px solid var(--input-border);background:var(--input-bg);border-radius:8px;font-size:14px;color:var(--text-primary)">
+                </div>
+                <div>
+                  <label style="display:block;font-size:14px;font-weight:600;margin-bottom:8px;color:var(--text-primary)">PAN Number</label>
+                  <input type="text" value="AABCS1234F" style="width:100%;padding:10px 12px;border:1px solid var(--input-border);background:var(--input-bg);border-radius:8px;font-size:14px;color:var(--text-primary)">
+                </div>
+                <div>
+                  <label style="display:block;font-size:14px;font-weight:600;margin-bottom:8px;color:var(--text-primary)">Contact Email</label>
+                  <input type="email" value="admin@speedkargo.com" style="width:100%;padding:10px 12px;border:1px solid var(--input-border);background:var(--input-bg);border-radius:8px;font-size:14px;color:var(--text-primary)">
+                </div>
+                <div>
+                  <label style="display:block;font-size:14px;font-weight:600;margin-bottom:8px;color:var(--text-primary)">Contact Phone</label>
+                  <input type="tel" value="+91 98765 43210" style="width:100%;padding:10px 12px;border:1px solid var(--input-border);background:var(--input-bg);border-radius:8px;font-size:14px;color:var(--text-primary)">
+                </div>
+                <div style="grid-column:1/-1">
+                  <label style="display:block;font-size:14px;font-weight:600;margin-bottom:8px;color:var(--text-primary)">Address</label>
+                  <textarea style="width:100%;padding:10px 12px;border:1px solid var(--input-border);background:var(--input-bg);border-radius:8px;font-size:14px;color:var(--text-primary);resize:none;min-height:80px" placeholder="Enter company address">123 Logistics Park, Industrial Area</textarea>
+                </div>
+                <div>
+                  <label style="display:block;font-size:14px;font-weight:600;margin-bottom:8px;color:var(--text-primary)">City</label>
+                  <input type="text" value="Mumbai" style="width:100%;padding:10px 12px;border:1px solid var(--input-border);background:var(--input-bg);border-radius:8px;font-size:14px;color:var(--text-primary)">
+                </div>
+                <div>
+                  <label style="display:block;font-size:14px;font-weight:600;margin-bottom:8px;color:var(--text-primary)">State</label>
+                  <input type="text" value="Maharashtra" style="width:100%;padding:10px 12px;border:1px solid var(--input-border);background:var(--input-bg);border-radius:8px;font-size:14px;color:var(--text-primary)">
+                </div>
+                <div>
+                  <label style="display:block;font-size:14px;font-weight:600;margin-bottom:8px;color:var(--text-primary)">PIN Code</label>
+                  <input type="text" value="400093" style="width:100%;padding:10px 12px;border:1px solid var(--input-border);background:var(--input-bg);border-radius:8px;font-size:14px;color:var(--text-primary)">
+                </div>
+                <div>
+                  <label style="display:block;font-size:14px;font-weight:600;margin-bottom:8px;color:var(--text-primary)">Fleet Size</label>
+                  <input type="number" value="18" style="width:100%;padding:10px 12px;border:1px solid var(--input-border);background:var(--input-bg);border-radius:8px;font-size:14px;color:var(--text-primary)">
+                </div>
+                <div style="grid-column:1/-1;margin-top:8px">
+                  <button type="button" style="padding:10px 24px;background:#4f46e5;color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:background 0.2s">Save Changes</button>
+                </div>
+              </form>
+            </div>
+
+            <!-- PASSWORD PANEL -->
+            <div id="passwordPanel" class="settings-panel glass-card" style="display:none">
+              <form style="display:flex;flex-direction:column;gap:16px">
+                <div>
+                  <label style="display:block;font-size:14px;font-weight:600;margin-bottom:8px;color:var(--text-primary)">Current Password</label>
+                  <input type="password" placeholder="Enter current password" style="width:100%;padding:10px 12px;border:1px solid var(--input-border);background:var(--input-bg);border-radius:8px;font-size:14px;color:var(--text-primary)">
+                </div>
+                <div>
+                  <label style="display:block;font-size:14px;font-weight:600;margin-bottom:8px;color:var(--text-primary)">New Password</label>
+                  <input type="password" placeholder="Enter new password" style="width:100%;padding:10px 12px;border:1px solid var(--input-border);background:var(--input-bg);border-radius:8px;font-size:14px;color:var(--text-primary)">
+                </div>
+                <div>
+                  <label style="display:block;font-size:14px;font-weight:600;margin-bottom:8px;color:var(--text-primary)">Confirm New Password</label>
+                  <input type="password" placeholder="Confirm new password" style="width:100%;padding:10px 12px;border:1px solid var(--input-border);background:var(--input-bg);border-radius:8px;font-size:14px;color:var(--text-primary)">
+                </div>
+
+                <!-- Password Requirements -->
+                <div style="padding:12px 16px;background:rgba(79,70,229,0.05);border-radius:8px;border-left:4px solid #4f46e5">
+                  <p style="font-size:13px;font-weight:600;margin-bottom:8px;color:var(--text-primary)">Password Requirements:</p>
+                  <ul style="font-size:12px;color:var(--text-muted);margin-left:16px;list-style:disc">
+                    <li>At least 8 characters</li>
+                    <li>One uppercase letter (A-Z)</li>
+                    <li>One lowercase letter (a-z)</li>
+                    <li>One number (0-9)</li>
+                    <li>One special character (!@#$%^&*)</li>
+                  </ul>
+                </div>
+
+                <button type="button" style="padding:10px 24px;background:#4f46e5;color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:background 0.2s;align-self:flex-start">Update Password</button>
+              </form>
+            </div>
+
+            <!-- NOTIFICATIONS PANEL -->
+            <div id="notificationsPanel" class="settings-panel glass-card" style="display:none">
+              <div style="display:flex;flex-direction:column;gap:12px">
+                <!-- Notification Preference Item 1 -->
+                <div class="notif-pref-item" style="display:flex;align-items:center;gap:12px;padding:16px;border:1px solid var(--border-color);border-radius:8px;background:rgba(79,70,229,0.03)">
+                  <div style="width:40px;height:40px;border-radius:50%;background:rgba(79,70,229,0.15);display:flex;align-items:center;justify-content:center;color:#4f46e5;flex-shrink:0">
+                    <i class="bi bi-box-seam"></i>
+                  </div>
+                  <div style="flex:1">
+                    <p style="font-size:14px;font-weight:600;color:var(--text-primary);margin:0">Shipment Updates</p>
+                    <p style="font-size:12px;color:var(--text-muted);margin:4px 0 0 0">Receive updates about your shipments</p>
+                  </div>
+                  <label class="toggle-switch" style="display:flex;align-items:center;cursor:pointer;position:relative;width:44px;height:24px">
+                    <input type="checkbox" checked style="position:absolute;opacity:0;cursor:pointer">
+                    <span class="toggle-slider" style="position:absolute;top:0;left:0;right:0;bottom:0;background:#22c55e;border-radius:12px;transition:background 0.3s;display:flex;align-items:center;padding:0 2px">
+                      <span style="width:20px;height:20px;background:white;border-radius:50%;transition:transform 0.3s;transform:translateX(22px)"></span>
+                    </span>
+                  </label>
+                </div>
+
+                <!-- Notification Preference Item 2 -->
+                <div class="notif-pref-item" style="display:flex;align-items:center;gap:12px;padding:16px;border:1px solid var(--border-color);border-radius:8px;background:rgba(34,197,94,0.03)">
+                  <div style="width:40px;height:40px;border-radius:50%;background:rgba(34,197,94,0.15);display:flex;align-items:center;justify-content:center;color:#22c55e;flex-shrink:0">
+                    <i class="bi bi-check-circle"></i>
+                  </div>
+                  <div style="flex:1">
+                    <p style="font-size:14px;font-weight:600;color:var(--text-primary);margin:0">Delivery Alerts</p>
+                    <p style="font-size:12px;color:var(--text-muted);margin:4px 0 0 0">Alerts for delivery confirmations</p>
+                  </div>
+                  <label class="toggle-switch" style="display:flex;align-items:center;cursor:pointer;position:relative;width:44px;height:24px">
+                    <input type="checkbox" checked style="position:absolute;opacity:0;cursor:pointer">
+                    <span class="toggle-slider" style="position:absolute;top:0;left:0;right:0;bottom:0;background:#22c55e;border-radius:12px;transition:background 0.3s;display:flex;align-items:center;padding:0 2px">
+                      <span style="width:20px;height:20px;background:white;border-radius:50%;transition:transform 0.3s;transform:translateX(22px)"></span>
+                    </span>
+                  </label>
+                </div>
+
+                <!-- Notification Preference Item 3 -->
+                <div class="notif-pref-item" style="display:flex;align-items:center;gap:12px;padding:16px;border:1px solid var(--border-color);border-radius:8px;background:rgba(249,115,22,0.03)">
+                  <div style="width:40px;height:40px;border-radius:50%;background:rgba(249,115,22,0.15);display:flex;align-items:center;justify-content:center;color:#f97316;flex-shrink:0">
+                    <i class="bi bi-currency-rupee"></i>
+                  </div>
+                  <div style="flex:1">
+                    <p style="font-size:14px;font-weight:600;color:var(--text-primary);margin:0">Payment Notifications</p>
+                    <p style="font-size:12px;color:var(--text-muted);margin:4px 0 0 0">Notifications for payment processing</p>
+                  </div>
+                  <label class="toggle-switch" style="display:flex;align-items:center;cursor:pointer;position:relative;width:44px;height:24px">
+                    <input type="checkbox" checked style="position:absolute;opacity:0;cursor:pointer">
+                    <span class="toggle-slider" style="position:absolute;top:0;left:0;right:0;bottom:0;background:#22c55e;border-radius:12px;transition:background 0.3s;display:flex;align-items:center;padding:0 2px">
+                      <span style="width:20px;height:20px;background:white;border-radius:50%;transition:transform 0.3s;transform:translateX(22px)"></span>
+                    </span>
+                  </label>
+                </div>
+
+                <!-- Notification Preference Item 4 -->
+                <div class="notif-pref-item" style="display:flex;align-items:center;gap:12px;padding:16px;border:1px solid var(--border-color);border-radius:8px;background:rgba(245,158,11,0.03)">
+                  <div style="width:40px;height:40px;border-radius:50%;background:rgba(245,158,11,0.15);display:flex;align-items:center;justify-content:center;color:#f59e0b;flex-shrink:0">
+                    <i class="bi bi-exclamation-triangle"></i>
+                  </div>
+                  <div style="flex:1">
+                    <p style="font-size:14px;font-weight:600;color:var(--text-primary);margin:0">Vehicle Maintenance</p>
+                    <p style="font-size:12px;color:var(--text-muted);margin:4px 0 0 0">Maintenance reminders for vehicles</p>
+                  </div>
+                  <label class="toggle-switch" style="display:flex;align-items:center;cursor:pointer;position:relative;width:44px;height:24px">
+                    <input type="checkbox" style="position:absolute;opacity:0;cursor:pointer">
+                    <span class="toggle-slider" style="position:absolute;top:0;left:0;right:0;bottom:0;background:#d1d5db;border-radius:12px;transition:background 0.3s;display:flex;align-items:center;padding:0 2px">
+                      <span style="width:20px;height:20px;background:white;border-radius:50%;transition:transform 0.3s;transform:translateX(2px)"></span>
+                    </span>
+                  </label>
+                </div>
+
+                <!-- Notification Preference Item 5 -->
+                <div class="notif-pref-item" style="display:flex;align-items:center;gap:12px;padding:16px;border:1px solid var(--border-color);border-radius:8px;background:rgba(236,72,153,0.03)">
+                  <div style="width:40px;height:40px;border-radius:50%;background:rgba(236,72,153,0.15);display:flex;align-items:center;justify-content:center;color:#ec4899;flex-shrink:0">
+                    <i class="bi bi-megaphone"></i>
+                  </div>
+                  <div style="flex:1">
+                    <p style="font-size:14px;font-weight:600;color:var(--text-primary);margin:0">Marketing & Offers</p>
+                    <p style="font-size:12px;color:var(--text-muted);margin:4px 0 0 0">News about offers and promotions</p>
+                  </div>
+                  <label class="toggle-switch" style="display:flex;align-items:center;cursor:pointer;position:relative;width:44px;height:24px">
+                    <input type="checkbox" style="position:absolute;opacity:0;cursor:pointer">
+                    <span class="toggle-slider" style="position:absolute;top:0;left:0;right:0;bottom:0;background:#d1d5db;border-radius:12px;transition:background 0.3s;display:flex;align-items:center;padding:0 2px">
+                      <span style="width:20px;height:20px;background:white;border-radius:50%;transition:transform 0.3s;transform:translateX(2px)"></span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+              <button type="button" style="margin-top:24px;padding:10px 24px;background:#4f46e5;color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:background 0.2s">Save Preferences</button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
