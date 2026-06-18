@@ -1,0 +1,582 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Services - Shipnex | Global Shipping & Logistics</title>
+  <meta name="description" content="Explore Shipnex's comprehensive shipping services including express delivery, freight forwarding, warehousing, air cargo, and supply chain solutions.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Favicon -->
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="{% static 'sta_user/style.css' %}">
+</head>
+<body>
+  <!-- ========== HEADER ========== -->
+  <header class="header" id="header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="{% url 'home' %}" class="logo">
+          <div class="logo-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+            </svg>
+          </div>
+          <span>Shipnex</span>
+        </a>
+
+        <nav class="nav">
+          <ul class="nav-menu">
+            <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+            <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
+            <li><a href="{% url 'services' %}" class="nav-link active">Services</a></li>
+            <li><a href="{% url 'tracking' %}" class="nav-link">Track Shipment</a></li>
+            <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+          </ul>
+          <div class="nav-cta">
+            <a href="{% url 'tracking' %}" class="btn btn-secondary btn-sm">Track Package</a>
+            <a href="{% url 'contact' %}" class="btn btn-primary btn-sm">Get Quote</a>
+          </div>
+          <div class="nav-auth">
+            <a href="{% url 'login' %}" class="nav-auth-link">Sign In</a>
+            <a href="{% url 'register' %}" class="btn btn-accent btn-sm">Sign Up</a>
+          </div>
+        </nav>
+
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+      <div class="mobile-menu-nav">
+        <a href="{% url 'home' %}" class="mobile-menu-link">Home</a>
+        <a href="{% url 'about' %}" class="mobile-menu-link">About</a>
+        <a href="{% url 'services' %}" class="mobile-menu-link active">Services</a>
+        <a href="{% url 'tracking' %}" class="mobile-menu-link">Track Shipment</a>
+        <a href="{% url 'contact' %}" class="mobile-menu-link">Contact</a>
+      </div>
+      <div class="mobile-menu-divider"></div>
+      <div class="mobile-menu-actions">
+        <a href="{% url 'tracking' %}" class="btn btn-outline btn-block">Track Package</a>
+        <a href="{% url 'contact' %}" class="btn btn-primary btn-block">Get Quote</a>
+      </div>
+      <div class="mobile-menu-divider"></div>
+      <div class="mobile-menu-auth">
+        <a href="{% url 'login' %}" class="btn btn-secondary btn-block">Sign In</a>
+        <a href="{% url 'register' %}" class="btn btn-accent btn-block">Create Account</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========== PAGE HEADER ========== -->
+  <section class="page-header">
+    <div class="container">
+      <div class="page-header-content">
+        <h1>Our Services</h1>
+        <div class="breadcrumb">
+          <a href="{% url 'home' %}">Home</a>
+          <span>/</span>
+          <span class="breadcrumb-current">Services</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== SERVICES INTRO ========== -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">What We Offer</span>
+        <h2 class="section-title">Complete Logistics Solutions</h2>
+        <p class="section-description">From express parcel delivery to complex supply chain management, we offer end-to-end logistics solutions tailored to your needs.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== EXPRESS DELIVERY ========== -->
+  <section class="section" id="express">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-image">
+          <img src="https://images.pexels.com/photos/4484092/pexels-photo-4484092.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Express delivery courier" style="border-radius: var(--radius-xl); box-shadow: var(--shadow-xl);">
+        </div>
+        <div class="about-content">
+          <span class="section-badge" style="background: var(--accent-50); color: var(--accent-600);">Express Service</span>
+          <h2>Express Delivery</h2>
+          <p>When time is critical, our express delivery service ensures your packages reach their destination fast. With priority handling and direct routes, we guarantee swift, reliable delivery.</p>
+
+          <ul class="about-list">
+            <li>Door-to-door delivery in 24-72 hours globally</li>
+            <li>Real-time tracking and SMS notifications</li>
+            <li>Priority handling at all transit points</li>
+            <li>Same-day delivery available in metro cities</li>
+            <li>Insurance coverage up to $5,000 included</li>
+          </ul>
+
+          <div class="hero-stats" style="margin-top: var(--space-8); border-top: 1px solid var(--neutral-200); padding-top: var(--space-6);">
+            <div class="hero-stat" style="text-align: left;">
+              <span class="hero-stat-value" style="color: var(--primary-800);">24hr</span>
+              <span class="hero-stat-label" style="color: var(--neutral-500);">Metro Delivery</span>
+            </div>
+            <div class="hero-stat" style="text-align: left;">
+              <span class="hero-stat-value" style="color: var(--primary-800);">72hr</span>
+              <span class="hero-stat-label" style="color: var(--neutral-500);">Global Delivery</span>
+            </div>
+          </div>
+
+          <a href="{% url 'contact' %}" class="btn btn-primary mt-8">Get Express Quote</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FREIGHT FORWARDING ========== -->
+  <section class="section bg-neutral" id="freight">
+    <div class="container">
+      <div class="about-grid" style="direction: rtl;">
+        <div class="about-image" style="direction: ltr;">
+          <img src="https://images.pexels.com/photos/2199293/pexels-photo-2199293.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Cargo ship at port" style="border-radius: var(--radius-xl); box-shadow: var(--shadow-xl);">
+        </div>
+        <div class="about-content" style="direction: ltr;">
+          <span class="section-badge" style="background: var(--secondary-50); color: var(--secondary-600);">Freight Services</span>
+          <h2>Freight Forwarding</h2>
+          <p>Our comprehensive freight forwarding services cover sea, air, and land transportation for bulk cargo and commercial shipments. We handle everything from booking to delivery.</p>
+
+          <div class="services-grid" style="margin-top: var(--space-8);">
+            <div class="feature-item">
+              <div class="feature-check" style="background: var(--secondary-100);">
+                <svg viewBox="0 0 24 24" fill="currentColor" style="fill: var(--secondary-600);">
+                  <path d="M20 21c-1.39 0-2.61-.82-3.18-2H15c-.55 0-1-.45-1-1s.45-1 1-1h1.82c.57-1.18 1.79-2 3.18-2s2.61.82 3.18 2H24v2h-.82c-.57 1.18-1.79 2-3.18 2zM4 21c-1.39 0-2.61-.82-3.18-2H0v-2h.82C1.39 15.82 2.61 15 4 15s2.61.82 3.18 2H9v2H7.18c-.57 1.18-1.79 2-3.18 2z"/>
+                </svg>
+              </div>
+              <div>
+                <h4>Ocean Freight</h4>
+                <p>FCL & LCL options for cost-effective sea shipping.</p>
+              </div>
+            </div>
+
+            <div class="feature-item">
+              <div class="feature-check" style="background: var(--secondary-100);">
+                <svg viewBox="0 0 24 24" fill="currentColor" style="fill: var(--secondary-600);">
+                  <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+                </svg>
+              </div>
+              <div>
+                <h4>Air Freight</h4>
+                <p>Fast air cargo for time-sensitive shipments.</p>
+              </div>
+            </div>
+
+            <div class="feature-item">
+              <div class="feature-check" style="background: var(--secondary-100);">
+                <svg viewBox="0 0 24 24" fill="currentColor" style="fill: var(--secondary-600);">
+                  <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4z"/>
+                </svg>
+              </div>
+              <div>
+                <h4>Land Transport</h4>
+                <p>Trucking and rail services across regions.</p>
+              </div>
+            </div>
+
+            <div class="feature-item">
+              <div class="feature-check" style="background: var(--secondary-100);">
+                <svg viewBox="0 0 24 24" fill="currentColor" style="fill: var(--secondary-600);">
+                  <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14H6v-2h6v2zm4-4H6v-2h10v2zm0-4H6V7h10v2z"/>
+                </svg>
+              </div>
+              <div>
+                <h4>Customs Clearance</h4>
+                <p>Complete documentation and compliance support.</p>
+              </div>
+            </div>
+          </div>
+
+          <a href="{% url 'contact' %}" class="btn btn-primary mt-8">Request Freight Quote</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== WAREHOUSING ========== -->
+  <section class="section" id="warehousing">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-image">
+          <img src="https://images.pexels.com/photos/4484078/pexels-photo-4484078.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Modern warehouse facility" style="border-radius: var(--radius-xl); box-shadow: var(--shadow-xl);">
+        </div>
+        <div class="about-content">
+          <span class="section-badge" style="background: var(--primary-50); color: var(--primary-700);">Storage Solutions</span>
+          <h2>Warehousing & Distribution</h2>
+          <p>Our state-of-the-art warehouse facilities offer secure storage, inventory management, and efficient distribution. Perfect for businesses needing reliable storage solutions.</p>
+
+          <ul class="about-list">
+            <li>Climate-controlled storage facilities</li>
+            <li>Advanced inventory management systems</li>
+            <li>Pick-and-pack fulfillment services</li>
+            <li>24/7 security with CCTV monitoring</li>
+            <li>E-commerce fulfillment integration</li>
+          </ul>
+
+          <div class="hero-stats" style="margin-top: var(--space-8); border-top: 1px solid var(--neutral-200); padding-top: var(--space-6);">
+            <div class="hero-stat" style="text-align: left;">
+              <span class="hero-stat-value" style="color: var(--primary-800);">50+</span>
+              <span class="hero-stat-label" style="color: var(--neutral-500);">Warehouse Locations</span>
+            </div>
+            <div class="hero-stat" style="text-align: left;">
+              <span class="hero-stat-value" style="color: var(--primary-800);">2M</span>
+              <span class="hero-stat-label" style="color: var(--neutral-500);">Sq. Ft. Storage</span>
+            </div>
+          </div>
+
+          <a href="{% url 'contact' %}" class="btn btn-primary mt-8">Learn More</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== AIR CARGO ========== -->
+  <section class="section bg-neutral" id="aircargo">
+    <div class="container">
+      <div class="about-grid" style="direction: rtl;">
+        <div class="about-image" style="direction: ltr;">
+          <img src="https://images.pexels.com/photos/1435075/pexels-photo-1435075.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Air cargo plane" style="border-radius: var(--radius-xl); box-shadow: var(--shadow-xl);">
+        </div>
+        <div class="about-content" style="direction: ltr;">
+          <span class="section-badge" style="background: var(--accent-50); color: var(--accent-600);">Air Services</span>
+          <h2>Air Cargo Services</h2>
+          <p>Fast and reliable air freight services for time-critical shipments. We partner with major airlines to offer competitive rates and priority space allocation.</p>
+
+          <div class="services-grid" style="margin-top: var(--space-8);">
+            <div class="feature-item">
+              <div class="feature-check" style="background: var(--accent-100);">
+                <svg viewBox="0 0 24 24" fill="currentColor" style="fill: var(--accent-600);">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+              </div>
+              <div>
+                <h4>Priority Handling</h4>
+                <p>Express boarding and priority unloading.</p>
+              </div>
+            </div>
+
+            <div class="feature-item">
+              <div class="feature-check" style="background: var(--accent-100);">
+                <svg viewBox="0 0 24 24" fill="currentColor" style="fill: var(--accent-600);">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+              </div>
+              <div>
+                <h4>Door-to-Door</h4>
+                <p>Complete pickup and delivery service.</p>
+              </div>
+            </div>
+
+            <div class="feature-item">
+              <div class="feature-check" style="background: var(--accent-100);">
+                <svg viewBox="0 0 24 24" fill="currentColor" style="fill: var(--accent-600);">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+              </div>
+              <div>
+                <h4>Temperature Control</h4>
+                <p>Cold chain solutions for perishables.</p>
+              </div>
+            </div>
+
+            <div class="feature-item">
+              <div class="feature-check" style="background: var(--accent-100);">
+                <svg viewBox="0 0 24 24" fill="currentColor" style="fill: var(--accent-600);">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+              </div>
+              <div>
+                <h4>Charter Services</h4>
+                <p>Dedicated aircraft for large shipments.</p>
+              </div>
+            </div>
+          </div>
+
+          <a href="{% url 'contact' %}" class="btn btn-primary mt-8">Book Air Cargo</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== SUPPLY CHAIN ========== -->
+  <section class="section" id="supplychain">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-image">
+          <img src="https://images.pexels.com/photos/4481253/pexels-photo-4481253.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Supply chain management" style="border-radius: var(--radius-xl); box-shadow: var(--shadow-xl);">
+        </div>
+        <div class="about-content">
+          <span class="section-badge" style="background: var(--success-50); color: var(--success-600);">Enterprise Solutions</span>
+          <h2>Supply Chain Solutions</h2>
+          <p>End-to-end supply chain management for businesses of all sizes. From procurement to final delivery, we optimize your entire logistics operation.</p>
+
+          <ul class="about-list">
+            <li>Vendor managed inventory (VMI) programs</li>
+            <li>Cross-docking and transloading services</li>
+            <li>Reverse logistics and returns management</li>
+            <li>Demand forecasting and planning</li>
+            <li>Technology integration with ERP systems</li>
+          </ul>
+
+          <div class="hero-stats" style="margin-top: var(--space-8); border-top: 1px solid var(--neutral-200); padding-top: var(--space-6);">
+            <div class="hero-stat" style="text-align: left;">
+              <span class="hero-stat-value" style="color: var(--primary-800);">500+</span>
+              <span class="hero-stat-label" style="color: var(--neutral-500);">Enterprise Clients</span>
+            </div>
+            <div class="hero-stat" style="text-align: left;">
+              <span class="hero-stat-value" style="color: var(--primary-800);">30%</span>
+              <span class="hero-stat-label" style="color: var(--neutral-500);">Cost Savings Avg.</span>
+            </div>
+          </div>
+
+          <a href="{% url 'contact' %}" class="btn btn-primary mt-8">Partner With Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ADDITIONAL SERVICES ========== -->
+  <section class="section features-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">More Services</span>
+        <h2 class="section-title">Additional Services</h2>
+        <p class="section-description">Value-added services to meet all your shipping needs.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-item">
+          <div class="feature-check">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4.86 8.86l-3.64 4.66-2.5-3.06L5 17h14l-4.86-6.14z"/>
+            </svg>
+          </div>
+          <div>
+            <h4>Package Insurance</h4>
+            <p>Comprehensive coverage for valuable shipments.</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-check">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4.86 8.86l-3.64 4.66-2.5-3.06L5 17h14l-4.86-6.14z"/>
+            </svg>
+          </div>
+          <div>
+            <h4>Special Handling</h4>
+            <p>Fragile items, artworks, and delicate cargo care.</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-check">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4.86 8.86l-3.64 4.66-2.5-3.06L5 17h14l-4.86-6.14z"/>
+            </svg>
+          </div>
+          <div>
+            <h4>COD Services</h4>
+            <p>Cash on delivery for e-commerce businesses.</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-check">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4.86 8.86l-3.64 4.66-2.5-3.06L5 17h14l-4.86-6.14z"/>
+            </svg>
+          </div>
+          <div>
+            <h4>Eco Packaging</h4>
+            <p>Sustainable packaging solutions available.</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-check">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4.86 8.86l-3.64 4.66-2.5-3.06L5 17h14l-4.86-6.14z"/>
+            </svg>
+          </div>
+          <div>
+            <h4>Returns Management</h4>
+            <p>Efficient handling of returns and exchanges.</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-check">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4.86 8.86l-3.64 4.66-2.5-3.06L5 17h14l-4.86-6.14z"/>
+            </svg>
+          </div>
+          <div>
+            <h4>API Integration</h4>
+            <p>Connect your systems with our shipping API.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PRICING PLANS ========== -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">Pricing</span>
+        <h2 class="section-title">Shipping Plans</h2>
+        <p class="section-description">Flexible pricing options for businesses of all sizes.</p>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card">
+          <h3 style="color: var(--primary-600);">Starter</h3>
+          <p style="font-size: var(--text-3xl); font-weight: var(--font-bold); margin: var(--space-4) 0;">Pay As You Go</p>
+          <p>Perfect for occasional shipping needs.</p>
+          <ul class="about-list" style="margin: var(--space-6) 0;">
+            <li>Standard delivery rates</li>
+            <li>Online tracking access</li>
+            <li>Email support</li>
+            <li>No minimum commitment</li>
+          </ul>
+          <a href="{% url 'contact' %}" class="btn btn-outline" style="width: 100%;">Get Started</a>
+        </div>
+
+        <div class="service-card" style="border: 2px solid var(--primary-600); position: relative;">
+          <span style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--primary-600); color: white; padding: var(--space-1) var(--space-3); border-radius: var(--radius-full); font-size: var(--text-sm); font-weight: var(--font-semibold);">Popular</span>
+          <h3 style="color: var(--primary-600);">Business</h3>
+          <p style="font-size: var(--text-3xl); font-weight: var(--font-bold); margin: var(--space-4) 0;">15% Discount</p>
+          <p>Ideal for regular shippers.</p>
+          <ul class="about-list" style="margin: var(--space-6) 0;">
+            <li>Discounted shipping rates</li>
+            <li>Priority customer support</li>
+            <li>Monthly invoicing</li>
+            <li>Dedicated account manager</li>
+          </ul>
+          <a href="{% url 'contact' %}" class="btn btn-primary" style="width: 100%;">Get Business Account</a>
+        </div>
+
+        <div class="service-card">
+          <h3 style="color: var(--primary-600);">Enterprise</h3>
+          <p style="font-size: var(--text-3xl); font-weight: var(--font-bold); margin: var(--space-4) 0;">Custom Pricing</p>
+          <p>For high-volume businesses.</p>
+          <ul class="about-list" style="margin: var(--space-6) 0;">
+            <li>Volume-based discounts up to 40%</li>
+            <li>API integration</li>
+            <li>Custom solutions</li>
+            <li>24/7 dedicated support</li>
+          </ul>
+          <a href="{% url 'contact' %}" class="btn btn-outline" style="width: 100%;">Contact Sales</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CTA SECTION ========== -->
+  <section class="section cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <h2>Ready to Ship?</h2>
+        <p>Contact our team to discuss your shipping needs and get a customized quote for your business.</p>
+        <div class="cta-buttons">
+          <a href="{% url 'contact' %}" class="btn btn-accent btn-lg">Get Free Quote</a>
+          <a href="{% url 'tracking' %}" class="btn btn-secondary btn-lg">Track Shipment</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <a href="{% url 'home' %}" class="logo">
+            <div class="logo-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+              </svg>
+            </div>
+            <span>Shipnex</span>
+          </a>
+          <p>Delivering excellence in global logistics. Your trusted partner for shipping, freight, and supply chain solutions.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Facebook">
+              <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href="#" aria-label="Twitter">
+              <svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+            </a>
+            <a href="#" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="#" aria-label="Instagram">
+              <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'about' %}">About Us</a></li>
+            <li><a href="{% url 'services' %}">Services</a></li>
+            <li><a href="{% url 'tracking' %}">Track Shipment</a></li>
+            <li><a href="{% url 'contact' %}">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links">
+          <h4>Our Services</h4>
+          <ul>
+            <li><a href="#express">Express Delivery</a></li>
+            <li><a href="#freight">Freight Forwarding</a></li>
+            <li><a href="#warehousing">Warehousing</a></li>
+            <li><a href="#aircargo">Air Cargo</a></li>
+            <li><a href="#supplychain">Supply Chain</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links">
+          <h4>Contact Us</h4>
+          <ul>
+            <li>123 Logistics Hub, Mumbai, India</li>
+            <li>+91 1800-123-4567</li>
+            <li>info@shipnex.com</li>
+            <li>Mon-Sat: 9AM - 8PM</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2024 Shipnex. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Refund Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="{% static 'sta_user/main.js' %}"></script>
+</body>
+</html>

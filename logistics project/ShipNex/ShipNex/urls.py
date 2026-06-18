@@ -17,14 +17,26 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from django.views.generic import RedirectView
+from app_modules.userapp import views as userapp_views
 
 from django.conf import settings
 from django.conf.urls.static import static  
 
 urlpatterns = [
-    path('', RedirectView.as_view(pattern_name='dashboard', permanent=False)),
+    # Root paths - Public user pages
+    path('', userapp_views.index_view, name='home'),
+    path('login/', userapp_views.login_view, name='login'),
+    path('register/', userapp_views.register_view, name='register'),
+    path('about/', userapp_views.about_view, name='about'),
+    path('services/', userapp_views.services_view, name='services'),
+    path('contact/', userapp_views.contact_view, name='contact'),
+    path('tracking/', userapp_views.tracking_view, name='tracking'),
+    
+    # Admin
     path('favicon.ico', RedirectView.as_view(url=settings.STATIC_URL + 'favicon.png', permanent=False)),
     path('admin/', admin.site.urls),
+    
+    # App URLs
     path('adminapp/', include('app_modules.adminapp.urls')),
     path('userapp/', include('app_modules.userapp.urls')),
     path('logisticsapp/', include('app_modules.logisticsapp.urls')),

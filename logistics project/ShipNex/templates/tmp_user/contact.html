@@ -1,0 +1,505 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - Shipnex | Get in Touch</title>
+  <meta name="description" content="Contact Shipnex for shipping quotes, customer support, and business inquiries. We're here to help 24/7 with all your logistics needs.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Favicon -->
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="{% static 'sta_user/style.css' %}">
+</head>
+<body>
+  <!-- ========== HEADER ========== -->
+  <header class="header" id="header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="{% url 'home' %}" class="logo">
+          <div class="logo-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+            </svg>
+          </div>
+          <span>Shipnex</span>
+        </a>
+
+        <nav class="nav">
+          <ul class="nav-menu">
+            <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+            <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
+            <li><a href="{% url 'services' %}" class="nav-link">Services</a></li>
+            <li><a href="{% url 'tracking' %}" class="nav-link">Track Shipment</a></li>
+            <li><a href="{% url 'contact' %}" class="nav-link active">Contact</a></li>
+          </ul>
+          <div class="nav-cta">
+            <a href="{% url 'tracking' %}" class="btn btn-secondary btn-sm">Track Package</a>
+            <a href="{% url 'contact' %}" class="btn btn-primary btn-sm">Get Quote</a>
+          </div>
+          <div class="nav-auth">
+            <a href="{% url 'login' %}" class="nav-auth-link">Sign In</a>
+            <a href="{% url 'register' %}" class="btn btn-accent btn-sm">Sign Up</a>
+          </div>
+        </nav>
+
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+      <div class="mobile-menu-nav">
+        <a href="{% url 'home' %}" class="mobile-menu-link">Home</a>
+        <a href="{% url 'about' %}" class="mobile-menu-link">About</a>
+        <a href="{% url 'services' %}" class="mobile-menu-link">Services</a>
+        <a href="{% url 'tracking' %}" class="mobile-menu-link">Track Shipment</a>
+        <a href="{% url 'contact' %}" class="mobile-menu-link active">Contact</a>
+      </div>
+      <div class="mobile-menu-divider"></div>
+      <div class="mobile-menu-actions">
+        <a href="{% url 'tracking' %}" class="btn btn-outline btn-block">Track Package</a>
+        <a href="{% url 'contact' %}" class="btn btn-primary btn-block">Get Quote</a>
+      </div>
+      <div class="mobile-menu-divider"></div>
+      <div class="mobile-menu-auth">
+        <a href="{% url 'login' %}" class="btn btn-secondary btn-block">Sign In</a>
+        <a href="{% url 'register' %}" class="btn btn-accent btn-block">Create Account</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========== PAGE HEADER ========== -->
+  <section class="page-header">
+    <div class="container">
+      <div class="page-header-content">
+        <h1>Contact Us</h1>
+        <div class="breadcrumb">
+          <a href="{% url 'home' %}">Home</a>
+          <span>/</span>
+          <span class="breadcrumb-current">Contact</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CONTACT SECTION ========== -->
+  <section class="section">
+    <div class="container">
+      <div class="contact-grid">
+        <!-- Contact Info Card -->
+        <div class="contact-info-card">
+          <h3>Get in Touch</h3>
+          <p style="color: rgba(255, 255, 255, 0.85); margin-bottom: var(--space-8);">Have questions about shipping or need a quote? We're here to help 24/7.</p>
+
+          <div class="contact-info-item">
+            <div class="contact-info-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+              </svg>
+            </div>
+            <div>
+              <h4>Head Office</h4>
+              <p>913 Spectrics solutions<br>Ahmedabad,Science City,  Gujarat , India</p>
+            </div>
+          </div>
+
+          <div class="contact-info-item">
+            <div class="contact-info-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+              </svg>
+            </div>
+            <div>
+              <h4>Phone</h4>
+              <p> Contact : +91 8799224022 <br>International: +91 8200246360</p>
+            </div>
+          </div>
+
+          <div class="contact-info-item">
+            <div class="contact-info-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+              </svg>
+            </div>
+            <div>
+              <h4>Email</h4>
+              <p>General/Queries/Complaints/: mozaid@gmail.com<br>Support: mozaid@gmail.com</p>
+            </div>
+          </div>
+
+          <div class="contact-info-item">
+            <div class="contact-info-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+              </svg>
+            </div>
+            <div>
+              <h4>Business Hours</h4>
+              <p>Monday - Saturday: 9:00 AM - 8:00 PM (Friday/Sunday: off)<br>Customer Support: 24/7</p>
+            </div>
+          </div>
+
+          <div style="margin-top: var(--space-8);">
+            <p style="color: rgba(255, 255, 255, 0.7); font-size: var(--text-sm); margin-bottom: var(--space-3);">Follow Us</p>
+            <div class="footer-social">
+              <a href="#" aria-label="Facebook">
+                <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+              </a>
+              <a href="#" aria-label="Twitter">
+                <svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+              </a>
+              <a href="#" aria-label="LinkedIn">
+                <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+              </a>
+              <a href="#" aria-label="Instagram">
+                <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Form Card -->
+        <div class="contact-form-card">
+          <h3>Send Us a Message</h3>
+          <p style="color: var(--neutral-500); margin-bottom: var(--space-8);">Fill out the form below and we'll get back to you within 24 hours.</p>
+
+          <form id="contactForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label form-label-required" for="firstName">First Name</label>
+                <input type="text" id="firstName" class="form-input" placeholder="Enter your first name" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label form-label-required" for="lastName">Last Name</label>
+                <input type="text" id="lastName" class="form-input" placeholder="Enter your last name" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label form-label-required" for="email">Email Address</label>
+                <input type="email" id="email" class="form-input" placeholder="Enter your email" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label form-label-required" for="phone">Phone Number</label>
+                <input type="tel" id="phone" class="form-input" placeholder="Enter your phone number" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label form-label-required" for="company">Company Name</label>
+              <input type="text" id="company" class="form-input" placeholder="Enter your company name (optional)">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label form-label-required" for="subject">Subject</label>
+              <select id="subject" class="form-select" required>
+                <option value="">Select a subject</option>
+                <option value="quote">Request a Quote</option>
+                <option value="tracking">Tracking Inquiry</option>
+                <option value="support">Customer Support</option>
+                <option value="partnership">Business Partnership</option>
+                <option value="careers">Career Opportunities</option>
+                <option value="feedback">Feedback</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label form-label-required" for="message">Message</label>
+              <textarea id="message" class="form-textarea" placeholder="Please describe your inquiry in detail..." required></textarea>
+            </div>
+
+            <div class="form-group">
+              <label style="display: flex; align-items: flex-start; gap: var(--space-2); cursor: pointer; font-size: var(--text-sm); color: var(--neutral-600);">
+                <input type="checkbox" required style="margin-top: 3px;">
+                <span>I agree to the <a href="#" style="color: var(--primary-600); text-decoration: underline;">Privacy Policy</a> and consent to being contacted about my inquiry.</span>
+              </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== MAP SECTION ========== -->
+  <section class="section bg-neutral">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">Our Locations</span>
+        <h2 class="section-title">Find Us Near You</h2>
+        <p class="section-description">Visit any of our regional offices for personalized assistance.</p>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+          </div>
+          <h3>Ahmedabad (Head Office)</h3>
+          <p>913 Spectrics solutions<br>Ahmedabad, Science City, Gujarat, India</p>
+          <p style="margin-top: var(--space-3); color: var(--primary-600); font-weight: var(--font-semibold);">+91 8799224022</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+          </div>
+          <h3>Delhi NCR</h3>
+          <p>45 Cargo Complex, Mahipalpur<br>New Delhi, DL 110037</p>
+          <p style="margin-top: var(--space-3); color: var(--primary-600); font-weight: var(--font-semibold);">+91 11-2345-6789</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+          </div>
+          <h3>Bangalore</h3>
+          <p>78 Tech Park, Electronic City<br>Bangalore, KA 560100</p>
+          <p style="margin-top: var(--space-3); color: var(--primary-600); font-weight: var(--font-semibold);">+91 80-3456-7890</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+          </div>
+          <h3>Chennai</h3>
+          <p>92 Port Area, Tondiarpet<br>Chennai, TN 600081</p>
+          <p style="margin-top: var(--space-3); color: var(--primary-600); font-weight: var(--font-semibold);">+91 44-4567-8901</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+          </div>
+          <h3>Kolkata</h3>
+          <p>15 Dock Road, Howrah<br>Kolkata, WB 711101</p>
+          <p style="margin-top: var(--space-3); color: var(--primary-600); font-weight: var(--font-semibold);">+91 33-5678-9012</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+          </div>
+          <h3>Hyderabad</h3>
+          <p>33 Shamshabad Road<br>Hyderabad, TS 500052</p>
+          <p style="margin-top: var(--space-3); color: var(--primary-600); font-weight: var(--font-semibold);">+91 40-6789-0123</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== QUICK CONTACT OPTIONS ========== -->
+  <section class="section tracking-section">
+    <div class="container tracking-container">
+      <div class="section-header">
+        <span class="section-badge">Quick Support</span>
+        <h2 class="section-title">Other Ways to Reach Us</h2>
+        <p class="section-description">Choose the option that works best for you.</p>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card" style="background: var(--white);">
+          <div class="service-icon" style="background: var(--accent-100);">
+            <svg viewBox="0 0 24 24" fill="currentColor" style="fill: var(--accent-600);">
+              <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+            </svg>
+          </div>
+          <h3>Live Chat</h3>
+          <p>Chat with our support team in real-time for quick answers to your questions.</p>
+          <a href="#" class="service-link">Start Chat</a>
+        </div>
+
+        <div class="service-card" style="background: var(--white);">
+          <div class="service-icon" style="background: var(--accent-100);">
+            <svg viewBox="0 0 24 24" fill="currentColor" style="fill: var(--accent-600);">
+              <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+            </svg>
+          </div>
+          <h3>Call Us</h3>
+          <p>Speak directly with our customer service team for personalized assistance.</p>
+          <a href="tel:18001234567" class="service-link">1800-123-4567</a>
+        </div>
+
+        <div class="service-card" style="background: var(--white);">
+          <div class="service-icon" style="background: var(--accent-100);">
+            <svg viewBox="0 0 24 24" fill="currentColor" style="fill: var(--accent-600);">
+              <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+            </svg>
+          </div>
+          <h3>Email Support</h3>
+          <p>Send us a detailed message and we'll respond within 24 hours.</p>
+          <a href="mailto:mozaid@gmail.com" class="service-link">mozaid@gmail.com</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FAQ PREVIEW ========== -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">FAQ</span>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-item">
+          <div class="feature-check">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
+            </svg>
+          </div>
+          <div>
+            <h4>How do I get a shipping quote?</h4>
+            <p>Use our contact form or call us to receive an instant quote.</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-check">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
+            </svg>
+          </div>
+          <div>
+            <h4>What are your business hours?</h4>
+            <p>Offices: Mon-Sat 9AM-8PM. Support: 24/7.</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-check">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
+            </svg>
+          </div>
+          <div>
+            <h4>Do you offer international shipping?</h4>
+            <p>Yes, we ship to over 150 countries worldwide.</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-check">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
+            </svg>
+          </div>
+          <div>
+            <h4>How can I track my package?</h4>
+            <p>Use our tracking page with your tracking number.</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: var(--space-10);">
+        <a href="{% url 'tracking' %}" class="btn btn-outline">Track Your Shipment</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <a href="{% url 'home' %}" class="logo">
+            <div class="logo-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+              </svg>
+            </div>
+            <span>Shipnex</span>
+          </a>
+          <p>Delivering excellence in global logistics. Your trusted partner for shipping, freight, and supply chain solutions.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Facebook">
+              <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href="#" aria-label="Twitter">
+              <svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+            </a>
+            <a href="#" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="#" aria-label="Instagram">
+              <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'about' %}">About Us</a></li>
+            <li><a href="{% url 'services' %}">Services</a></li>
+            <li><a href="{% url 'tracking' %}">Track Shipment</a></li>
+            <li><a href="{% url 'contact' %}">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links">
+          <h4>Our Services</h4>
+          <ul>
+            <li><a href="{% url 'services' %}">Express Delivery</a></li>
+            <li><a href="{% url 'services' %}">Freight Forwarding</a></li>
+            <li><a href="{% url 'services' %}">Warehousing</a></li>
+            <li><a href="{% url 'services' %}">Air Cargo</a></li>
+            <li><a href="{% url 'services' %}">Supply Chain</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links">
+          <h4>Contact Us</h4>
+          <ul>
+            <li>913 Spectrics solutions, Ahmedabad, Gujarat, India</li>
+            <li>+91 8799224022/+91 8200246360</li>
+            <li>mozaid@gmail.com</li>
+            <li>Mon-Sat: 9AM - 8PM (Friday/sunday : off)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2024 Shipnex. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Refund Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="{% static 'sta_user/main.js' %}"></script>
+</body>
+</html>
