@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 {% load static %}
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,6 +9,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="{% static 'sta_admin/style.css' %}" />
+  <style>
+    .badge-status { display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:999px; font-size:12px; font-weight:700; }
+    .badge-active { background:#d1fae5; color:#065f46; }
+    .badge-inactive { background:#fee2e2; color:#991b1b; }
+    .table-actions { gap:8px; }
+    .table-actions form { display:inline; }
+    .form-pill { border-radius:14px; }
+  </style>
 </head>
 <body>
 <div class="admin-wrapper">
@@ -21,24 +28,65 @@
           <h4 class="fw-800 text-dark mb-1">Driver Management</h4>
           <p class="text-muted mb-0" style="font-size:13px">Manage drivers, license records and availability status</p>
         </div>
-        <button class="btn-primary-custom" onclick="openModal('addDriverModal')"><i class="fas fa-plus"></i> Add Driver</button>
+        <a href="{% url 'driver_add' %}" class="btn-primary-custom"><i class="fas fa-plus"></i> Add Driver</a>
       </div>
 
       <div class="row g-3 mb-4">
-        <div class="col-lg-3 col-sm-6 animate-up-1"><div class="stat-card blue"><div class="stat-header"><span class="stat-label">Total Drivers</span><div class="stat-icon"><i class="fas fa-id-card"></i></div></div><div class="stat-value">96</div><div class="stat-change up"><i class="fas fa-arrow-trend-up"></i> Active fleet</div></div></div>
-        <div class="col-lg-3 col-sm-6 animate-up-2"><div class="stat-card green"><div class="stat-header"><span class="stat-label">Available</span><div class="stat-icon"><i class="fas fa-circle-check"></i></div></div><div class="stat-value">54</div><div class="stat-change up"><i class="fas fa-arrow-trend-up"></i> Ready to assign</div></div></div>
-        <div class="col-lg-3 col-sm-6 animate-up-3"><div class="stat-card orange"><div class="stat-header"><span class="stat-label">On Route</span><div class="stat-icon"><i class="fas fa-road"></i></div></div><div class="stat-value">38</div><div class="stat-change up"><i class="fas fa-arrow-trend-up"></i> On duty</div></div></div>
-        <div class="col-lg-3 col-sm-6 animate-up-1"><div class="stat-card red"><div class="stat-header"><span class="stat-label">Off Duty</span><div class="stat-icon"><i class="fas fa-moon"></i></div></div><div class="stat-value">4</div><div class="stat-change down"><i class="fas fa-arrow-trend-down"></i> Unavailable</div></div></div>
+        <div class="col-lg-4 col-sm-6 animate-up-1">
+          <div class="stat-card blue">
+            <div class="stat-header">
+              <span class="stat-label">Total Drivers</span>
+              <div class="stat-icon"><i class="fas fa-id-card"></i></div>
+            </div>
+            <div class="stat-value">{{ total_drivers }}</div>
+            <div class="stat-change up"><i class="fas fa-arrow-trend-up"></i> Total drivers</div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 animate-up-2">
+          <div class="stat-card green">
+            <div class="stat-header">
+              <span class="stat-label">Active Drivers</span>
+              <div class="stat-icon"><i class="fas fa-circle-check"></i></div>
+            </div>
+            <div class="stat-value">{{ active_drivers }}</div>
+            <div class="stat-change up"><i class="fas fa-arrow-trend-up"></i> Available now</div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 animate-up-3">
+          <div class="stat-card red">
+            <div class="stat-header">
+              <span class="stat-label">Inactive Drivers</span>
+              <div class="stat-icon"><i class="fas fa-moon"></i></div>
+            </div>
+            <div class="stat-value">{{ inactive_drivers }}</div>
+            <div class="stat-change down"><i class="fas fa-arrow-trend-down"></i> Off duty</div>
+          </div>
+        </div>
       </div>
 
       <div class="data-card animate-up-2">
-        <div class="filter-bar">
-          <div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="Search driver name, phone, license..." /></div>
-          <select class="filter-select">
-            <option>All Status</option><option>Available</option><option>On Route</option><option>Off Duty</option>
-          </select>
-          <button class="btn-secondary-custom"><i class="fas fa-download"></i> Export</button>
-        </div>
+        <form method="get" class="row gy-3 gx-3 align-items-center mb-4">
+          <div class="col-lg-4">
+            <div class="input-group form-pill">
+              <span class="input-group-text"><i class="fas fa-search"></i></span>
+              <input type="text" name="q" value="{{ search_query }}" class="form-control" placeholder="Search driver name, phone, license..." />
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <select name="status" class="form-select form-pill">
+              <option value="">All Status</option>
+              <option value="active" {% if status_filter == 'active' %}selected{% endif %}>Active</option>
+              <option value="inactive" {% if status_filter == 'inactive' %}selected{% endif %}>Inactive</option>
+            </select>
+          </div>
+          <div class="col-lg-2">
+            <button type="submit" class="btn-secondary-custom w-100">Filter</button>
+          </div>
+          <div class="col-lg-3 text-lg-end">
+            <a href="{% url 'drivers_view' %}" class="btn-outline-custom w-100">Reset</a>
+          </div>
+        </form>
+
         <div class="table-wrapper">
           <table class="admin-table">
             <thead>
@@ -49,109 +97,39 @@
                 <th>Phone</th>
                 <th>License No.</th>
                 <th>Assigned Vehicle</th>
-                <th>Deliveries</th>
-                <th>Rating</th>
                 <th>Status</th>
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody id="driverBody"></tbody>
+            <tbody>
+              {% for driver in drivers %}
+                <tr>
+                  <td><input type="checkbox" class="custom-check" /></td>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ driver.name }}</td>
+                  <td>{{ driver.phone }}</td>
+                  <td>{{ driver.license_number }}</td>
+                  <td>{% if driver.vehicle %}{{ driver.vehicle.vehicle_number }}{% else %}Not Assigned{% endif %}</td>
+                  <td>{% if driver.is_active %}<span class="badge-status badge-active">Active</span>{% else %}<span class="badge-status badge-inactive">Inactive</span>{% endif %}</td>
+                  <td class="table-actions">
+                    <a href="{% url 'driver_edit' driver.pk %}" class="btn-action edit" title="Edit"><i class="fas fa-pen"></i></a>
+                    <form method="post" action="{% url 'driver_delete' driver.pk %}">
+                      {% csrf_token %}
+                      <button type="submit" class="btn-action delete" title="Delete"><i class="fas fa-trash"></i></button>
+                    </form>
+                  </td>
+                </tr>
+              {% empty %}
+                <tr><td colspan="8" class="text-center text-muted py-4">No drivers found.</td></tr>
+              {% endfor %}
+            </tbody>
           </table>
         </div>
-        <div class="d-flex align-items-center justify-content-between p-3 border-top" style="font-size:13px;color:#64748b">
-          <span>Showing <strong>1–8</strong> of <strong>96</strong> drivers</span>
-          <div class="d-flex gap-1">
-            <button class="btn-secondary-custom" style="padding:5px 12px;font-size:12px">Prev</button>
-            <button class="btn-primary-custom" style="padding:5px 14px;font-size:12px">1</button>
-            <button class="btn-secondary-custom" style="padding:5px 12px;font-size:12px">Next</button>
-          </div>
-        </div>
       </div>
 
     </div>
   </div>
 </div>
-
-<!-- Add Driver Modal -->
-<div class="modal-overlay" id="addDriverModal">
-  <div class="modal-box">
-    <div class="modal-header">
-      <div class="modal-title"><i class="fas fa-id-card" style="color:#3b82f6;margin-right:8px"></i>Add New Driver</div>
-      <button class="modal-close" onclick="closeModal('addDriverModal')"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="modal-body">
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">Full Name</label><input class="form-control-custom" placeholder="Driver full name" /></div>
-        <div class="form-group"><label class="form-label">Phone</label><input class="form-control-custom" placeholder="+91 XXXXX XXXXX" /></div>
-      </div>
-      <div class="form-group"><label class="form-label">License Number</label><input class="form-control-custom" placeholder="MH-2010-00123456" style="text-transform:uppercase" /></div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">License Expiry</label><input class="form-control-custom" type="date" /></div>
-        <div class="form-group"><label class="form-label">Date of Birth</label><input class="form-control-custom" type="date" /></div>
-      </div>
-      <div class="form-group"><label class="form-label">Address</label><textarea class="form-control-custom" rows="2" placeholder="Residential address"></textarea></div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">Assign Vehicle</label>
-          <select class="form-control-custom"><option>-- Select Vehicle --</option><option>MH-01-AB-4567</option><option>DL-02-CD-8910</option></select>
-        </div>
-        <div class="form-group"><label class="form-label">Status</label>
-          <select class="form-control-custom"><option>Available</option><option>On Route</option><option>Off Duty</option></select>
-        </div>
-      </div>
-      <div class="form-group"><label class="form-label">Emergency Contact</label><input class="form-control-custom" placeholder="Emergency contact number" /></div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-secondary-custom" onclick="closeModal('addDriverModal')">Cancel</button>
-      <button class="btn-primary-custom"><i class="fas fa-check"></i> Add Driver</button>
-    </div>
-  </div>
-</div>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="{% static 'sta_admin/layout.js' %}"></script>
-<script>
-  initLayout('Driver Management', 'Drivers');
-
-  const drivers = [
-    { id:1, name:'Arvind Kumar', phone:'+91 98001 12345', license:'MH-2018-00123456', vehicle:'MH-01-AB-4567', deliveries:284, rating:4.8, status:'Available', col:'av-blue' },
-    { id:2, name:'Deepak Singh', phone:'+91 97002 23456', license:'DL-2016-00234567', vehicle:'DL-02-CD-8910', deliveries:196, rating:4.5, status:'On Route', col:'av-green' },
-    { id:3, name:'Manoj Yadav', phone:'+91 96003 34567', license:'KA-2019-00345678', vehicle:'KA-03-EF-1122', deliveries:312, rating:4.7, status:'Available', col:'av-orange' },
-    { id:4, name:'Suresh Babu', phone:'+91 95004 45678', license:'TN-2017-00456789', vehicle:'Under Maintenance', deliveries:88, rating:3.9, status:'Off Duty', col:'av-teal' },
-    { id:5, name:'Kiran Patel', phone:'+91 94005 56789', license:'GJ-2020-00567890', vehicle:'GJ-05-IJ-5566', deliveries:447, rating:4.9, status:'Available', col:'av-blue' },
-    { id:6, name:'Pradeep Nair', phone:'+91 93006 67890', license:'MH-2015-00678901', vehicle:'MH-06-KL-7788', deliveries:231, rating:4.3, status:'On Route', col:'av-purple' },
-    { id:7, name:'Sanjay More', phone:'+91 92007 78901', license:'UP-2021-00789012', vehicle:'Not Assigned', deliveries:64, rating:4.1, status:'Available', col:'av-red' },
-    { id:8, name:'Ramesh Verma', phone:'+91 91008 89012', license:'RJ-2018-00890123', vehicle:'Not Assigned', deliveries:158, rating:4.6, status:'On Route', col:'av-green' },
-  ];
-
-  const sb = { Available:'badge-available', 'On Route':'badge-transit', 'Off Duty':'badge-inactive' };
-
-  function stars(r) {
-    return Array.from({length:5}, (_,i) =>
-      `<i class="fas fa-star" style="color:${i<Math.floor(r)?'#f59e0b':'#e2e8f0'};font-size:11px"></i>`
-    ).join('') + `<span style="font-size:12px;font-weight:700;margin-left:4px;color:#1e293b">${r}</span>`;
-  }
-
-  document.getElementById('driverBody').innerHTML = drivers.map(d => `
-    <tr>
-      <td><input type="checkbox" class="custom-check" /></td>
-      <td style="color:#94a3b8;font-size:12px">${String(d.id).padStart(3,'0')}</td>
-      <td><div class="avatar-cell"><div class="avatar-sm ${d.col}">${d.name.split(' ').map(n=>n[0]).join('')}</div><div><div class="cell-name">${d.name}</div><div class="cell-sub">${d.phone}</div></div></div></td>
-      <td>${d.phone}</td>
-      <td><span style="font-family:monospace;font-size:12px;color:#475569">${d.license}</span></td>
-      <td style="font-size:12.5px;color:#374151">${d.vehicle}</td>
-      <td><strong>${d.deliveries}</strong></td>
-      <td>${stars(d.rating)}</td>
-      <td><span class="badge-status ${sb[d.status]}">${d.status}</span></td>
-      <td><div class="d-flex gap-1">
-        <button class="btn-action view" data-tooltip="View"><i class="fas fa-eye"></i></button>
-        <button class="btn-action edit" data-tooltip="Edit"><i class="fas fa-pen"></i></button>
-        <button class="btn-action delete" data-tooltip="Delete"><i class="fas fa-trash"></i></button>
-      </div></td>
-    </tr>`).join('');
-
-  function openModal(id) { document.getElementById(id).classList.add('show'); }
-  function closeModal(id) { document.getElementById(id).classList.remove('show'); }
-  document.querySelectorAll('.modal-overlay').forEach(m => m.addEventListener('click', e => { if(e.target===m) m.classList.remove('show'); }));
-</script>
 </body>
 </html>

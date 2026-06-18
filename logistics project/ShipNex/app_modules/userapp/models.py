@@ -1,13 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-# ========== CUSTOM USER MODEL ==========
+
 class CustomUser(AbstractUser):
-    """Custom user model extending Django's AbstractUser"""
     ROLE_CHOICES = [
         ('customer', 'Customer'),
         ('admin', 'Admin'),
         ('transporter', 'Transporter'),
+        ('logistics', 'Logistics'),
     ]
     
     phone = models.CharField(max_length=15, blank=True, null=True)
@@ -32,7 +32,7 @@ class CustomUser(AbstractUser):
         return f"{self.username} ({self.get_role_display()})"
 
 
-# ========== SHIPMENT MODEL ==========
+
 class Shipment(models.Model):
     """User shipment records"""
     SHIPMENT_STATUS = [
@@ -55,8 +55,6 @@ class Shipment(models.Model):
     
     tracking_number = models.CharField(max_length=50, unique=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='shipments')
-    
-    # Sender Details
     sender_name = models.CharField(max_length=100)
     sender_email = models.EmailField()
     sender_phone = models.CharField(max_length=15)

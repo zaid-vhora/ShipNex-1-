@@ -109,17 +109,21 @@
               <span>or continue with email</span>
             </div>
 
+            {% if login_error %}
+              <div class="auth-alert auth-alert-error">{{ login_error }}</div>
+            {% endif %}
             <!-- Login Form -->
-            <form class="auth-form" id="loginForm">
+            <form method="post" class="auth-form" id="loginForm">
+              {% csrf_token %}
               <div class="form-group">
                 <label class="form-label form-label-required" for="email">Email Address</label>
-                <input type="email" id="email" class="form-input" placeholder="Enter your email" required>
+                <input type="email" id="email" name="email" class="form-input" placeholder="Enter your email" required>
               </div>
 
               <div class="form-group">
                 <label class="form-label form-label-required" for="password">Password</label>
                 <div class="password-toggle">
-                  <input type="password" id="password" class="form-input" placeholder="Enter your password" required style="padding-right: 48px;">
+                  <input type="password" id="password" name="password" class="form-input" placeholder="Enter your password" required style="padding-right: 48px;">
                   <button type="button" class="password-toggle-btn" onclick="togglePassword()">
                     <svg id="eyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
@@ -171,11 +175,6 @@
       }
     }
 
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      alert('Login successful! Redirecting to dashboard...');
-      window.location.href = 'index.html';
-    });
   </script>
   <script src="{% static 'sta_user/main.js' %}"></script>
 </body>

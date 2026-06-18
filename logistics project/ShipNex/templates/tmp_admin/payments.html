@@ -99,32 +99,58 @@
           <div><div class="data-card-title">Recent Transactions</div><div class="data-card-subtitle">All payment records</div></div>
           <button class="btn-secondary-custom" style="font-size:12px;padding:7px 14px"><i class="fas fa-download"></i> Export CSV</button>
         </div>
-        <div class="filter-bar" style="border-top:1px solid #f1f5f9;border-bottom:1px solid #f1f5f9">
-          <div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="Search transaction ID, shipment..." /></div>
-          <select class="filter-select">
-            <option>All Status</option><option>Paid</option><option>Pending</option><option>Failed</option><option>Refunded</option>
+        <form method="get" class="filter-bar" style="border-top:1px solid #f1f5f9;border-bottom:1px solid #f1f5f9">
+          <div class="search-box"><i class="fas fa-search"></i><input type="text" name="q" value="{{ search_query }}" placeholder="Search transaction ID, shipment..." /></div>
+          <select class="filter-select" name="status">
+            <option value="">All Status</option><option value="Paid">Paid</option><option value="Pending">Pending</option><option value="Failed">Failed</option><option value="Refunded">Refunded</option>
           </select>
-          <select class="filter-select">
-            <option>All Methods</option><option>UPI</option><option>Net Banking</option><option>Card</option><option>COD</option>
+          <select class="filter-select" name="method">
+            <option value="">All Methods</option><option value="UPI">UPI</option><option value="Net Banking">Net Banking</option><option value="Card">Card</option><option value="COD">COD</option>
           </select>
-          <input type="date" class="filter-select" style="padding:9px 12px" />
-        </div>
+          <input type="date" name="date" class="filter-select" style="padding:9px 12px" />
+          <button type="submit" class="btn-secondary-custom" style="font-size:12px;padding:7px 14px">Search</button>
+        </form>
         <div class="table-wrapper">
           <table class="admin-table">
             <thead>
               <tr>
                 <th>Transaction ID</th>
-                <th>Shipment</th>
-                <th>Customer</th>
+                <th>Reference</th>
                 <th>Method</th>
                 <th>Amount</th>
-                <th>Paid At</th>
                 <th>Status</th>
+                <th>Paid At</th>
                 <th>Invoice</th>
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody id="payBody"></tbody>
+            <tbody>
+              {% for payment in payments %}
+                <tr>
+                  <td><strong>{{ payment.transaction_id }}</strong></td>
+                  <td>{{ payment.reference_number }}</td>
+                  <td>{{ payment.payment_method }}</td>
+                  <td>₹{{ payment.amount }}</td>
+                  <td>
+                    <span class="badge-status {% if payment.status == 'Paid' %}badge-paid{% elif payment.status == 'Pending' %}badge-pending{% elif payment.status == 'Failed' %}badge-inactive{% else %}badge-transit{% endif %}">{{ payment.status }}</span>
+                  </td>
+                  <td>{{ payment.completed_date|date:'M d, Y H:i' }}</td>
+                  <td>{{ payment.invoice_number }}</td>
+                  <td class="table-actions">
+                    <a class="btn-action view" href="#" title="View"><i class="fas fa-eye"></i></a>
+                    <a class="btn-action edit" href="{% url 'payment_edit' payment.pk %}" title="Edit"><i class="fas fa-pen"></i></a>
+                    <form method="post" action="{% url 'payment_delete' payment.pk %}">
+                      {% csrf_token %}
+                      <button class="btn-action delete" type="submit" title="Delete"><i class="fas fa-trash"></i></button>
+                    </form>
+                  </td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="8" class="text-center text-muted py-4">No payments found.</td>
+                </tr>
+              {% endfor %}
+            </tbody>
           </table>
         </div>
         <div class="d-flex align-items-center justify-content-between p-3 border-top" style="font-size:13px;color:#64748b">
@@ -178,36 +204,6 @@
   <script src="{% static 'sta_admin/layout.js' %}"></script>
 <script>
   initLayout('Payment Management', 'Payments');
-
-  const payments = [
-    { txn:'TXN-20240611-001', ship:'SHP-20240611', customer:'John Doe', method:'UPI', amount:'₹2,400', paid:'Jun 11, 10:24', status:'Paid', inv:'INV-2024-091' },
-    { txn:'TXN-20240610-002', ship:'SHP-20240610', customer:'Sarah Khan', method:'Net Banking', amount:'₹1,850', paid:'Jun 10, 15:00', status:'Paid', inv:'INV-2024-090' },
-    { txn:'TXN-20240609-003', ship:'SHP-20240609', customer:'Ravi Menon', method:'Credit Card', amount:'₹3,200', paid:'—', status:'Pending', inv:'—' },
-    { txn:'TXN-20240608-004', ship:'SHP-20240608', customer:'Anita Patel', method:'UPI', amount:'₹980', paid:'Jun 8, 12:45', status:'Paid', inv:'INV-2024-088' },
-    { txn:'TXN-20240607-005', ship:'SHP-20240607', customer:'Vikram Singh', method:'COD', amount:'₹4,100', paid:'—', status:'Refunded', inv:'INV-2024-087' },
-    { txn:'TXN-20240606-006', ship:'SHP-20240606', customer:'Priya Sharma', method:'Debit Card', amount:'₹5,600', paid:'Jun 6, 09:15', status:'Paid', inv:'INV-2024-086' },
-    { txn:'TXN-20240605-007', ship:'SHP-20240605', customer:'Arjun Nair', method:'UPI', amount:'₹1,200', paid:'Jun 5, 16:30', status:'Paid', inv:'INV-2024-085' },
-    { txn:'TXN-20240604-008', ship:'SHP-20240604', customer:'Meena Reddy', method:'Net Banking', amount:'₹2,800', paid:'—', status:'Failed', inv:'—' },
-  ];
-
-  const sb = { Paid:'badge-paid', Pending:'badge-pending', Failed:'badge-inactive', Refunded:'badge-transit' };
-  const methodIcon = { UPI:'fa-mobile-screen', 'Net Banking':'fa-building-columns', 'Credit Card':'fa-credit-card', 'Debit Card':'fa-credit-card', COD:'fa-money-bill-wave' };
-
-  document.getElementById('payBody').innerHTML = payments.map(p => `
-    <tr>
-      <td><span style="font-family:monospace;font-size:11.5px;color:#64748b">${p.txn}</span></td>
-      <td><span style="font-family:monospace;font-weight:700;color:#3b82f6;font-size:13px">${p.ship}</span></td>
-      <td style="font-weight:600;font-size:13.5px">${p.customer}</td>
-      <td><span style="font-size:12.5px"><i class="fas ${methodIcon[p.method]||'fa-credit-card'}" style="margin-right:5px;color:#64748b"></i>${p.method}</span></td>
-      <td><strong style="font-size:14px">${p.amount}</strong></td>
-      <td style="color:#64748b;font-size:12.5px">${p.paid}</td>
-      <td><span class="badge-status ${sb[p.status]||''}">${p.status}</span></td>
-      <td style="font-size:12.5px;color:#3b82f6;font-weight:600">${p.inv}</td>
-      <td><div class="d-flex gap-1">
-        <button class="btn-action view" data-tooltip="View Invoice"><i class="fas fa-file-invoice"></i></button>
-        <button class="btn-action edit" data-tooltip="Edit"><i class="fas fa-pen"></i></button>
-      </div></td>
-    </tr>`).join('');
 
   new Chart(document.getElementById('revenueChart'), {
     type: 'line',

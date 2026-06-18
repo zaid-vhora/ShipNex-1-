@@ -10,14 +10,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="{% static 'sta_admin/style.css' %}" />
   <style>
-    .vehicle-card {
-      background:#fff; border-radius:14px; border:1.5px solid #e2e8f0;
-      padding:20px; transition:all 0.2s; cursor:pointer;
-    }
-    .vehicle-card:hover { border-color:#3b82f6; box-shadow:0 8px 24px rgba(59,130,246,0.12); transform:translateY(-2px); }
-    .vehicle-type-icon { width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:14px; }
-    .vehicle-num { font-size:15px;font-weight:800;color:#1e293b;font-family:monospace;letter-spacing:1px; }
-    .vehicle-meta { font-size:12.5px;color:#64748b;margin-top:4px; }
+    .data-card { padding: 24px; border-radius: 22px; border: 1px solid #e2e8f0; background:#fff; }
+    .stat-card { min-height: 140px; }
+    .badge-status { display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:999px; font-size:12px; font-weight:700; }
+    .badge-active { background:#d1fae5; color:#065f46; }
+    .badge-inactive { background:#fee2e2; color:#991b1b; }
+    .table-actions { gap:8px; }
+    .table-actions form { display:inline; }
+    .form-pill { border-radius:14px; }
+    .card-small { border-radius:18px; border:1px solid #e2e8f0; padding:20px; }
   </style>
 </head>
 <body>
@@ -30,170 +31,114 @@
           <h4 class="fw-800 text-dark mb-1">Vehicle Management</h4>
           <p class="text-muted mb-0" style="font-size:13px">Manage fleet vehicles, availability and assignments</p>
         </div>
-        <button class="btn-primary-custom" onclick="openModal('addVehicleModal')"><i class="fas fa-plus"></i> Add Vehicle</button>
+        <a href="{% url 'vehicle_add' %}" class="btn-primary-custom"><i class="fas fa-plus"></i> Add Vehicle</a>
       </div>
 
-      <!-- Stats -->
       <div class="row g-3 mb-4">
-        <div class="col-lg-3 col-sm-6 animate-up-1"><div class="stat-card teal"><div class="stat-header"><span class="stat-label">Total Vehicles</span><div class="stat-icon"><i class="fas fa-car-side"></i></div></div><div class="stat-value">84</div><div class="stat-change up"><i class="fas fa-arrow-trend-up"></i> Fleet active</div></div></div>
-        <div class="col-lg-3 col-sm-6 animate-up-2"><div class="stat-card green"><div class="stat-header"><span class="stat-label">Available</span><div class="stat-icon"><i class="fas fa-circle-check"></i></div></div><div class="stat-value">52</div><div class="stat-change up"><i class="fas fa-arrow-trend-up"></i> Ready to deploy</div></div></div>
-        <div class="col-lg-3 col-sm-6 animate-up-3"><div class="stat-card orange"><div class="stat-header"><span class="stat-label">On Delivery</span><div class="stat-icon"><i class="fas fa-truck-fast"></i></div></div><div class="stat-value">26</div><div class="stat-change up"><i class="fas fa-arrow-trend-up"></i> In operation</div></div></div>
-        <div class="col-lg-3 col-sm-6 animate-up-1"><div class="stat-card red"><div class="stat-header"><span class="stat-label">Maintenance</span><div class="stat-icon"><i class="fas fa-wrench"></i></div></div><div class="stat-value">6</div><div class="stat-change down"><i class="fas fa-arrow-trend-down"></i> Under service</div></div></div>
+        <div class="col-lg-4 col-sm-6 animate-up-1">
+          <div class="stat-card teal">
+            <div class="stat-header">
+              <span class="stat-label">Total Vehicles</span>
+              <div class="stat-icon"><i class="fas fa-car-side"></i></div>
+            </div>
+            <div class="stat-value">{{ total_vehicles }}</div>
+            <div class="stat-change up"><i class="fas fa-arrow-trend-up"></i> Fleet total</div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 animate-up-2">
+          <div class="stat-card green">
+            <div class="stat-header">
+              <span class="stat-label">Active Vehicles</span>
+              <div class="stat-icon"><i class="fas fa-circle-check"></i></div>
+            </div>
+            <div class="stat-value">{{ active_vehicles }}</div>
+            <div class="stat-change up"><i class="fas fa-arrow-trend-up"></i> Currently active</div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 animate-up-3">
+          <div class="stat-card orange">
+            <div class="stat-header">
+              <span class="stat-label">Inactive Vehicles</span>
+              <div class="stat-icon"><i class="fas fa-triangle-exclamation"></i></div>
+            </div>
+            <div class="stat-value">{{ inactive_vehicles }}</div>
+            <div class="stat-change down"><i class="fas fa-arrow-trend-down"></i> Requires attention</div>
+          </div>
+        </div>
       </div>
 
-      <!-- View Toggle & Filter -->
       <div class="data-card animate-up-2">
-        <div class="filter-bar">
-          <div class="search-box"><i class="fas fa-search"></i><input type="text" id="vSearch" placeholder="Search vehicle number, driver..." oninput="renderVehicles()" /></div>
-          <select class="filter-select" id="vTypeFilter" onchange="renderVehicles()">
-            <option value="">All Types</option>
-            <option>Truck</option><option>Van</option><option>Mini Truck</option><option>Tempo</option>
-          </select>
-          <select class="filter-select" id="vStatusFilter" onchange="renderVehicles()">
-            <option value="">All Status</option>
-            <option>Available</option><option>On Delivery</option><option>Maintenance</option>
-          </select>
-          <button class="btn-secondary-custom" onclick="toggleView()" id="viewToggleBtn"><i class="fas fa-grip"></i> Card View</button>
-        </div>
-
-        <!-- Card View -->
-        <div class="p-3" id="cardView">
-          <div class="row g-3" id="vehicleCards"></div>
-        </div>
-
-        <!-- Table View (hidden by default) -->
-        <div id="tableView" style="display:none">
-          <div class="table-wrapper">
-            <table class="admin-table">
-              <thead><tr><th><input type="checkbox" class="custom-check" /></th><th>Vehicle No.</th><th>Type</th><th>Driver</th><th>Capacity</th><th>Status</th><th>Created</th><th>Actions</th></tr></thead>
-              <tbody id="vehicleTableBody"></tbody>
-            </table>
+        <form method="get" class="row gy-3 gx-3 align-items-center mb-4">
+          <div class="col-lg-4">
+            <div class="input-group form-pill">
+              <span class="input-group-text"><i class="fas fa-search"></i></span>
+              <input type="text" name="q" value="{{ search_query }}" class="form-control" placeholder="Search vehicle number, driver..." />
+            </div>
           </div>
+          <div class="col-lg-3">
+            <select name="status" class="form-select form-pill">
+              <option value="">All Status</option>
+              <option value="active" {% if status_filter == 'active' %}selected{% endif %}>Active</option>
+              <option value="inactive" {% if status_filter == 'inactive' %}selected{% endif %}>Inactive</option>
+            </select>
+          </div>
+          <div class="col-lg-3">
+            <button type="submit" class="btn-secondary-custom w-100">Filter</button>
+          </div>
+          <div class="col-lg-2 text-lg-end">
+            <a href="{% url 'vehicles_view' %}" class="btn-outline-custom w-100">Reset</a>
+          </div>
+        </form>
+
+        <div class="table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th><input type="checkbox" class="custom-check" /></th>
+                <th>Vehicle No.</th>
+                <th>Type</th>
+                <th>Driver</th>
+                <th>Capacity</th>
+                <th>Status</th>
+                <th>Last Service</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for vehicle in vehicles %}
+                <tr>
+                  <td><input type="checkbox" class="custom-check" /></td>
+                  <td><strong>{{ vehicle.vehicle_number }}</strong></td>
+                  <td>{{ vehicle.vehicle_type }}</td>
+                  <td>{{ vehicle.driver_name }}</td>
+                  <td>{{ vehicle.capacity }}</td>
+                  <td>
+                    {% if vehicle.is_active %}
+                      <span class="badge-status badge-active">Active</span>
+                    {% else %}
+                      <span class="badge-status badge-inactive">Inactive</span>
+                    {% endif %}
+                  </td>
+                  <td>{{ vehicle.last_service|date:'Y-m-d' }}</td>
+                  <td class="table-actions">
+                    <a href="{% url 'vehicle_edit' vehicle.pk %}" class="btn-action edit" title="Edit"><i class="fas fa-pen"></i></a>
+                    <form method="post" action="{% url 'vehicle_delete' vehicle.pk %}" style="display:inline">
+                      {% csrf_token %}
+                      <button type="submit" class="btn-action delete" title="Delete"><i class="fas fa-trash"></i></button>
+                    </form>
+                  </td>
+                </tr>
+              {% empty %}
+                <tr><td colspan="8" class="text-center text-muted py-4">No vehicles found.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
       </div>
 
     </div>
   </div>
 </div>
-
-<!-- Add Vehicle Modal -->
-<div class="modal-overlay" id="addVehicleModal">
-  <div class="modal-box">
-    <div class="modal-header">
-      <div class="modal-title"><i class="fas fa-truck" style="color:#06b6d4;margin-right:8px"></i>Add New Vehicle</div>
-      <button class="modal-close" onclick="closeModal('addVehicleModal')"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="modal-body">
-      <div class="form-group"><label class="form-label">Vehicle Number</label><input class="form-control-custom" placeholder="MH-01-AB-1234" style="text-transform:uppercase" /></div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">Vehicle Type</label>
-          <select class="form-control-custom"><option>Truck</option><option>Van</option><option>Mini Truck</option><option>Tempo</option><option>Bike</option></select>
-        </div>
-        <div class="form-group"><label class="form-label">Capacity (kg)</label><input class="form-control-custom" type="number" placeholder="1000" /></div>
-      </div>
-      <div class="form-group"><label class="form-label">Assigned Driver</label>
-        <select class="form-control-custom"><option>-- Select Driver --</option><option>Arvind Kumar</option><option>Deepak Singh</option><option>Manoj Yadav</option></select>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">Fuel Type</label>
-          <select class="form-control-custom"><option>Diesel</option><option>Petrol</option><option>CNG</option><option>Electric</option></select>
-        </div>
-        <div class="form-group"><label class="form-label">Year of Manufacture</label><input class="form-control-custom" type="number" placeholder="2022" /></div>
-      </div>
-      <div class="form-group"><label class="form-label">Availability Status</label>
-        <select class="form-control-custom"><option>Available</option><option>On Delivery</option><option>Maintenance</option></select>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-secondary-custom" onclick="closeModal('addVehicleModal')">Cancel</button>
-      <button class="btn-primary-custom"><i class="fas fa-check"></i> Add Vehicle</button>
-    </div>
-  </div>
-</div>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="{% static 'sta_admin/layout.js' %}"></script>
-<script>
-  initLayout('Vehicle Management', 'Vehicles');
-
-  const vehicles = [
-    { num:'MH-01-AB-4567', type:'Truck', driver:'Arvind Kumar', capacity:'5000 kg', status:'Available', created:'2023-04-10', icon:'fa-truck', col:'av-blue' },
-    { num:'DL-02-CD-8910', type:'Van', driver:'Deepak Singh', capacity:'1500 kg', status:'On Delivery', created:'2022-11-20', icon:'fa-van-shuttle', col:'av-teal' },
-    { num:'KA-03-EF-1122', type:'Mini Truck', driver:'Manoj Yadav', capacity:'2000 kg', status:'Available', created:'2024-01-05', icon:'fa-truck-pickup', col:'av-green' },
-    { num:'TN-04-GH-3344', type:'Tempo', driver:'Suresh Babu', capacity:'800 kg', status:'Maintenance', created:'2023-07-18', icon:'fa-truck-moving', col:'av-red' },
-    { num:'GJ-05-IJ-5566', type:'Truck', driver:'Kiran Patel', capacity:'8000 kg', status:'Available', created:'2022-03-28', icon:'fa-truck', col:'av-blue' },
-    { num:'MH-06-KL-7788', type:'Van', driver:'Pradeep Nair', capacity:'1200 kg', status:'On Delivery', created:'2024-02-14', icon:'fa-van-shuttle', col:'av-orange' },
-  ];
-
-  let isCardView = true;
-
-  function toggleView() {
-    isCardView = !isCardView;
-    document.getElementById('cardView').style.display = isCardView ? '' : 'none';
-    document.getElementById('tableView').style.display = isCardView ? 'none' : '';
-    document.getElementById('viewToggleBtn').innerHTML = isCardView
-      ? '<i class="fas fa-grip"></i> Card View'
-      : '<i class="fas fa-list"></i> List View';
-  }
-
-  const statusColor = { Available:'av-green', 'On Delivery':'av-blue', Maintenance:'av-red' };
-  const statusBadge = { Available:'badge-available', 'On Delivery':'badge-transit', Maintenance:'badge-inactive' };
-
-  function renderVehicles() {
-    const q = document.getElementById('vSearch').value.toLowerCase();
-    const type = document.getElementById('vTypeFilter').value;
-    const stat = document.getElementById('vStatusFilter').value;
-    const data = vehicles.filter(v =>
-      (!q || v.num.toLowerCase().includes(q) || v.driver.toLowerCase().includes(q)) &&
-      (!type || v.type === type) &&
-      (!stat || v.status === stat)
-    );
-
-    // Cards
-    document.getElementById('vehicleCards').innerHTML = data.map(v => `
-      <div class="col-xl-4 col-md-6">
-        <div class="vehicle-card" onclick="">
-          <div class="d-flex justify-content-between align-items-start mb-3">
-            <div class="vehicle-type-icon" style="background:${v.status==='Available'?'#ecfdf5':v.status==='On Delivery'?'#eff6ff':'#fef2f2'}">
-              <i class="fas ${v.icon}" style="color:${v.status==='Available'?'#10b981':v.status==='On Delivery'?'#3b82f6':'#ef4444'}"></i>
-            </div>
-            <span class="badge-status ${statusBadge[v.status]}">${v.status}</span>
-          </div>
-          <div class="vehicle-num">${v.num}</div>
-          <div class="vehicle-meta">${v.type} &bull; ${v.capacity}</div>
-          <div class="d-flex align-items-center gap-2 mt-3 pt-3 border-top">
-            <div class="avatar-sm ${v.col}" style="width:28px;height:28px;border-radius:7px;font-size:10px">${v.driver.split(' ').map(n=>n[0]).join('')}</div>
-            <span style="font-size:12.5px;font-weight:600;color:#374151">${v.driver}</span>
-            <div class="ms-auto d-flex gap-1">
-              <button class="btn-action edit" data-tooltip="Edit"><i class="fas fa-pen"></i></button>
-              <button class="btn-action delete" data-tooltip="Delete"><i class="fas fa-trash"></i></button>
-            </div>
-          </div>
-        </div>
-      </div>`).join('');
-
-    // Table
-    document.getElementById('vehicleTableBody').innerHTML = data.map(v => `
-      <tr>
-        <td><input type="checkbox" class="custom-check" /></td>
-        <td><span style="font-family:monospace;font-weight:700;color:#1e293b">${v.num}</span></td>
-        <td>${v.type}</td>
-        <td><div class="avatar-cell"><div class="avatar-sm ${v.col}" style="border-radius:7px">${v.driver.split(' ').map(n=>n[0]).join('')}</div><span>${v.driver}</span></div></td>
-        <td>${v.capacity}</td>
-        <td><span class="badge-status ${statusBadge[v.status]}">${v.status}</span></td>
-        <td style="color:#64748b">${v.created}</td>
-        <td><div class="d-flex gap-1">
-          <button class="btn-action edit" data-tooltip="Edit"><i class="fas fa-pen"></i></button>
-          <button class="btn-action delete" data-tooltip="Delete"><i class="fas fa-trash"></i></button>
-        </div></td>
-      </tr>`).join('');
-  }
-
-  function openModal(id) { document.getElementById(id).classList.add('show'); }
-  function closeModal(id) { document.getElementById(id).classList.remove('show'); }
-  document.querySelectorAll('.modal-overlay').forEach(m => m.addEventListener('click', e => { if(e.target===m) m.classList.remove('show'); }));
-
-  renderVehicles();
-</script>
 </body>
 </html>

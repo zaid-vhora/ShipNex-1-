@@ -259,17 +259,18 @@
           <p>Sign in to access the logistics management dashboard</p>
         </div>
 
-        <div class="alert-box error" id="errorAlert">
+        <div class="alert-box error {% if error %}show{% endif %}" id="errorAlert">
           <i class="fas fa-circle-exclamation"></i>
-          <span id="errorMsg">Invalid credentials. Please try again.</span>
+          <span id="errorMsg">{% if error %}{{ error }}{% else %}Invalid credentials. Please try again.{% endif %}</span>
         </div>
 
-        <form id="loginForm" onsubmit="handleLogin(event)">
+        <form method="post" id="loginForm">
+          {% csrf_token %}
           <div class="form-group">
             <label class="form-label">Username / Email</label>
             <div class="input-wrapper">
               <i class="fas fa-user input-icon"></i>
-              <input type="text" class="form-input" id="username" placeholder="admin@logitrack.com" required />
+              <input type="text" name="username" class="form-input" id="username" placeholder="admin@logitrack.com" required />
             </div>
           </div>
 
@@ -277,7 +278,7 @@
             <label class="form-label">Password</label>
             <div class="input-wrapper">
               <i class="fas fa-lock input-icon"></i>
-              <input type="password" class="form-input" id="password" placeholder="Enter your password" required />
+              <input type="password" name="password" class="form-input" id="password" placeholder="Enter your password" required />
               <i class="fas fa-eye toggle-pw" id="togglePw" onclick="togglePassword()"></i>
             </div>
           </div>
@@ -320,23 +321,20 @@
     }
 
     function handleLogin(e) {
-      e.preventDefault();
       const btn = document.getElementById('loginBtn');
       const alert = document.getElementById('errorAlert');
       const u = document.getElementById('username').value;
       const p = document.getElementById('password').value;
 
-      btn.classList.add('loading');
       alert.classList.remove('show');
-
-      setTimeout(() => {
-        btn.classList.remove('loading');
-        if (u && p) {
-          window.location.href = "{% url 'index_view' %}";
-        } else {
-          alert.classList.add('show');
-        }
-      }, 1800);
+      if (!u || !p) {
+        e.preventDefault();
+        alert.classList.add('show');
+        return;
+      }
+      btn.classList.add('loading');
+      // allow normal form submit after small animation
+      setTimeout(() => btn.classList.remove('loading'), 800);
     }
   </script>
 </body>

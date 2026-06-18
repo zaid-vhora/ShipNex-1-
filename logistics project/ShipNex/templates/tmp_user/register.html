@@ -109,34 +109,48 @@
               <span>or register with email</span>
             </div>
 
+            {% if register_error %}
+              <div class="auth-alert auth-alert-error">{{ register_error }}</div>
+            {% endif %}
             <!-- Register Form -->
-            <form class="auth-form" id="registerForm">
+            <form method="post" class="auth-form" id="registerForm">
+              {% csrf_token %}
               <div class="form-row">
                 <div class="form-group">
                   <label class="form-label form-label-required" for="firstName">First Name</label>
-                  <input type="text" id="firstName" class="form-input" placeholder="First name" required>
+                  <input type="text" id="firstName" name="first_name" class="form-input" placeholder="First name" required>
                 </div>
 
                 <div class="form-group">
                   <label class="form-label form-label-required" for="lastName">Last Name</label>
-                  <input type="text" id="lastName" class="form-input" placeholder="Last name" required>
+                  <input type="text" id="lastName" name="last_name" class="form-input" placeholder="Last name" required>
                 </div>
               </div>
 
               <div class="form-group">
                 <label class="form-label form-label-required" for="email">Email Address</label>
-                <input type="email" id="email" class="form-input" placeholder="Enter your email" required>
+                <input type="email" id="email" name="email" class="form-input" placeholder="Enter your email" required>
               </div>
 
               <div class="form-group">
                 <label class="form-label form-label-required" for="phone">Phone Number</label>
-                <input type="tel" id="phone" class="form-input" placeholder="+91 98765 43210" required>
+                <input type="tel" id="phone" name="phone" class="form-input" placeholder="+91 98765 43210" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label form-label-required" for="role">Account Type</label>
+                <select id="role" name="role" class="form-input" required>
+                  <option value="customer">Customer</option>
+                  <option value="transporter">Transporter</option>
+                  <option value="logistics">Logistics</option>
+                  <option value="admin">Admin</option>
+                </select>
               </div>
 
               <div class="form-group">
                 <label class="form-label form-label-required" for="password">Password</label>
                 <div class="password-toggle">
-                  <input type="password" id="password" class="form-input" placeholder="Create a strong password" required style="padding-right: 48px;" oninput="checkPasswordStrength()">
+                  <input type="password" id="password" name="password" class="form-input" placeholder="Create a strong password" required style="padding-right: 48px;" oninput="checkPasswordStrength()">
                   <button type="button" class="password-toggle-btn" onclick="togglePassword()">
                     <svg id="eyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
@@ -155,12 +169,12 @@
 
               <div class="form-group">
                 <label class="form-label form-label-required" for="confirmPassword">Confirm Password</label>
-                <input type="password" id="confirmPassword" class="form-input" placeholder="Confirm your password" required>
+                <input type="password" id="confirmPassword" name="confirm_password" class="form-input" placeholder="Confirm your password" required>
               </div>
 
               <div class="form-group">
                 <div class="form-checkbox">
-                  <input type="checkbox" id="terms" required>
+                  <input type="checkbox" id="terms" name="terms" required>
                   <label for="terms">I agree to the <a href="#" style="color: var(--primary-600);">Terms of Service</a> and <a href="#" style="color: var(--primary-600);">Privacy Policy</a></label>
                 </div>
               </div>
@@ -264,18 +278,13 @@
     }
 
     document.getElementById('registerForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-
       const password = document.getElementById('password').value;
       const confirmPassword = document.getElementById('confirmPassword').value;
 
       if (password !== confirmPassword) {
+        e.preventDefault();
         alert('Passwords do not match!');
-        return;
       }
-
-      alert('Account created successfully! Please sign in.');
-      window.location.href = 'login.html';
     });
   </script>
   <script src="{% static 'sta_user/main.js' %}"></script>
