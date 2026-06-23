@@ -3,6 +3,7 @@ from django.urls import path,include
 from app_modules.adminapp import views
 
 urlpatterns = [
+    path('', views.login_view, name='adminapp_root'),
     path('index_view/', views.index_view, name='index_view'),
     path('deliveries_view/', views.deliveries_view, name='deliveries_view'),
     path('drivers_view/', views.drivers_view, name='drivers_view'),
