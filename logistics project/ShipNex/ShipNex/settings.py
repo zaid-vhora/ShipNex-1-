@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -132,3 +133,39 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+JAZZMIN_SETTINGS = {
+    "site_title": "LogiTrack Admin",
+    "site_header": "LogiTrack",
+    "site_brand": "LogiTrack",
+    "welcome_sign": "Welcome to LogiTrack",
+    "copyright": "LogiTrack Ltd",
+    "user_avatar": None,
+    "topmenu_links": [
+        {"name": "Home",  "url": "admin:index"},
+        {"name": "Custom Dashboard", "url": "/adminapp/index_view/"},
+    ],
+    "usermenu_links": [
+        {"name": "Custom Dashboard", "url": "/adminapp/index_view/"},
+    ],
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "hide_apps": [],
+    "hide_models": [],
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.Group": "fas fa-users",
+        "userapp.CustomUser": "fas fa-user",
+        "adminapp.Vehicle": "fas fa-car-side",
+        "adminapp.Driver": "fas fa-id-card",
+        "adminapp.Warehouse": "fas fa-warehouse",
+        "adminapp.Payment": "fas fa-credit-card",
+    },
+    "default_icon_parents": "fas fa-chevron-circle-right",
+    "default_icon_children": "fas fa-circle",
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "theme": "flatly",
+    "dark_mode_theme": "darkly",
+    "show_ui_builder": True,
+}
