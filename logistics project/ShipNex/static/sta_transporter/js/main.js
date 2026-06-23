@@ -87,23 +87,12 @@ document.addEventListener('DOMContentLoaded', function () {
   if (profileDropdown) profileDropdown.addEventListener('click', function (e) { e.stopPropagation(); });
 
   // ---- Active Sidebar Link ----
-  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  const currentPath = window.location.pathname;
   const sidebarLinks = document.querySelectorAll('.sidebar-link');
-  const pageMap = {
-    'index.html': '/',
-    'assigned_shipments.html': '/assigned',
-    'shipment_details.html': '/shipment',
-    'vehicles.html': '/vehicles',
-    'drivers.html': '/drivers',
-    'routes.html': '/routes',
-    'pod.html': '/pod',
-    'earnings.html': '/earnings',
-    'settings.html': '/settings',
-  };
 
   sidebarLinks.forEach(function (link) {
     const href = link.getAttribute('href');
-    if (href === currentPage || (currentPage === '' && href === 'index.html')) {
+    if (href && currentPath === href) {
       link.classList.add('active');
     }
   });

@@ -20,15 +20,15 @@
         </div>
       </div>
       <nav class="sidebar-nav">
-        <a href="index.html" class="sidebar-link"><i class="bi bi-speedometer2"></i><span class="nav-text">Dashboard</span></a>
-        <a href="assigned_shipments.html" class="sidebar-link"><i class="bi bi-box-seam"></i><span class="nav-text">Assigned Shipments</span><span class="sidebar-badge">5</span></a>
-        <a href="shipment_details.html" class="sidebar-link"><i class="bi bi-file-earmark-text"></i><span class="nav-text">Shipment Details</span></a>
-        <a href="vehicles.html" class="sidebar-link"><i class="bi bi-truck"></i><span class="nav-text">Vehicle Management</span></a>
-        <a href="drivers.html" class="sidebar-link"><i class="bi bi-person-badge"></i><span class="nav-text">Driver Management</span></a>
-        <a href="routes.html" class="sidebar-link"><i class="bi bi-signpost-2"></i><span class="nav-text">Route Management</span></a>
-        <a href="pod.html" class="sidebar-link"><i class="bi bi-clipboard-check"></i><span class="nav-text">Proof of Delivery</span></a>
-        <a href="earnings.html" class="sidebar-link"><i class="bi bi-currency-rupee"></i><span class="nav-text">Earnings & Settlements</span></a>
-        <a href="settings.html" class="sidebar-link active"><i class="bi bi-gear"></i><span class="nav-text">Profile Settings</span></a>
+        <a href="{% url 'transportapp:transport_index' %}" class="sidebar-link"><i class="bi bi-speedometer2"></i><span class="nav-text">Dashboard</span></a>
+        <a href="{% url 'transportapp:assigned_view' %}" class="sidebar-link"><i class="bi bi-box-seam"></i><span class="nav-text">Assigned Shipments</span><span class="sidebar-badge">5</span></a>
+        <a href="{% url 'transportapp:shipment_view' %}" class="sidebar-link"><i class="bi bi-file-earmark-text"></i><span class="nav-text">Shipment Details</span></a>
+        <a href="{% url 'transportapp:vehicle_view' %}" class="sidebar-link"><i class="bi bi-truck"></i><span class="nav-text">Vehicle Management</span></a>
+        <a href="{% url 'transportapp:drivers_view' %}" class="sidebar-link"><i class="bi bi-person-badge"></i><span class="nav-text">Driver Management</span></a>
+        <a href="{% url 'transportapp:routes_view' %}" class="sidebar-link"><i class="bi bi-signpost-2"></i><span class="nav-text">Route Management</span></a>
+        <a href="{% url 'transportapp:pod_view' %}" class="sidebar-link"><i class="bi bi-clipboard-check"></i><span class="nav-text">Proof of Delivery</span></a>
+        <a href="{% url 'transportapp:earnings_view' %}" class="sidebar-link"><i class="bi bi-currency-rupee"></i><span class="nav-text">Earnings & Settlements</span></a>
+        <a href="{% url 'transportapp:settings_view' %}" class="sidebar-link active"><i class="bi bi-gear"></i><span class="nav-text">Profile Settings</span></a>
       </nav>
       <div class="sidebar-logout">
         <a href="#" class="sidebar-link"><i class="bi bi-box-arrow-left"></i><span class="nav-text">Logout</span></a>

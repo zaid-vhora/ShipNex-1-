@@ -20,15 +20,15 @@
         </div>
       </div>
       <nav class="sidebar-nav">
-        <a href="index.html" class="sidebar-link"><i class="bi bi-speedometer2"></i><span class="nav-text">Dashboard</span></a>
-        <a href="assigned_shipments.html" class="sidebar-link active"><i class="bi bi-box-seam"></i><span class="nav-text">Assigned Shipments</span><span class="sidebar-badge">5</span></a>
-        <a href="shipment_details.html" class="sidebar-link"><i class="bi bi-file-earmark-text"></i><span class="nav-text">Shipment Details</span></a>
-        <a href="vehicles.html" class="sidebar-link"><i class="bi bi-truck"></i><span class="nav-text">Vehicle Management</span></a>
-        <a href="drivers.html" class="sidebar-link"><i class="bi bi-person-badge"></i><span class="nav-text">Driver Management</span></a>
-        <a href="routes.html" class="sidebar-link"><i class="bi bi-signpost-2"></i><span class="nav-text">Route Management</span></a>
-        <a href="pod.html" class="sidebar-link"><i class="bi bi-clipboard-check"></i><span class="nav-text">Proof of Delivery</span></a>
-        <a href="earnings.html" class="sidebar-link"><i class="bi bi-currency-rupee"></i><span class="nav-text">Earnings & Settlements</span></a>
-        <a href="settings.html" class="sidebar-link"><i class="bi bi-gear"></i><span class="nav-text">Profile Settings</span></a>
+        <a href="{% url 'transportapp:transport_index' %}" class="sidebar-link"><i class="bi bi-speedometer2"></i><span class="nav-text">Dashboard</span></a>
+        <a href="{% url 'transportapp:assigned_view' %}" class="sidebar-link active"><i class="bi bi-box-seam"></i><span class="nav-text">Assigned Shipments</span><span class="sidebar-badge">5</span></a>
+        <a href="{% url 'transportapp:shipment_view' %}" class="sidebar-link"><i class="bi bi-file-earmark-text"></i><span class="nav-text">Shipment Details</span></a>
+        <a href="{% url 'transportapp:vehicle_view' %}" class="sidebar-link"><i class="bi bi-truck"></i><span class="nav-text">Vehicle Management</span></a>
+        <a href="{% url 'transportapp:drivers_view' %}" class="sidebar-link"><i class="bi bi-person-badge"></i><span class="nav-text">Driver Management</span></a>
+        <a href="{% url 'transportapp:routes_view' %}" class="sidebar-link"><i class="bi bi-signpost-2"></i><span class="nav-text">Route Management</span></a>
+        <a href="{% url 'transportapp:pod_view' %}" class="sidebar-link"><i class="bi bi-clipboard-check"></i><span class="nav-text">Proof of Delivery</span></a>
+        <a href="{% url 'transportapp:earnings_view' %}" class="sidebar-link"><i class="bi bi-currency-rupee"></i><span class="nav-text">Earnings & Settlements</span></a>
+        <a href="{% url 'transportapp:settings_view' %}" class="sidebar-link"><i class="bi bi-gear"></i><span class="nav-text">Profile Settings</span></a>
       </nav>
       <div class="sidebar-logout">
         <a href="#" class="sidebar-link"><i class="bi bi-box-arrow-left"></i><span class="nav-text">Logout</span></a>
@@ -143,7 +143,7 @@
                   <td><span class="badge-status badge-pending">pending</span></td>
                   <td>
                     <div style="display:flex;gap:6px;justify-content:center">
-                      <a href="shipment_details.html" class="btn-action" title="View" style="color:#4f46e5"><i class="bi bi-eye"></i></a>
+                      <a href="{% url 'transportapp:shipment_view' %}" class="btn-action" title="View" style="color:#4f46e5"><i class="bi bi-eye"></i></a>
                       <button class="btn-action" title="Accept" style="color:#22c55e;background:rgba(34,197,94,0.1)"><i class="bi bi-check-circle"></i></button>
                       <button class="btn-action" title="Reject" style="color:#ef4444;background:rgba(239,68,68,0.1)"><i class="bi bi-x-circle"></i></button>
                     </div>
@@ -161,7 +161,7 @@
                   <td><span class="badge-status badge-pending">pending</span></td>
                   <td>
                     <div style="display:flex;gap:6px;justify-content:center">
-                      <a href="shipment_details.html" class="btn-action" title="View" style="color:#4f46e5"><i class="bi bi-eye"></i></a>
+                      <a href="{% url 'transportapp:shipment_view' %}" class="btn-action" title="View" style="color:#4f46e5"><i class="bi bi-eye"></i></a>
                       <button class="btn-action" title="Accept" style="color:#22c55e;background:rgba(34,197,94,0.1)"><i class="bi bi-check-circle"></i></button>
                       <button class="btn-action" title="Reject" style="color:#ef4444;background:rgba(239,68,68,0.1)"><i class="bi bi-x-circle"></i></button>
                     </div>
@@ -179,7 +179,7 @@
                   <td><span class="badge-status badge-in-transit">in transit</span></td>
                   <td>
                     <div style="display:flex;gap:6px;justify-content:center">
-                      <a href="shipment_details.html" class="btn-action" title="View" style="color:#4f46e5"><i class="bi bi-eye"></i></a>
+                      <a href="{% url 'transportapp:shipment_view' %}" class="btn-action" title="View" style="color:#4f46e5"><i class="bi bi-eye"></i></a>
                     </div>
                   </td>
                 </tr>
@@ -195,7 +195,7 @@
                   <td><span class="badge-status badge-in-transit">in transit</span></td>
                   <td>
                     <div style="display:flex;gap:6px;justify-content:center">
-                      <a href="shipment_details.html" class="btn-action" title="View" style="color:#4f46e5"><i class="bi bi-eye"></i></a>
+                      <a href="{% url 'transportapp:shipment_view' %}" class="btn-action" title="View" style="color:#4f46e5"><i class="bi bi-eye"></i></a>
                     </div>
                   </td>
                 </tr>
@@ -211,7 +211,7 @@
                   <td><span class="badge-status badge-delivered">delivered</span></td>
                   <td>
                     <div style="display:flex;gap:6px;justify-content:center">
-                      <a href="shipment_details.html" class="btn-action" title="View" style="color:#4f46e5"><i class="bi bi-eye"></i></a>
+                      <a href="{% url 'transportapp:shipment_view' %}" class="btn-action" title="View" style="color:#4f46e5"><i class="bi bi-eye"></i></a>
                     </div>
                   </td>
                 </tr>
@@ -227,7 +227,7 @@
                   <td><span class="badge-status badge-delivered">delivered</span></td>
                   <td>
                     <div style="display:flex;gap:6px;justify-content:center">
-                      <a href="shipment_details.html" class="btn-action" title="View" style="color:#4f46e5"><i class="bi bi-eye"></i></a>
+                      <a href="{% url 'transportapp:shipment_view' %}" class="btn-action" title="View" style="color:#4f46e5"><i class="bi bi-eye"></i></a>
                     </div>
                   </td>
                 </tr>
@@ -243,7 +243,7 @@
                   <td><span class="badge-status badge-in-transit">in transit</span></td>
                   <td>
                     <div style="display:flex;gap:6px;justify-content:center">
-                      <a href="shipment_details.html" class="btn-action" title="View" style="color:#4f46e5"><i class="bi bi-eye"></i></a>
+                      <a href="{% url 'transportapp:shipment_view' %}" class="btn-action" title="View" style="color:#4f46e5"><i class="bi bi-eye"></i></a>
                     </div>
                   </td>
                 </tr>
@@ -259,7 +259,7 @@
                   <td><span class="badge-status badge-cancelled">cancelled</span></td>
                   <td>
                     <div style="display:flex;gap:6px;justify-content:center">
-                      <a href="shipment_details.html" class="btn-action" title="View" style="color:#4f46e5"><i class="bi bi-eye"></i></a>
+                      <a href="{% url 'transportapp:shipment_view' %}" class="btn-action" title="View" style="color:#4f46e5"><i class="bi bi-eye"></i></a>
                     </div>
                   </td>
                 </tr>
@@ -275,7 +275,7 @@
                   <td><span class="badge-status badge-pending">pending</span></td>
                   <td>
                     <div style="display:flex;gap:6px;justify-content:center">
-                      <a href="shipment_details.html" class="btn-action" title="View" style="color:#4f46e5"><i class="bi bi-eye"></i></a>
+                      <a href="{% url 'transportapp:shipment_view' %}" class="btn-action" title="View" style="color:#4f46e5"><i class="bi bi-eye"></i></a>
                       <button class="btn-action" title="Accept" style="color:#22c55e;background:rgba(34,197,94,0.1)"><i class="bi bi-check-circle"></i></button>
                       <button class="btn-action" title="Reject" style="color:#ef4444;background:rgba(239,68,68,0.1)"><i class="bi bi-x-circle"></i></button>
                     </div>
@@ -293,7 +293,7 @@
                   <td><span class="badge-status badge-delivered">delivered</span></td>
                   <td>
                     <div style="display:flex;gap:6px;justify-content:center">
-                      <a href="shipment_details.html" class="btn-action" title="View" style="color:#4f46e5"><i class="bi bi-eye"></i></a>
+                      <a href="{% url 'transportapp:shipment_view' %}" class="btn-action" title="View" style="color:#4f46e5"><i class="bi bi-eye"></i></a>
                     </div>
                   </td>
                 </tr>
