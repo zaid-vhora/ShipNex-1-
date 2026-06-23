@@ -10,16 +10,25 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ('username', 'email', 'phone', 'first_name', 'last_name')
     readonly_fields = ('created_at', 'updated_at')
     
-    fieldsets = UserAdmin.fieldsets + (
+    fieldsets = (
+        (None, {'fields': ('username', 'password')}),
+        ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'phone')}),
+        ('Permissions', {
+            'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),
+        }),
         ('Additional Info', {
-            'fields': ('phone', 'address', 'city', 'state', 'country', 'postal_code')
+            'fields': ('address', 'city', 'state', 'country', 'postal_code')
         }),
         ('Profile', {
             'fields': ('profile_picture', 'role', 'is_verified')
         }),
-        ('Timestamps', {
-            'fields': ('created_at', 'updated_at'),
-            'classes': ('collapse',)
+        ('Important dates', {'fields': ('last_login', 'created_at', 'updated_at')}),
+    )
+    
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'email', 'password1', 'password2'),
         }),
     )
     
