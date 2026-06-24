@@ -51,8 +51,14 @@
           </div>
 
           <div class="nav-auth">
-            <a href="{% url 'login' %}" class="nav-auth-link">Sign In</a>
-            <a href="{% url 'register' %}" class="btn btn-accent btn-sm">Sign Up</a>
+            {% if user.is_authenticated %}
+              <span class="nav-auth-welcome" style="margin-right: 15px; color: var(--neutral-700); font-weight: 500;">Hi, {{ user.first_name|default:user.username }}</span>
+              <a href="{% url 'user_dashboard' %}" class="btn btn-secondary btn-sm" style="margin-right: 10px;">Dashboard</a>
+              <a href="{% url 'user_logout' %}" class="btn btn-accent btn-sm">Sign Out</a>
+            {% else %}
+              <a href="{% url 'login' %}" class="nav-auth-link">Sign In</a>
+              <a href="{% url 'register' %}" class="btn btn-accent btn-sm">Sign Up</a>
+            {% endif %}
           </div>
         </nav>
 
@@ -81,8 +87,14 @@
       </div>
       <div class="mobile-menu-divider"></div>
       <div class="mobile-menu-auth">
-        <a href="{% url 'login' %}" class="btn btn-secondary btn-block">Sign In</a>
-        <a href="{% url 'register' %}" class="btn btn-accent btn-block">Create Account</a>
+        {% if user.is_authenticated %}
+          <div style="padding: 10px 15px; color: var(--neutral-700); font-weight: 500;">Hi, {{ user.first_name|default:user.username }}</div>
+          <a href="{% url 'user_dashboard' %}" class="btn btn-secondary btn-block">Dashboard</a>
+          <a href="{% url 'user_logout' %}" class="btn btn-accent btn-block" style="margin-top: 10px;">Sign Out</a>
+        {% else %}
+          <a href="{% url 'login' %}" class="btn btn-secondary btn-block">Sign In</a>
+          <a href="{% url 'register' %}" class="btn btn-accent btn-block">Create Account</a>
+        {% endif %}
       </div>
     </div>
   </header>

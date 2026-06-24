@@ -1,0 +1,1577 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Dashboard - Shipnex</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="{% static 'sta_user/style.css' %}">
+
+  <style>
+    :root {
+      --primary-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      --accent-gradient: linear-gradient(135deg, #ff9966 0%, #ff5e62 100%);
+      --glass-bg: rgba(255, 255, 255, 0.85);
+      --glass-border: rgba(255, 255, 255, 0.4);
+      --shadow-premium: 0 10px 30px -5px rgba(0, 0, 0, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.03);
+      --shadow-premium-hover: 0 20px 40px -10px rgba(0, 0, 0, 0.15), 0 8px 20px -4px rgba(0, 0, 0, 0.05);
+    }
+
+    body {
+      background-color: #f6f8fb;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Dashboard Layout */
+    .dashboard-wrapper {
+      padding: var(--space-10) 0;
+      flex: 1;
+    }
+
+    /* Header adjustments */
+    .header {
+      background: var(--white);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    /* Welcome Section */
+    .welcome-card {
+      background: var(--primary-gradient);
+      color: var(--white);
+      border-radius: var(--radius-xl);
+      padding: var(--space-8) var(--space-10);
+      margin-bottom: var(--space-8);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(30, 60, 114, 0.2);
+    }
+
+    .welcome-card::after {
+      content: '';
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+      right: -100px;
+      top: -100px;
+      pointer-events: none;
+    }
+
+    .welcome-text h1 {
+      font-size: var(--text-3xl);
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: var(--space-2);
+    }
+
+    .welcome-text p {
+      color: rgba(255, 255, 255, 0.85);
+      font-size: var(--text-base);
+    }
+
+    .welcome-actions .btn {
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      transition: all var(--transition-normal);
+    }
+
+    .welcome-actions .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-5);
+      margin-bottom: var(--space-10);
+    }
+
+    .stat-premium-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+      border: 1px solid var(--neutral-100);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      transition: all var(--transition-normal);
+      cursor: default;
+    }
+
+    .stat-premium-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-premium-hover);
+    }
+
+    .stat-icon-wrapper {
+      width: 50px;
+      height: 50px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-xl);
+    }
+
+    .stat-icon-wrapper.total { background: #eff6ff; color: #2563eb; }
+    .stat-icon-wrapper.pending { background: #fffbeb; color: #d97706; }
+    .stat-icon-wrapper.transit { background: #f0fdf4; color: #16a34a; }
+    .stat-icon-wrapper.delivered { background: #faf5ff; color: #7c3aed; }
+    .stat-icon-wrapper.cancelled { background: #fef2f2; color: #dc2626; }
+
+    .stat-premium-info h3 {
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      color: var(--neutral-900);
+      margin: 0 0 2px 0;
+    }
+
+    .stat-premium-info p {
+      font-size: var(--text-xs);
+      color: var(--neutral-500);
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin: 0;
+    }
+
+    /* Section layout */
+    .dashboard-content-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+
+    /* Shipments Card */
+    .dashboard-section-card {
+      background: var(--white);
+      border-radius: var(--radius-xl);
+      padding: var(--space-8);
+      border: 1px solid var(--neutral-100);
+      box-shadow: var(--shadow-premium);
+    }
+
+    .section-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-6);
+      flex-wrap: wrap;
+      gap: var(--space-4);
+    }
+
+    .section-card-header h2 {
+      font-size: var(--text-xl);
+      font-weight: 700;
+      color: var(--neutral-800);
+      margin: 0;
+    }
+
+    .search-filter-bar {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+
+    .search-input-wrapper {
+      position: relative;
+    }
+
+    .search-input-wrapper i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--neutral-400);
+    }
+
+    .search-input-wrapper input {
+      padding: var(--space-2) var(--space-4) var(--space-2) 36px;
+      border: 1px solid var(--neutral-200);
+      border-radius: var(--radius-md);
+      font-size: var(--text-sm);
+      outline: none;
+      width: 240px;
+      transition: all var(--transition-fast);
+    }
+
+    .search-input-wrapper input:focus {
+      border-color: var(--primary-500);
+      box-shadow: 0 0 0 3px rgba(37, 102, 164, 0.15);
+    }
+
+    .status-filter-select {
+      padding: var(--space-2) var(--space-4);
+      border: 1px solid var(--neutral-200);
+      border-radius: var(--radius-md);
+      font-size: var(--text-sm);
+      color: var(--neutral-700);
+      background: var(--white);
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* Shipments Table */
+    .table-container {
+      overflow-x: auto;
+      margin-top: var(--space-4);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--neutral-100);
+    }
+
+    .premium-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .premium-table th {
+      background: #f8fafc;
+      color: var(--neutral-600);
+      font-weight: 600;
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+      padding: var(--space-4) var(--space-5);
+      border-bottom: 2px solid var(--neutral-200);
+    }
+
+    .premium-table td {
+      padding: var(--space-4) var(--space-5);
+      border-bottom: 1px solid var(--neutral-100);
+      font-size: var(--text-sm);
+      color: var(--neutral-800);
+    }
+
+    .premium-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .premium-table tr {
+      transition: background var(--transition-fast);
+    }
+
+    .premium-table tr:hover {
+      background: #fdfefe;
+    }
+
+    .tracking-id-cell {
+      font-family: monospace;
+      font-weight: 700;
+      color: var(--primary-600);
+    }
+
+    /* Status Badges */
+    .badge-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: var(--space-1) var(--space-3);
+      border-radius: var(--radius-full);
+      font-size: var(--text-xs);
+      font-weight: 600;
+    }
+
+    .badge-status.pending { background: #fffbeb; color: #d97706; }
+    .badge-status.confirmed { background: #eff6ff; color: #2563eb; }
+    .badge-status.picked_up { background: #ecfeff; color: #0891b2; }
+    .badge-status.in_transit { background: #f0fdf4; color: #16a34a; }
+    .badge-status.out_for_delivery { background: #faf5ff; color: #7c3aed; }
+    .badge-status.delivered { background: #f0fdf4; color: #16a34a; border: 1px solid rgba(22, 163, 74, 0.2); }
+    .badge-status.cancelled { background: #fef2f2; color: #dc2626; }
+
+    /* Action Buttons in Table */
+    .btn-action-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--neutral-200);
+      background: var(--white);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--neutral-600);
+      transition: all var(--transition-fast);
+      margin-right: 5px;
+    }
+
+    .btn-action-icon:hover {
+      background: var(--primary-50);
+      color: var(--primary-600);
+      border-color: var(--primary-200);
+    }
+
+    .btn-action-icon.cancel:hover {
+      background: #fef2f2;
+      color: #dc2626;
+      border-color: #fca5a5;
+    }
+
+    .btn-action-icon[disabled],
+    .btn-action-icon.disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* Modal Styling */
+    .premium-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1000;
+      background: rgba(15, 23, 42, 0.4);
+      backdrop-filter: blur(8px);
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity var(--transition-normal);
+    }
+
+    .premium-modal.show {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-card {
+      background: var(--white);
+      border-radius: var(--radius-xl);
+      width: 90%;
+      max-width: 640px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--glass-border);
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      transform: scale(0.95);
+      transition: transform var(--transition-normal);
+      overflow: hidden;
+    }
+
+    .premium-modal.show .modal-card {
+      transform: scale(1);
+    }
+
+    .modal-card-header {
+      padding: var(--space-5) var(--space-6);
+      border-bottom: 1px solid var(--neutral-100);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f8fafc;
+    }
+
+    .modal-card-header h3 {
+      font-size: var(--text-lg);
+      font-weight: 700;
+      color: var(--neutral-900);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .modal-card-header h3 i {
+      color: var(--primary-600);
+    }
+
+    .modal-close-btn {
+      background: none;
+      border: none;
+      font-size: var(--text-lg);
+      color: var(--neutral-400);
+      cursor: pointer;
+      transition: color var(--transition-fast);
+    }
+
+    .modal-close-btn:hover {
+      color: var(--neutral-700);
+    }
+
+    .modal-card-body {
+      padding: var(--space-6);
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .modal-card-footer {
+      padding: var(--space-4) var(--space-6);
+      border-top: 1px solid var(--neutral-100);
+      background: #f8fafc;
+      display: flex;
+      justify-content: flex-end;
+      gap: var(--space-3);
+    }
+
+    /* Booking Wizard Steps Indicators */
+    .wizard-steps {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      margin-bottom: var(--space-8);
+      padding: 0 var(--space-4);
+    }
+
+    .wizard-steps::before {
+      content: '';
+      position: absolute;
+      top: 18px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--neutral-200);
+      z-index: 1;
+    }
+
+    .wizard-step-line-active {
+      position: absolute;
+      top: 18px;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: var(--primary-500);
+      z-index: 2;
+      transition: width var(--transition-normal);
+    }
+
+    .wizard-step-item {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .step-circle {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 3px solid var(--neutral-300);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: var(--text-sm);
+      color: var(--neutral-500);
+      transition: all var(--transition-normal);
+    }
+
+    .wizard-step-item.active .step-circle {
+      border-color: var(--primary-500);
+      background: var(--primary-500);
+      color: var(--white);
+      box-shadow: 0 0 0 4px rgba(37, 102, 164, 0.15);
+    }
+
+    .wizard-step-item.completed .step-circle {
+      border-color: var(--primary-500);
+      background: var(--white);
+      color: var(--primary-500);
+    }
+
+    .step-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--neutral-500);
+      margin-top: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .wizard-step-item.active .step-label {
+      color: var(--primary-700);
+      font-weight: 700;
+    }
+
+    /* Wizard Content Panels */
+    .wizard-panel {
+      display: none;
+    }
+
+    .wizard-panel.active {
+      display: block;
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Form rows */
+    .wizard-form-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-4);
+      margin-bottom: var(--space-4);
+    }
+
+    @media (max-width: 580px) {
+      .wizard-form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .wizard-form-group {
+      margin-bottom: var(--space-4);
+    }
+
+    .wizard-form-group label {
+      display: block;
+      font-size: var(--text-xs);
+      font-weight: 600;
+      color: var(--neutral-700);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .wizard-form-input, .wizard-form-select, .wizard-form-textarea {
+      width: 100%;
+      padding: var(--space-3) var(--space-4);
+      border: 1px solid var(--neutral-200);
+      border-radius: var(--radius-md);
+      font-size: var(--text-sm);
+      outline: none;
+      transition: all var(--transition-fast);
+      box-sizing: border-box;
+    }
+
+    .wizard-form-input:focus, .wizard-form-select:focus, .wizard-form-textarea:focus {
+      border-color: var(--primary-500);
+      box-shadow: 0 0 0 3px rgba(37, 102, 164, 0.15);
+    }
+
+    /* Pricing card in Wizard */
+    .pricing-summary-card {
+      background: #f8fafc;
+      border: 1px dashed var(--neutral-300);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      margin-top: var(--space-6);
+    }
+
+    .pricing-summary-header {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: var(--neutral-700);
+      margin-bottom: var(--space-3);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--neutral-200);
+      padding-bottom: 6px;
+    }
+
+    .pricing-detail-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: var(--text-sm);
+      margin-bottom: var(--space-2);
+      color: var(--neutral-600);
+    }
+
+    .pricing-detail-row.total {
+      border-top: 1px solid var(--neutral-200);
+      padding-top: var(--space-3);
+      font-weight: 700;
+      color: var(--primary-700);
+      font-size: var(--text-base);
+      margin-bottom: 0;
+    }
+
+    /* Timeline Tracking inside Modal */
+    .track-timeline-wrapper {
+      padding: var(--space-4) 0;
+      position: relative;
+    }
+
+    .track-timeline-wrapper::before {
+      content: '';
+      position: absolute;
+      left: 20px;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--neutral-200);
+    }
+
+    .track-timeline-item {
+      position: relative;
+      padding-left: 50px;
+      padding-bottom: var(--space-6);
+    }
+
+    .track-timeline-item:last-child {
+      padding-bottom: 0;
+    }
+
+    .track-timeline-bullet {
+      position: absolute;
+      left: 10px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--neutral-300);
+      border: 4px solid var(--white);
+      box-shadow: 0 0 0 2px var(--neutral-200);
+      z-index: 10;
+      transition: all 0.3s ease;
+    }
+
+    .track-timeline-item.completed .track-timeline-bullet {
+      background: var(--success-500);
+      box-shadow: 0 0 0 2px var(--success-200);
+    }
+
+    .track-timeline-item.cancelled .track-timeline-bullet {
+      background: var(--danger-500);
+      box-shadow: 0 0 0 2px var(--danger-200);
+    }
+
+    .track-timeline-item.current .track-timeline-bullet {
+      background: var(--primary-500);
+      box-shadow: 0 0 0 4px var(--primary-150);
+      transform: scale(1.1);
+      animation: pulse-ring 2.5s infinite;
+    }
+
+    @keyframes pulse-ring {
+      0% { box-shadow: 0 0 0 0px rgba(37, 102, 164, 0.4); }
+      70% { box-shadow: 0 0 0 8px rgba(37, 102, 164, 0); }
+      100% { box-shadow: 0 0 0 0px rgba(37, 102, 164, 0); }
+    }
+
+    .track-timeline-date {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--neutral-400);
+      margin-bottom: 2px;
+      text-transform: uppercase;
+    }
+
+    .track-timeline-item.completed .track-timeline-date {
+      color: var(--success-600);
+    }
+
+    .track-timeline-item.current .track-timeline-date {
+      color: var(--primary-600);
+    }
+
+    .track-timeline-title {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: var(--neutral-800);
+      margin-bottom: 2px;
+    }
+
+    .track-timeline-desc {
+      font-size: var(--text-xs);
+      color: var(--neutral-500);
+    }
+
+    .toast-notification {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1e293b;
+      color: var(--white);
+      padding: var(--space-3) var(--space-5);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-xl);
+      z-index: 1100;
+      font-size: var(--text-sm);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+
+    .toast-notification.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .toast-notification.success {
+      border-left: 4px solid var(--success-500);
+    }
+
+    .toast-notification.error {
+      border-left: 4px solid var(--danger-500);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== HEADER ========== -->
+  <header class="header" id="header">
+    <div class="container">
+      <div class="header-inner">
+        <!-- Logo -->
+        <a href="{% url 'home' %}" class="logo">
+          <div class="logo-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+            </svg>
+          </div>
+          <span>Shipnex</span>
+        </a>
+
+        <!-- Navigation -->
+        <nav class="nav">
+          <ul class="nav-menu">
+            <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+            <li><a href="{% url 'user_dashboard' %}" class="nav-link active">Dashboard</a></li>
+            <li><a href="{% url 'tracking' %}" class="nav-link">Track Shipment</a></li>
+            <li><a href="{% url 'contact' %}" class="nav-link">Support</a></li>
+          </ul>
+
+          <div class="nav-auth">
+            <span class="nav-auth-welcome" style="margin-right: 15px; color: var(--neutral-700); font-weight: 500;">Hi, {{ user.first_name|default:user.username }}</span>
+            <a href="{% url 'user_logout' %}" class="btn btn-accent btn-sm">Sign Out</a>
+          </div>
+        </nav>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+      <div class="mobile-menu-nav">
+        <a href="{% url 'home' %}" class="mobile-menu-link">Home</a>
+        <a href="{% url 'user_dashboard' %}" class="mobile-menu-link active">Dashboard</a>
+        <a href="{% url 'tracking' %}" class="mobile-menu-link">Track Shipment</a>
+        <a href="{% url 'contact' %}" class="mobile-menu-link">Support</a>
+      </div>
+      <div class="mobile-menu-divider"></div>
+      <div class="mobile-menu-auth">
+        <div style="padding: 10px 15px; color: var(--neutral-700); font-weight: 500;">Hi, {{ user.first_name|default:user.username }}</div>
+        <a href="{% url 'user_logout' %}" class="btn btn-accent btn-block">Sign Out</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========== DASHBOARD BODY ========== -->
+  <main class="dashboard-wrapper">
+    <div class="container">
+      
+      <!-- Welcome Hero -->
+      <section class="welcome-card">
+        <div class="welcome-text">
+          <h1>Welcome Back, {{ user.first_name|default:user.username }}!</h1>
+          <p>Book new shipments, estimate shipping costs dynamically, and track your parcels in real-time.</p>
+        </div>
+        <div class="welcome-actions">
+          <button class="btn btn-accent btn-lg" id="btnOpenBookingModal" onclick="openModal('bookingModal')">
+            <i class="fas fa-plus-circle" style="margin-right: 8px;"></i> Send New Parcel
+          </button>
+        </div>
+      </section>
+
+      <!-- Stats Grid -->
+      <section class="stats-grid">
+        <div class="stat-premium-card">
+          <div class="stat-icon-wrapper total"><i class="fas fa-boxes-stacked"></i></div>
+          <div class="stat-premium-info">
+            <h3 id="statTotal">{{ total_bookings }}</h3>
+            <p>Total Bookings</p>
+          </div>
+        </div>
+        <div class="stat-premium-card">
+          <div class="stat-icon-wrapper pending"><i class="fas fa-clock"></i></div>
+          <div class="stat-premium-info">
+            <h3 id="statPending">{{ pending_pickups }}</h3>
+            <p>Pending Pickups</p>
+          </div>
+        </div>
+        <div class="stat-premium-card">
+          <div class="stat-icon-wrapper transit"><i class="fas fa-truck-fast"></i></div>
+          <div class="stat-premium-info">
+            <h3 id="statTransit">{{ in_transit }}</h3>
+            <p>In Transit</p>
+          </div>
+        </div>
+        <div class="stat-premium-card">
+          <div class="stat-icon-wrapper delivered"><i class="fas fa-circle-check"></i></div>
+          <div class="stat-premium-info">
+            <h3 id="statDelivered">{{ delivered }}</h3>
+            <p>Delivered</p>
+          </div>
+        </div>
+        <div class="stat-premium-card">
+          <div class="stat-icon-wrapper cancelled"><i class="fas fa-ban"></i></div>
+          <div class="stat-premium-info">
+            <h3 id="statCancelled">{{ cancelled }}</h3>
+            <p>Cancelled</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recent Shipments & Table -->
+      <div class="dashboard-content-grid">
+        <section class="dashboard-section-card">
+          <div class="section-card-header">
+            <h2>Recent Shipments</h2>
+            
+            <div class="search-filter-bar">
+              <div class="search-input-wrapper">
+                <i class="fas fa-search"></i>
+                <input type="text" id="shipmentSearchInput" placeholder="Search by recipient or tracking #..." onkeyup="filterTable()">
+              </div>
+              <select class="status-filter-select" id="shipmentStatusFilter" onchange="filterTable()">
+                <option value="all">All Statuses</option>
+                <option value="pending">Pending</option>
+                <option value="confirmed">Confirmed</option>
+                <option value="picked_up">Picked Up</option>
+                <option value="in_transit">In Transit</option>
+                <option value="out_for_delivery">Out For Delivery</option>
+                <option value="delivered">Delivered</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table class="premium-table" id="shipmentsTable">
+              <thead>
+                <tr>
+                  <th>Tracking Number</th>
+                  <th>Recipient</th>
+                  <th>Service Type</th>
+                  <th>Weight</th>
+                  <th>Amount</th>
+                  <th>Date Booked</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="shipmentsTableBody">
+                {% for shipment in shipments %}
+                <tr data-status="{{ shipment.status }}">
+                  <td class="tracking-id-cell">{{ shipment.tracking_number }}</td>
+                  <td>
+                    <div style="font-weight:600">{{ shipment.receiver_name }}</div>
+                    <div style="font-size:11.5px;color:#94a3b8">{{ shipment.receiver_address }}</div>
+                  </td>
+                  <td>
+                    <span style="font-size:12px;padding:3px 8px;border-radius:20px;background:#f1f5f9;font-weight:600;color:#475569">
+                      {{ shipment.get_shipment_type_display }}
+                    </span>
+                  </td>
+                  <td>{{ shipment.weight }} kg</td>
+                  <td><strong>₹{{ shipment.cost }}</strong></td>
+                  <td style="color:#64748b">{{ shipment.created_at|date:"M d, Y" }}</td>
+                  <td>
+                    <span class="badge-status {{ shipment.status }}">
+                      <span style="width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block"></span>
+                      {{ shipment.get_status_display }}
+                    </span>
+                  </td>
+                  <td>
+                    <button class="btn-action-icon" data-tooltip="Track Live" onclick="trackLive('{{ shipment.tracking_number }}')" title="Track Live">
+                      <i class="fas fa-location-dot"></i>
+                    </button>
+                    {% if shipment.status == 'pending' or shipment.status == 'draft' %}
+                    <button class="btn-action-icon cancel" id="cancelBtn-{{ shipment.id }}" data-tooltip="Cancel Order" onclick="cancelShipment({{ shipment.id }})" title="Cancel Shipment">
+                      <i class="fas fa-ban"></i>
+                    </button>
+                    {% else %}
+                    <button class="btn-action-icon disabled" title="Cannot cancel processed orders" disabled>
+                      <i class="fas fa-ban"></i>
+                    </button>
+                    {% endif %}
+                  </td>
+                </tr>
+                {% empty %}
+                <tr id="emptyRow">
+                  <td colspan="8" style="text-align: center; padding: var(--space-10); color: var(--neutral-400);">
+                    <i class="fas fa-box-open" style="font-size: var(--text-4xl); margin-bottom: var(--space-4); display: block; color: var(--neutral-300);"></i>
+                    No shipments booked yet. Click "Send New Parcel" to get started!
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ========== SEND PARCEL MODAL (WIZARD) ========== -->
+  <div class="premium-modal" id="bookingModal">
+    <div class="modal-card">
+      <div class="modal-card-header">
+        <h3><i class="fas fa-box-open"></i> Send New Parcel</h3>
+        <button class="modal-close-btn" onclick="closeModal('bookingModal')"><i class="fas fa-times"></i></button>
+      </div>
+      
+      <div class="modal-card-body">
+        
+        <!-- Step indicators -->
+        <div class="wizard-steps">
+          <div class="wizard-step-line-active" id="wizardProgressLine"></div>
+          <div class="wizard-step-item active" id="stepIndicator-1">
+            <div class="step-circle">1</div>
+            <span class="step-label">Addresses</span>
+          </div>
+          <div class="wizard-step-item" id="stepIndicator-2">
+            <div class="step-circle">2</div>
+            <span class="step-label">Parcel Details</span>
+          </div>
+          <div class="wizard-step-item" id="stepIndicator-3">
+            <div class="step-circle">3</div>
+            <span class="step-label">Estimate & Book</span>
+          </div>
+        </div>
+
+        <form id="parcelBookingForm">
+          {% csrf_token %}
+          
+          <!-- STEP 1: Addresses Panel -->
+          <div class="wizard-panel active" id="wizardPanel-1">
+            <h4 style="margin-bottom: var(--space-4); font-weight:700; color: var(--neutral-800);">Sender (Pickup) Details</h4>
+            
+            <div class="wizard-form-row">
+              <div class="wizard-form-group">
+                <label for="sender_name">Sender Name *</label>
+                <input type="text" class="wizard-form-input" id="sender_name" name="sender_name" value="{{ sender_name }}" required>
+              </div>
+              <div class="wizard-form-group">
+                <label for="sender_phone">Sender Phone *</label>
+                <input type="text" class="wizard-form-input" id="sender_phone" name="sender_phone" value="{{ sender_phone }}" required>
+              </div>
+            </div>
+            
+            <div class="wizard-form-row">
+              <div class="wizard-form-group" style="grid-column: span 2;">
+                <label for="sender_email">Sender Email</label>
+                <input type="email" class="wizard-form-input" id="sender_email" name="sender_email" value="{{ sender_email }}">
+              </div>
+            </div>
+            
+            <div class="wizard-form-group">
+              <label for="sender_address">Pickup Address *</label>
+              <textarea class="wizard-form-textarea" id="sender_address" name="sender_address" rows="2" placeholder="Full address with pincode" required>{{ sender_address }}</textarea>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid var(--neutral-200); margin: var(--space-6) 0;">
+
+            <h4 style="margin-bottom: var(--space-4); font-weight:700; color: var(--neutral-800);">Receiver (Delivery) Details</h4>
+            
+            <div class="wizard-form-row">
+              <div class="wizard-form-group">
+                <label for="receiver_name">Receiver Name *</label>
+                <input type="text" class="wizard-form-input" id="receiver_name" name="receiver_name" placeholder="Full Name" required>
+              </div>
+              <div class="wizard-form-group">
+                <label for="receiver_phone">Receiver Phone *</label>
+                <input type="text" class="wizard-form-input" id="receiver_phone" name="receiver_phone" placeholder="+91 XXXXX XXXXX" required>
+              </div>
+            </div>
+            
+            <div class="wizard-form-row">
+              <div class="wizard-form-group" style="grid-column: span 2;">
+                <label for="receiver_email">Receiver Email</label>
+                <input type="email" class="wizard-form-input" id="receiver_email" name="receiver_email" placeholder="email@address.com">
+              </div>
+            </div>
+            
+            <div class="wizard-form-group">
+              <label for="receiver_address">Delivery Address *</label>
+              <textarea class="wizard-form-textarea" id="receiver_address" name="receiver_address" rows="2" placeholder="Full delivery address with pincode" required></textarea>
+            </div>
+          </div>
+
+          <!-- STEP 2: Parcel Details Panel -->
+          <div class="wizard-panel" id="wizardPanel-2">
+            <h4 style="margin-bottom: var(--space-4); font-weight:700; color: var(--neutral-800);">Package Parameters</h4>
+            
+            <div class="wizard-form-row">
+              <div class="wizard-form-group">
+                <label for="shipment_type">Shipment Service *</label>
+                <select class="wizard-form-select" id="shipment_type" name="shipment_type" onchange="calculateLiveCost()" required>
+                  <option value="standard" selected>Standard Delivery (₹100/kg)</option>
+                  <option value="express">Express Courier (₹250/kg)</option>
+                  <option value="overnight">Overnight Delivery (₹500/kg)</option>
+                  <option value="freight">Heavy Cargo/Freight (₹80/kg)</option>
+                </select>
+              </div>
+              <div class="wizard-form-group">
+                <label for="weight">Weight (kg) *</label>
+                <input type="number" class="wizard-form-input" id="weight" name="weight" step="0.1" min="0.1" placeholder="e.g. 2.5" oninput="calculateLiveCost()" required>
+              </div>
+            </div>
+
+            <div class="wizard-form-row">
+              <div class="wizard-form-group">
+                <label for="dimensions">Dimensions (L x W x H cm)</label>
+                <input type="text" class="wizard-form-input" id="dimensions" name="dimensions" placeholder="e.g. 30x20x15">
+              </div>
+              <div class="wizard-form-group">
+                <label for="description">Content Description *</label>
+                <input type="text" class="wizard-form-input" id="description" name="description" placeholder="e.g. Books, Electronics" required>
+              </div>
+            </div>
+
+            <!-- Dynamic Live pricing estimation visual card -->
+            <div class="pricing-summary-card">
+              <div class="pricing-summary-header">Live Cost Estimate</div>
+              <div class="pricing-detail-row">
+                <span>Base Charge:</span>
+                <span id="priceBase">₹0.00</span>
+              </div>
+              <div class="pricing-detail-row">
+                <span>Fuel Surcharge & Handling (10%):</span>
+                <span id="priceSurcharge">₹0.00</span>
+              </div>
+              <div class="pricing-detail-row">
+                <span>GST/Sales Tax (18%):</span>
+                <span id="priceTax">₹0.00</span>
+              </div>
+              <div class="pricing-detail-row total">
+                <span>Estimated Total:</span>
+                <span id="priceTotal">₹0.00</span>
+              </div>
+              <p style="font-size:11px;color:var(--neutral-500);margin-top:10px;margin-bottom:0;text-align:center;">
+                * Surcharges and taxes are calculated dynamically based on real-time regulations.
+              </p>
+            </div>
+          </div>
+
+          <!-- STEP 3: Summary Booking Panel -->
+          <div class="wizard-panel" id="wizardPanel-3">
+            <h4 style="margin-bottom: var(--space-4); font-weight:700; color: var(--neutral-800);">Review Your Booking</h4>
+            
+            <div style="background:#f8fafc; border-radius: var(--radius-lg); padding: var(--space-5); margin-bottom: var(--space-6); font-size: var(--text-sm);">
+              <div class="wizard-form-row" style="margin-bottom:12px;">
+                <div>
+                  <div style="font-weight:600;color:var(--neutral-500);font-size:11px;text-transform:uppercase;">Pickup From:</div>
+                  <div id="summarySender" style="font-weight:600;margin-top:2px;"></div>
+                  <div id="summarySenderAddress" style="color:var(--neutral-600);margin-top:2px;font-size:12.5px;"></div>
+                </div>
+                <div>
+                  <div style="font-weight:600;color:var(--neutral-500);font-size:11px;text-transform:uppercase;">Deliver To:</div>
+                  <div id="summaryReceiver" style="font-weight:600;margin-top:2px;"></div>
+                  <div id="summaryReceiverAddress" style="color:var(--neutral-600);margin-top:2px;font-size:12.5px;"></div>
+                </div>
+              </div>
+              
+              <hr style="border: 0; border-top: 1px solid var(--neutral-200); margin: 12px 0;">
+
+              <div class="wizard-form-row" style="margin-bottom: 0;">
+                <div>
+                  <div style="font-weight:600;color:var(--neutral-500);font-size:11px;text-transform:uppercase;">Shipment Parameters:</div>
+                  <div style="margin-top:2px;">Type: <strong id="summaryType">Standard</strong></div>
+                  <div>Weight: <strong id="summaryWeight">0.0 kg</strong></div>
+                  <div>Dimensions: <strong id="summaryDim">N/A</strong></div>
+                </div>
+                <div>
+                  <div style="font-weight:600;color:var(--neutral-500);font-size:11px;text-transform:uppercase;">Final Booking Cost:</div>
+                  <div style="font-size: 20px; font-weight:800; color:var(--primary-600); margin-top:2px;" id="summaryTotalCost">₹0.00</div>
+                  <div style="font-size: 11px; color:var(--neutral-500);">All taxes & handling included</div>
+                </div>
+              </div>
+            </div>
+            
+            <p style="font-size: 13px; color: var(--neutral-600); line-height: 1.5; text-align: center;">
+              By clicking <strong>Confirm & Book Shipment</strong>, you authorize Shipnex to pick up the parcel from the specified pickup location. Standard pickup occurs within 24 hours.
+            </p>
+          </div>
+
+        </form>
+
+      </div>
+      
+      <div class="modal-card-footer">
+        <button class="btn btn-secondary" id="btnWizardPrev" onclick="moveWizard(-1)" style="display:none;">Back</button>
+        <button class="btn btn-primary" id="btnWizardNext" onclick="moveWizard(1)">Continue</button>
+        <button class="btn btn-accent" id="btnWizardSubmit" onclick="submitParcelForm()" style="display:none;">Confirm & Book Shipment</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== LIVE TRACKING TIMELINE MODAL ========== -->
+  <div class="premium-modal" id="trackModal">
+    <div class="modal-card" style="max-width: 520px;">
+      <div class="modal-card-header">
+        <h3><i class="fas fa-location-crosshairs"></i> Live Tracking Details</h3>
+        <button class="modal-close-btn" onclick="closeModal('trackModal')"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-card-body">
+        
+        <!-- Tracking Summary Card -->
+        <div style="background: var(--neutral-50); border: 1px solid var(--neutral-200); border-radius: var(--radius-lg); padding: var(--space-5); margin-bottom: var(--space-6);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <div>
+              <div style="font-size:11px;color:var(--neutral-500);font-weight:600;text-transform:uppercase;">Tracking Number</div>
+              <div style="font-family:monospace;font-size:16px;font-weight:800;color:var(--primary-600);" id="trackModalNumber">SHP-XXXX</div>
+            </div>
+            <span class="badge-status pending" id="trackModalStatus">Pending</span>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size:12.5px; border-top: 1px solid var(--neutral-200); padding-top:12px;">
+            <div>
+              <div style="color:var(--neutral-500);font-size:11px;">Sender City</div>
+              <strong id="trackModalSenderCity">N/A</strong>
+            </div>
+            <div>
+              <div style="color:var(--neutral-500);font-size:11px;">Receiver City</div>
+              <strong id="trackModalReceiverCity">N/A</strong>
+            </div>
+            <div>
+              <div style="color:var(--neutral-500);font-size:11px;">Service Level</div>
+              <strong id="trackModalType">N/A</strong>
+            </div>
+            <div>
+              <div style="color:var(--neutral-500);font-size:11px;">Weight</div>
+              <strong id="trackModalWeight">N/A</strong>
+            </div>
+          </div>
+        </div>
+
+        <h4 style="font-weight: 700; color: var(--neutral-800); margin-bottom: var(--space-4);">Transit Milestones</h4>
+        
+        <!-- Timeline wrapper -->
+        <div class="track-timeline-wrapper" id="trackModalTimeline">
+          <!-- Populated dynamically via JS -->
+        </div>
+
+      </div>
+      <div class="modal-card-footer">
+        <button class="btn btn-secondary" onclick="closeModal('trackModal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Wrapper -->
+  <div class="toast-notification" id="toastNotification">
+    <span id="toastMessage">Action performed successfully!</span>
+  </div>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer" style="margin-top: auto;">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2024 Shipnex. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Refund Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== SCRIPTS ========== -->
+  <script src="{% static 'sta_user/main.js' %}"></script>
+  
+  <script>
+    // Global Dashboard Logic
+    let currentStep = 1;
+    const totalSteps = 3;
+
+    function openModal(id) {
+      const modal = document.getElementById(id);
+      modal.classList.add('show');
+      
+      if (id === 'bookingModal') {
+        resetBookingWizard();
+      }
+    }
+
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      modal.classList.remove('show');
+    }
+
+    // Close on click outside modal card
+    document.querySelectorAll('.premium-modal').forEach(modal => {
+      modal.addEventListener('click', function(e) {
+        if (e.target === this) {
+          closeModal(this.id);
+        }
+      });
+    });
+
+    // Toast Notification helper
+    function showToast(message, type = 'success') {
+      const toast = document.getElementById('toastNotification');
+      const toastMsg = document.getElementById('toastMessage');
+      
+      toastMsg.textContent = message;
+      toast.className = `toast-notification ${type} show`;
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 4000);
+    }
+
+    // ============================================
+    // DYNAMIC WIZARD LOGIC
+    // ============================================
+    function resetBookingWizard() {
+      currentStep = 1;
+      showWizardPanel(currentStep);
+      document.getElementById('parcelBookingForm').reset();
+      
+      // Prepopulate sender details (keep default context values)
+      document.getElementById('sender_name').value = "{{ sender_name|escapejs }}";
+      document.getElementById('sender_email').value = "{{ sender_email|escapejs }}";
+      document.getElementById('sender_phone').value = "{{ sender_phone|escapejs }}";
+      document.getElementById('sender_address').value = "{{ sender_address|escapejs }}";
+      
+      calculateLiveCost();
+    }
+
+    function showWizardPanel(step) {
+      // Hide all panels
+      for (let i = 1; i <= totalSteps; i++) {
+        document.getElementById(`wizardPanel-${i}`).classList.remove('active');
+        document.getElementById(`stepIndicator-${i}`).classList.remove('active', 'completed');
+      }
+      
+      // Show selected panel
+      document.getElementById(`wizardPanel-${step}`).classList.add('active');
+      
+      // Update step indicator state
+      for (let i = 1; i <= totalSteps; i++) {
+        const indicator = document.getElementById(`stepIndicator-${i}`);
+        if (i < step) {
+          indicator.classList.add('completed');
+        } else if (i === step) {
+          indicator.classList.add('active');
+        }
+      }
+
+      // Update progress line
+      const progressPercent = ((step - 1) / (totalSteps - 1)) * 100;
+      document.getElementById('wizardProgressLine').style.width = `${progressPercent}%`;
+
+      // Update footer buttons
+      document.getElementById('btnWizardPrev').style.display = step === 1 ? 'none' : 'inline-block';
+      document.getElementById('btnWizardNext').style.display = step === totalSteps ? 'none' : 'inline-block';
+      document.getElementById('btnWizardSubmit').style.display = step === totalSteps ? 'inline-block' : 'none';
+    }
+
+    function moveWizard(direction) {
+      if (direction === 1) {
+        if (!validateStep(currentStep)) {
+          showToast('Please fill all required fields correctly before continuing.', 'error');
+          return;
+        }
+        
+        if (currentStep === 2) {
+          populateSummaryPanel();
+        }
+      }
+      
+      currentStep += direction;
+      showWizardPanel(currentStep);
+    }
+
+    function validateStep(step) {
+      const panel = document.getElementById(`wizardPanel-${step}`);
+      const inputs = panel.querySelectorAll('input[required], textarea[required], select[required]');
+      let isValid = true;
+      
+      inputs.forEach(input => {
+        if (!input.value.trim()) {
+          isValid = false;
+          input.classList.add('error');
+        } else {
+          input.classList.remove('error');
+        }
+
+        // Additional validation
+        if (input.type === 'number') {
+          const val = parseFloat(input.value);
+          if (isNaN(val) || val <= 0) {
+            isValid = false;
+            input.classList.add('error');
+          }
+        }
+      });
+      
+      return isValid;
+    }
+
+    // Live cost estimation logic
+    function calculateLiveCost() {
+      const type = document.getElementById('shipment_type').value;
+      const weightInput = document.getElementById('weight').value;
+      const weight = parseFloat(weightInput) || 0;
+
+      if (weight <= 0) {
+        document.getElementById('priceBase').textContent = '₹0.00';
+        document.getElementById('priceSurcharge').textContent = '₹0.00';
+        document.getElementById('priceTax').textContent = '₹0.00';
+        document.getElementById('priceTotal').textContent = '₹0.00';
+        return;
+      }
+
+      const costRates = {
+        'standard': { rate: 100.0, minCharge: 150.0 },
+        'express': { rate: 250.0, minCharge: 350.0 },
+        'overnight': { rate: 500.0, minCharge: 600.0 },
+        'freight': { rate: 80.0, minCharge: 1000.0 }
+      };
+
+      const params = costRates[type] || costRates['standard'];
+      const rawBase = weight * params.rate;
+      const baseCost = Math.max(rawBase, params.minCharge);
+      
+      const surcharge = baseCost * 0.10; // 10%
+      const tax = (baseCost + surcharge) * 0.18; // 18% GST
+      const total = baseCost + surcharge + tax;
+
+      document.getElementById('priceBase').textContent = `₹${baseCost.toFixed(2)}`;
+      document.getElementById('priceSurcharge').textContent = `₹${surcharge.toFixed(2)}`;
+      document.getElementById('priceTax').textContent = `₹${tax.toFixed(2)}`;
+      document.getElementById('priceTotal').textContent = `₹${total.toFixed(2)}`;
+    }
+
+    function populateSummaryPanel() {
+      document.getElementById('summarySender').textContent = document.getElementById('sender_name').value;
+      document.getElementById('summarySenderAddress').textContent = document.getElementById('sender_address').value;
+      
+      document.getElementById('summaryReceiver').textContent = document.getElementById('receiver_name').value;
+      document.getElementById('summaryReceiverAddress').textContent = document.getElementById('receiver_address').value;
+
+      const typeSelect = document.getElementById('shipment_type');
+      document.getElementById('summaryType').textContent = typeSelect.options[typeSelect.selectedIndex].text.split('(')[0].trim();
+      document.getElementById('summaryWeight').textContent = `${document.getElementById('weight').value} kg`;
+      
+      const dim = document.getElementById('dimensions').value.trim();
+      document.getElementById('summaryDim').textContent = dim ? dim : 'N/A';
+
+      document.getElementById('summaryTotalCost').textContent = document.getElementById('priceTotal').textContent;
+    }
+
+    // Ajax booking submission
+    function submitParcelForm() {
+      const form = document.getElementById('parcelBookingForm');
+      const formData = new FormData(form);
+
+      // Disable booking button during API request
+      const submitBtn = document.getElementById('btnWizardSubmit');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Processing Booking...';
+
+      fetch('{% url "create_shipment" %}', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+      .then(response => {
+        if (!response.ok) {
+          return response.json().then(err => { throw err; });
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.success) {
+          showToast(`Parcel booked successfully! Tracking Number: ${data.tracking_number}`);
+          closeModal('bookingModal');
+          
+          // Refresh list or insert row dynamically
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+        } else {
+          showToast(data.message || 'Error occurred while booking shipment.', 'error');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Confirm & Book Shipment';
+        }
+      })
+      .catch(error => {
+        showToast(error.message || 'A network error occurred. Please try again.', 'error');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Confirm & Book Shipment';
+      });
+    }
+
+    // ============================================
+    // AJAX SHIPMENT CANCELLATION
+    // ============================================
+    function cancelShipment(shipmentId) {
+      if (!confirm('Are you sure you want to cancel this shipment? This action cannot be undone.')) {
+        return;
+      }
+
+      const cancelBtn = document.getElementById(`cancelBtn-${shipmentId}`);
+      if (cancelBtn) {
+        cancelBtn.disabled = true;
+      }
+
+      const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+      fetch(`/userapp/cancel-shipment/${shipmentId}/`, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': csrfToken,
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+      .then(response => {
+        if (!response.ok) {
+          return response.json().then(err => { throw err; });
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.success) {
+          showToast('Shipment cancelled successfully.');
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+        } else {
+          showToast(data.message || 'Unable to cancel shipment.', 'error');
+          if (cancelBtn) cancelBtn.disabled = false;
+        }
+      })
+      .catch(error => {
+        showToast(error.message || 'An error occurred. Please try again.', 'error');
+        if (cancelBtn) cancelBtn.disabled = false;
+      });
+    }
+
+    // ============================================
+    // AJAX REAL-TIME TRACKING TIMELINE
+    // ============================================
+    function trackLive(trackingNumber) {
+      fetch(`/userapp/track-shipment/${trackingNumber}/`, {
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Tracking details could not be found.');
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.success) {
+          // Populate details
+          document.getElementById('trackModalNumber').textContent = data.tracking_number;
+          
+          const statusBadge = document.getElementById('trackModalStatus');
+          statusBadge.textContent = data.status;
+          statusBadge.className = `badge-status ${data.status_raw}`;
+          
+          document.getElementById('trackModalSenderCity').textContent = data.sender_city;
+          document.getElementById('trackModalReceiverCity').textContent = data.receiver_city;
+          document.getElementById('trackModalType').textContent = data.shipment_type;
+          document.getElementById('trackModalWeight').textContent = data.weight;
+
+          // Build timeline
+          const timelineContainer = document.getElementById('trackModalTimeline');
+          timelineContainer.innerHTML = '';
+
+          data.timeline.forEach(step => {
+            let stepClass = '';
+            if (step.completed) stepClass += ' completed';
+            if (step.current) stepClass += ' current';
+            if (step.cancelled) stepClass += ' cancelled';
+
+            const itemHtml = `
+              <div class="track-timeline-item ${stepClass}">
+                <div class="track-timeline-bullet"></div>
+                <div class="track-timeline-date">${step.date}</div>
+                <div class="track-timeline-title">${step.title}</div>
+                <div class="track-timeline-desc">${step.desc}</div>
+              </div>
+            `;
+            timelineContainer.insertAdjacentHTML('beforeend', itemHtml);
+          });
+
+          openModal('trackModal');
+        } else {
+          showToast(data.message || 'Failed to fetch tracking information.', 'error');
+        }
+      })
+      .catch(error => {
+        showToast(error.message || 'Error communicating with server.', 'error');
+      });
+    }
+
+    // ============================================
+    // SEARCH & FILTER FUNCTIONALITY
+    // ============================================
+    function filterTable() {
+      const searchVal = document.getElementById('shipmentSearchInput').value.toLowerCase();
+      const statusVal = document.getElementById('shipmentStatusFilter').value;
+      const tableRows = document.querySelectorAll('#shipmentsTableBody tr');
+      
+      let visibleCount = 0;
+
+      tableRows.forEach(row => {
+        // Skip empty row
+        if (row.id === 'emptyRow') return;
+
+        const trackingId = row.querySelector('.tracking-id-cell').textContent.toLowerCase();
+        const recipientName = row.cells[1].textContent.toLowerCase();
+        const rowStatus = row.getAttribute('data-status');
+
+        const matchesSearch = trackingId.includes(searchVal) || recipientName.includes(searchVal);
+        const matchesStatus = statusVal === 'all' || rowStatus === statusVal;
+
+        if (matchesSearch && matchesStatus) {
+          row.style.display = '';
+          visibleCount++;
+        } else {
+          row.style.display = 'none';
+        }
+      });
+
+      // Handle showing empty row if everything is filtered out
+      const emptyRow = document.getElementById('emptyRow');
+      if (emptyRow) {
+        if (visibleCount === 0) {
+          emptyRow.style.display = '';
+          // set colspan to cover search
+          emptyRow.querySelector('td').setAttribute('colspan', '8');
+        } else {
+          emptyRow.style.display = 'none';
+        }
+      }
+    }
+  </script>
+</body>
+</html>
